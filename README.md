@@ -1,6 +1,6 @@
 Parallel Systems Course for NTUA.
 
-[Course website] http://www.cslab.ece.ntua.gr/courses/pps
+[Course website](http://www.cslab.ece.ntua.gr/courses/pps)
 
 ## LICENSE
 
