@@ -21,7 +21,7 @@ DEPENDS += $(wildcard *.h)
 all: $(TARGET)
 
 $(TARGET): $(OBJ) $(DEPENDS)
-	$(CC) $(OBJ) -o $(TARGET)
+	$(CC) $(OBJ) -o $(TARGET).exec
 
 %.o:	%.c
 	$(CC) -c $(CCFLAGS) $< -o $@
@@ -29,7 +29,7 @@ $(TARGET): $(OBJ) $(DEPENDS)
 
 .PHONY:	clean all indent tags
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f $(OBJ) $(TARGET).exec
 indent:
 	astyle --style=linux $(CCFILES)
 tags:
