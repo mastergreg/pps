@@ -74,14 +74,27 @@ int main(int argc, char **argv)
             printf("i'm rank %d BEFORE the scatter and N is %d\n", rank,N);
             MPI_Barrier(MPI_COMM_WORLD);
 
-            MPI_Scatter(Aa, 40, MPI_DOUBLE, Ab, 10 , MPI_DOUBLE, 0, MPI_COMM_WORLD);
+            MPI_Scatter(Aa, 10, MPI_DOUBLE, Ab, 40 , MPI_DOUBLE, 0, MPI_COMM_WORLD);
+            MPI_Barrier(MPI_COMM_WORLD);
             //            MPI_Scatter(A[k+1], N*(N-k-1), MPI_DOUBLE,
  //                       Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
             printf("i'm rank %d AFTER the scatter, check out my bitchin' Ab \n", rank);
+            MPI_Barrier(MPI_COMM_WORLD);
 
-            for (i=0;i<10;i++){
-                printf("%lf\n", Ab[i]);
+            if (rank == 1){
+                printf("rank 1:\n");
+                for (i=0;i<10;i++){
+                    printf("%lf\n", Ab[i]);
+                }
             }
+            MPI_Barrier(MPI_COMM_WORLD);
+            if (rank == 2){
+                printf("rank 2:\n");
+                for (i=0;i<10;i++){
+                    printf("%lf\n", Ab[i]);
+                }
+            }
+            MPI_Barrier(MPI_COMM_WORLD);
             if (rank != 0) {
                 l = Ai[k] / Ak[k];
 
@@ -96,12 +109,10 @@ int main(int argc, char **argv)
     }
 
     MPI_Finalize();
-    for (i = 0;
-i < N;
-i++) {
-    for (j = 0; j < N; j++) {
-            printf("%lf\t", A[i][j]);
-        }
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+                printf("%lf\t", A[i][j]);
+            }
         printf("\n");
     }
 

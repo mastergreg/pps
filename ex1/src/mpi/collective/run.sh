@@ -1,3 +1,3 @@
 #!/bin/bash
 make
-mpirun -np 4 ./main < mat.txt
+mpirun -np 6 ./main < mat.txt
