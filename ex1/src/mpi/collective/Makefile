@@ -18,9 +18,9 @@ OBJ +=  $(patsubst %.c,%.o,$(CCFILES))
 DEPENDS += $(wildcard *.h) 
 
 
-all: $(TARGET)
+all: $(TARGET).exec
 
-$(TARGET): $(OBJ) $(DEPENDS)
+$(TARGET).exec: $(OBJ) $(DEPENDS)
 	$(CC) $(OBJ) -o $(TARGET).exec
 
 %.o:	%.c
