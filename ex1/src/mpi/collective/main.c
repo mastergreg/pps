@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 01:36:56 AM EET
+ * Last Modified : Mon 05 Nov 2012 01:51:53 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -67,6 +67,7 @@ int main(int argc, char **argv)
     double *A;
     double *Ai;
 
+    int ret = 0;
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -121,20 +122,16 @@ int main(int argc, char **argv)
     }
 
     
-
-
-    //if(rank == 0) {
-    //    free(A);
-    //}
-    //free(Ak);
-    //free(Ai);
-    //A = NULL;
-    //Ak = NULL;
-    //Ai = NULL;
-
     MPI_Barrier(MPI_COMM_WORLD);
 
-    MPI_Finalize();
+
+    if(!MPI_Finalized(&ret)) {
+        printf("Now FINALIZE!!!\n");
+        ret = MPI_Finalize();
+        printf("%d FINALIZED!!!\n", ret);
+    }
+    MPI_Barrier(MPI_COMM_WORLD);
+
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
             printf("%lf\t", A[i*N+j]);
