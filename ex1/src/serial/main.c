@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Tue 30 Oct 2012 06:30:19 PM EET
+* Last Modified : Mon 05 Nov 2012 06:22:27 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -51,14 +51,14 @@ int main(void)
         }
     }
 
-    for (i = 0; i < N; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            printf("%lf\t", A[i][j]);
-        }
-        printf("\n");
-    }
+    //for (i = 0; i < N; i++)
+    //{
+    //    for (j = 0; j < N; j++)
+    //    {
+    //        printf("%lf\t", A[i][j]);
+    //    }
+    //    printf("\n");
+    //}
 
     return 0;
 }
