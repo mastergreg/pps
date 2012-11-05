@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 06:25:59 PM EET
+ * Last Modified : Mon 05 Nov 2012 11:10:24 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -15,7 +15,7 @@
 #include <string.h>
 
 #if main_DEBUG
-#define debug(fmt,arg...)     printf("%s: " fmt, __func__ , ##arg)
+#define debug(fmt,arg...)     fprintf(stdout, "%s: " fmt, __func__ , ##arg)
 #else
 #define debug(fmt,arg...)     do { } while(0)
 #endif
@@ -50,25 +50,30 @@ static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
     return A;
 }
 
-static void print_matrix_2d(int N, int M, double *A)
+static void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
 {
     int i,j;
     double *p;
     p = A;
     for (j = 0; j < M; j++) {
-        printf("=");
+        fprintf(fp, "=");
     }
-    printf("\n");
+    fprintf(fp, "\n");
     for (i = 0; i < N; i++) {
         for (j = 0; j < M; j++) {
-            printf("%lf ", *p++);
+            fprintf(fp, "%lf\t", *p++);
         }
-        printf("\n");
+        fprintf(fp, "\n");
     }
     for (j = 0; j < M; j++) {
-        printf("=");
+        fprintf(fp, "=");
     }
-    printf("\n");
+    fprintf(fp, "\n");
+}
+
+static void print_matrix_2d(int N, int M, double *A)
+{
+    fprint_matrix_2d(stdout, N, M, A);
 }
 
 
@@ -121,6 +126,7 @@ int main(int argc, char **argv)
 
     if (rank == 0) {
         /* Root Allocates the whole table */
+        debug("Max rank = %d\n", max_rank);
         if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
         //if((A = allocate_2d(N, N)) == NULL) {
         //A = allocate_2d(N, N);
@@ -144,8 +150,7 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-        completed_rows = 0;
-        while (completed_rows < N) {
+        for(completed_rows = 0; completed_rows < N - max_rank; completed_rows+=max_rank) {
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #if main_DEBUG
@@ -176,7 +181,6 @@ int main(int argc, char **argv)
                 print_matrix_2d(N, N, A);
             }
 #endif
-            completed_rows += max_rank;
 
         }
         MPI_Barrier(MPI_COMM_WORLD);
@@ -193,6 +197,9 @@ int main(int argc, char **argv)
 
     if(rank == 0) {
         //print_matrix_2d(N, N, A);
+        fp = fopen("mat.out", "w");
+        fprint_matrix_2d(fp, N, N, A);
+        fclose(fp);
         free(A);
     }
     free(Ai);

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-NTHREADS=2
-FILENAME=mat.txt
+NTHREADS=4
+FILENAME=mat_5.txt
 
 
 if [[ 'x'$1 == 'x' ]]; 
