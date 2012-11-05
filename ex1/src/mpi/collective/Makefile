@@ -10,6 +10,7 @@ endif
 ifeq ($(DEBUG),y)
 	CCFLAGS += -D$(TARGET)_DEBUG=1
 	CCFLAGS += -g -O0 -Wall -Wextra -Wuninitialized
+	LDFLAGS += -lefence
 else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
 	CCFLAGS += -O$(OPT) -Wall
@@ -23,7 +24,7 @@ DEPENDS += $(wildcard *.h)
 all: $(TARGET).exec
 
 $(TARGET).exec: $(OBJ) $(DEPENDS)
-	$(CC) $(OBJ) -o $(TARGET).exec
+	$(CC) $(LDFLAGS) $(OBJ) -o $(TARGET).exec
 
 %.o:	%.c
 	$(CC) -c $(CCFLAGS) $< -o $@
