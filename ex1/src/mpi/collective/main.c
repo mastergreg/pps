@@ -81,6 +81,7 @@ int main(int argc, char **argv)
     double l;
     int rank;
     int max_rank;
+    int completed_rows;
     double *Ak = NULL;
     double *A = NULL;
     double *Ai = NULL;
@@ -142,47 +143,47 @@ int main(int argc, char **argv)
         }
         /* Send everyone the k-th row, and scatter the rest of the table */
         MPI_Barrier(MPI_COMM_WORLD);
-
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        //debug("hello from AFTER BCAST %d\n", rank);
-        MPI_Barrier(MPI_COMM_WORLD);
 
-        MPI_Scatter(&A[N * (k + 1)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        completed_rows = 0;
+        while (completed_rows < N){
+            MPI_Barrier(MPI_COMM_WORLD);
+            MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #if main_DEBUG
-        if(rank == 0) {
-            debug("Hi i'm %d. Ak: %p Ai %p\n", rank, Ai, Ak); 
-            print_matrix_2d(1, N, Ak);
-            print_matrix_2d(1, N, Ai);
-        }
+            if(rank == 0) {
+                debug("Hi i'm %d. Ak: %p Ai %p\n", rank, Ai, Ak); 
+                print_matrix_2d(1, N, Ak);
+                print_matrix_2d(1, N, Ai);
+            }
 #endif
-        MPI_Barrier(MPI_COMM_WORLD);
 
+            MPI_Barrier(MPI_COMM_WORLD);
+            l = Ai[k] / Ak[k];
+            for (j = k; j < N; j++) {
+                Ai[j] = Ai[j] - l * Ak[j];
+            }
 
-        l = Ai[k] / Ak[k];
-        for (j = k; j < N; j++) {
-            Ai[j] = Ai[j] - l * Ak[j];
-        }
-
-        MPI_Barrier(MPI_COMM_WORLD);
+            MPI_Barrier(MPI_COMM_WORLD);
 #if main_DEBUG
-        if(rank == 0) {
-            print_matrix_2d(N, N, A);
-        }
+            if(rank == 0) {
+                printf("BEFORE GATHER:\n");
+                print_matrix_2d(N, N, A);
+            }
 #endif
-        MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1)], N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
+            MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
 #if main_DEBUG
-        if(rank == 0) {
-            print_matrix_2d(N, N, A);
-        }
+            if(rank == 0) {
+                printf("AFTER GATHER:\n");
+                print_matrix_2d(N, N, A);
+            }
 #endif
+            completed_rows += max_rank;
+
+        }
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
-
-
-
     MPI_Barrier(MPI_COMM_WORLD);
-
     ret = MPI_Finalize();
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
