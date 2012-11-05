@@ -8,7 +8,7 @@ DEBUG = "y"
 ifeq ($(DEBUG),"y")
 	CCFLAGS += -D$(TARGET)_DEBUG=1
 	CCFLAGS += -g -O0 -Werror -Wall -Wextra -Wuninitialized
-	LDFLAGS += -lefence
+	LDFLAGS += -lfence
 else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
 	CCFLAGS += -O$(OPT) -Werror -Wall
