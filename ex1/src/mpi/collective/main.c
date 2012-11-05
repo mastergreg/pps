@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 10:07:48 AM EET
+ * Last Modified : Mon 05 Nov 2012 10:13:50 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
         MPI_Gather(Ai, N , MPI_DOUBLE, &(A[N * (k + 1)]), N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
         MPI_Barrier(MPI_COMM_WORLD);
     }
-#if MAIN_DEBUG
+#if main_DEBUG
     if(rank == 0) {
         print_matrix_2d(N, N, A);
     }
