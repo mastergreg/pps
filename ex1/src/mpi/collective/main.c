@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 11:10:24 PM EET
+ * Last Modified : Mon 05 Nov 2012 11:13:51 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -130,6 +130,8 @@ int main(int argc, char **argv)
         if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
         //if((A = allocate_2d(N, N)) == NULL) {
         //A = allocate_2d(N, N);
+        ;a
+        ;
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
         if(parse_matrix_2d(fp, N, N, A) == NULL) {

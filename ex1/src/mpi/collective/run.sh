@@ -15,9 +15,11 @@ else
     then
         make -B DEBUG=y
         echo "Running with valgrind"
-        MPIWRAP_DEBUG=warn \
+        MPIWRAP_DEBUG=err \
             LD_PRELOAD=/usr/lib/valgrind/libmpiwrap-x86-linux.so \
-            mpirun -np ${NTHREADS} valgrind --show-reachable=yes --leak-check=full --log-file=val.out ./main.exec ${FILENAME}
+            mpirun -np ${NTHREADS} \
+            valgrind --suppressions=val.supp --track-origins=yes --show-reachable=yes --leak-check=full --log-file=val.out \
+            ./main.exec ${FILENAME}
     else
         if [[ 'x'$1 == 'xd' ]];
         then

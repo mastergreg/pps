@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Mon 05 Nov 2012 06:22:27 PM EET
+* Last Modified : Mon 05 Nov 2012 10:47:26 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -16,6 +16,7 @@ int main(void)
     int N;
     double **A;
     double l;
+    FILE *fp;
 
     /*
      * Allocate me!
@@ -51,14 +52,16 @@ int main(void)
         }
     }
 
-    //for (i = 0; i < N; i++)
-    //{
-    //    for (j = 0; j < N; j++)
-    //    {
-    //        printf("%lf\t", A[i][j]);
-    //    }
-    //    printf("\n");
-    //}
+        fp = fopen("mat.out", "w");
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            fprintf(fp, "%lf\t", A[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+        fclose(fp);
 
     return 0;
 }
