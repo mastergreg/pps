@@ -3,9 +3,11 @@ CC = mpicc
 CCFLAGS +=
 OPT = 2
 
-DEBUG = "y"
+ifndef DEBUG
+       DEBUG = n
+endif
 
-ifeq ($(DEBUG),"y")
+ifeq ($(DEBUG),y)
 	CCFLAGS += -D$(TARGET)_DEBUG=1
 	CCFLAGS += -g -O0 -Wall -Wextra -Wuninitialized
 else
