@@ -73,7 +73,6 @@ static void print_matrix_2d(int N, int M, double *A)
 
 
 
-
 int main(int argc, char **argv)
 {
     int j, k;
@@ -146,7 +145,7 @@ int main(int argc, char **argv)
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
         completed_rows = 0;
-        while (completed_rows < N){
+        while (completed_rows < N) {
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #if main_DEBUG
