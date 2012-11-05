@@ -1,7 +1,7 @@
 TARGET = main
 CC = mpicc
 CCFLAGS +=
-OPT = 1
+OPT = 2
 
 ifndef DEBUG
        DEBUG = n

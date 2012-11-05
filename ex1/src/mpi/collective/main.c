@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 06:16:12 PM EET
+ * Last Modified : Mon 05 Nov 2012 06:25:59 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -148,11 +148,13 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
 
         MPI_Scatter(&A[N * (k + 1)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+#if main_DEBUG
         if(rank == 0) {
             debug("Hi i'm %d. Ak: %p Ai %p\n", rank, Ai, Ak); 
             print_matrix_2d(1, N, Ak);
             print_matrix_2d(1, N, Ai);
         }
+#endif
         MPI_Barrier(MPI_COMM_WORLD);
 
 
@@ -190,7 +192,7 @@ int main(int argc, char **argv)
     }
 
     if(rank == 0) {
-        print_matrix_2d(N, N, A);
+        //print_matrix_2d(N, N, A);
         free(A);
     }
     free(Ai);
