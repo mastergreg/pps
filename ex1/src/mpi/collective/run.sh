@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-NTHREADS=13
+NTHREADS=12
 
 
 if [[ 'x'$1 == 'x' ]]; 

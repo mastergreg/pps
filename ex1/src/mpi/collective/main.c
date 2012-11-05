@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 10:13:50 AM EET
+ * Last Modified : Mon 05 Nov 2012 12:02:19 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -19,19 +19,21 @@
 #define debug(fmt,arg...)     do { } while(0)
 #endif
 
-#define NTHREADS 2
-
-static double *allocate_2d(int N, int M)
+static double *allocate_2d_with_padding(int N, int M, int max_rank)
 {
     double *A;
-    A = malloc(N*M*sizeof(double));
+    int size = N*M;
+    int hang_threads = max_rank - size % max_rank;
+    A = malloc((size + hang_threads + 1)*sizeof(double));
     return A;
 }
 
-static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
+static double *parse_matrix_2d_with_padding(FILE *fp, int N, int M, int max_rank, double *A)
 {
     int i,j;
     double *p;
+    //int size = N*M;
+    //int hang_threads = max_rank - size % max_rank;
     p = A;
     for (i = 0; i < N; i++) {
         for (j = 0; j < M; j++) {
@@ -42,6 +44,28 @@ static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
     }
     return A;
 }
+
+//static double *allocate_2d(int N, int M)
+//{
+//    double *A;
+//    A = malloc(N * M * sizeof(double));
+//    return A;
+//}
+//
+//static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
+//{
+//    int i,j;
+//    double *p;
+//    p = A;
+//    for (i = 0; i < N; i++) {
+//        for (j = 0; j < M; j++) {
+//            if(!fscanf(fp, "%lf", p++)) {
+//                return NULL;
+//            }
+//        }
+//    }
+//    return A;
+//}
 
 static void print_matrix_2d(int N, int M, double *A)
 {
@@ -69,10 +93,11 @@ static void print_matrix_2d(int N, int M, double *A)
 
 int main(int argc, char **argv)
 {
-    int j,k;
+    int j, k;
     int N;
     double l;
     int rank;
+    int max_rank;
     double *Ak = NULL;
     double *A = NULL;
     double *Ai = NULL;
@@ -80,8 +105,14 @@ int main(int argc, char **argv)
 
     int ret = 0;
     FILE *fp = NULL;
+    if(argc != 2) {
+        printf("Usage: %s <matrix file>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
     if (rank == 0) {
         debug("rank: %d opens file: %s\n", rank, argv[1]);
@@ -92,7 +123,7 @@ int main(int argc, char **argv)
             }
         }
         else {
-            raise(SIGKILL);
+            MPI_Abort(MPI_COMM_WORLD, 1);
         }
     }
 
@@ -106,8 +137,8 @@ int main(int argc, char **argv)
 
     if (rank == 0) {
         /* Root Allocates the whole table */
-        A = allocate_2d(N, N);
-        if(!parse_matrix_2d(fp, N, N, A)) {
+        A = allocate_2d_with_padding(N, N, max_rank);
+        if(!parse_matrix_2d_with_padding(fp, N, N, max_rank, A)) {
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
         fclose(fp);
@@ -120,6 +151,7 @@ int main(int argc, char **argv)
         if (rank == 0) {
             Ak = &A[k*N];
             debug("k %d\n", k);
+            print_matrix_2d(1, N, Ak);
         }
         /* Send everyone the k-th row, and scatter the rest of the table */
         MPI_Barrier(MPI_COMM_WORLD);
@@ -135,21 +167,23 @@ int main(int argc, char **argv)
         }
 #endif
 
-        // every run has the same k but they have different ranks
-        l = Ai[k + rank] / Ak[k + rank];
-        for (j = k + rank; j < N; j++) {
-            Ai[j] = Ai[j] -l*Ak[j];
+        l = Ai[k] / Ak[k];
+        for (j = k; j < N; j++) {
+            Ai[j] = Ai[j] - l * Ak[j];
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Gather(Ai, N , MPI_DOUBLE, &(A[N * (k + 1)]), N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
         MPI_Barrier(MPI_COMM_WORLD);
     }
+
 #if main_DEBUG
     if(rank == 0) {
         print_matrix_2d(N, N, A);
     }
 #endif
+
+
 
     MPI_Barrier(MPI_COMM_WORLD);
 
