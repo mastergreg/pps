@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 12:02:19 PM EET
+ * Last Modified : Mon 05 Nov 2012 06:08:21 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <signal.h>
 #include <unistd.h>
+#include <string.h>
 
 #if main_DEBUG
 #define debug(fmt,arg...)     printf("%s: " fmt, __func__ , ##arg)
@@ -19,21 +20,25 @@
 #define debug(fmt,arg...)     do { } while(0)
 #endif
 
-static double *allocate_2d_with_padding(int N, int M, int max_rank)
+static double *allocate_2d(int N, int M)
 {
     double *A;
-    int size = N*M;
-    int hang_threads = max_rank - size % max_rank;
-    A = malloc((size + hang_threads + 1)*sizeof(double));
+    A = malloc(N * M * sizeof(double));
     return A;
 }
 
-static double *parse_matrix_2d_with_padding(FILE *fp, int N, int M, int max_rank, double *A)
+static double *allocate_2d_with_padding(int N, int M, int max_rank)
+{
+    double *A;
+    A = allocate_2d(N + max_rank, M);
+    return A;
+}
+
+
+static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
 {
     int i,j;
     double *p;
-    //int size = N*M;
-    //int hang_threads = max_rank - size % max_rank;
     p = A;
     for (i = 0; i < N; i++) {
         for (j = 0; j < M; j++) {
@@ -44,28 +49,6 @@ static double *parse_matrix_2d_with_padding(FILE *fp, int N, int M, int max_rank
     }
     return A;
 }
-
-//static double *allocate_2d(int N, int M)
-//{
-//    double *A;
-//    A = malloc(N * M * sizeof(double));
-//    return A;
-//}
-//
-//static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
-//{
-//    int i,j;
-//    double *p;
-//    p = A;
-//    for (i = 0; i < N; i++) {
-//        for (j = 0; j < M; j++) {
-//            if(!fscanf(fp, "%lf", p++)) {
-//                return NULL;
-//            }
-//        }
-//    }
-//    return A;
-//}
 
 static void print_matrix_2d(int N, int M, double *A)
 {
@@ -125,6 +108,7 @@ int main(int argc, char **argv)
         else {
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
+
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -137,8 +121,12 @@ int main(int argc, char **argv)
 
     if (rank == 0) {
         /* Root Allocates the whole table */
-        A = allocate_2d_with_padding(N, N, max_rank);
-        if(!parse_matrix_2d_with_padding(fp, N, N, max_rank, A)) {
+        if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
+        //if((A = allocate_2d(N, N)) == NULL) {
+        //A = allocate_2d(N, N);
+            MPI_Abort(MPI_COMM_WORLD, 1);
+        }
+        if(parse_matrix_2d(fp, N, N, A) == NULL) {
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
         fclose(fp);
@@ -149,23 +137,24 @@ int main(int argc, char **argv)
 
     for (k = 0; k < N - 1; k++) {
         if (rank == 0) {
-            Ak = &A[k*N];
+            Ak = memcpy(Ak, &A[k * N], N*sizeof(double));
             debug("k %d\n", k);
-            print_matrix_2d(1, N, Ak);
         }
         /* Send everyone the k-th row, and scatter the rest of the table */
         MPI_Barrier(MPI_COMM_WORLD);
 
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Scatter(&A[N * (k + 1)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        //debug("hello from AFTER BCAST %d\n", rank);
         MPI_Barrier(MPI_COMM_WORLD);
 
-#if main_DEBUG
+        MPI_Scatter(&A[N * (k + 1)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         if(rank == 0) {
-            print_matrix_2d(N, N, A);
+            debug("Hi i'm %d. Ak: %p Ai %p\n", rank, Ai, Ak); 
+            print_matrix_2d(1, N, Ak);
+            print_matrix_2d(1, N, Ai);
         }
-#endif
+        MPI_Barrier(MPI_COMM_WORLD);
+
 
         l = Ai[k] / Ak[k];
         for (j = k; j < N; j++) {
@@ -173,15 +162,20 @@ int main(int argc, char **argv)
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Gather(Ai, N , MPI_DOUBLE, &(A[N * (k + 1)]), N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
+#if main_DEBUG
+        if(rank == 0) {
+            print_matrix_2d(N, N, A);
+        }
+#endif
+        MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1)], N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
+#if main_DEBUG
+        if(rank == 0) {
+            print_matrix_2d(N, N, A);
+        }
+#endif
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
-#if main_DEBUG
-    if(rank == 0) {
-        print_matrix_2d(N, N, A);
-    }
-#endif
 
 
 
@@ -195,11 +189,13 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
-
     if(rank == 0) {
-        sleep(1);
         print_matrix_2d(N, N, A);
+        //free(A);
     }
+    //free(Ai);
+    //free(Ak);
+
 
     return 0;
 }
