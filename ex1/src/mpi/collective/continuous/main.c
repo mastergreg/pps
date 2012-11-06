@@ -14,8 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 
-
 #include "common.h"
+
 
 /* calculates the distribution arrays for scatterv and gatherv */
 void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
@@ -58,22 +58,21 @@ void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
 
 int main(int argc, char **argv)
 {
-    int j, k;
+    int i, j, k;
     int N;
-    double l;
     int rank;
     int max_rank;
-    int completed_rows;
     int *counts;
     int *displs;
+    int ret = 0;
+    double l;
     double *Ak = NULL;
     double *A = NULL;
     double *Ai = NULL;
-
-
-    int ret = 0;
     FILE *fp = NULL;
-    if(argc != 2) {
+
+
+    if (argc != 2) {
         printf("Usage: %s <matrix file>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -100,18 +99,19 @@ int main(int argc, char **argv)
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Barrier(MPI_COMM_WORLD);
 
-    Ak = malloc(N*sizeof(double)); // Buffer for broadcasting the k-th row
-    Ai = malloc(N*sizeof(double)); // Buffer for scattering the i-th row
+    Ak = malloc(N * sizeof(double)); // Buffer for broadcasting the k-th row
+    Ai = malloc(N * ((N / max_rank) + 1) * sizeof(double)); // Buffer for scattering the rows
 
-    displs = malloc(max_rank*sizeof(int));
-    counts = malloc(max_rank*sizeof(int));
 
+    
+    displs = malloc(max_rank * sizeof(int));
+    counts = malloc(max_rank * sizeof(int));
     if (rank == 0) {
         /* Root Allocates the whole table */
         debug("Max rank = %d\n", max_rank);
         if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
-        //if((A = allocate_2d(N, N)) == NULL) {
-        //A = allocate_2d(N, N);
+                //if((A = allocate_2d(N, N)) == NULL) {
+                //A = allocate_2d(N, N);
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
         if(parse_matrix_2d(fp, N, N, A) == NULL) {
@@ -119,24 +119,25 @@ int main(int argc, char **argv)
         }
         fclose(fp);
         fp = NULL;
-
-
     } 
 
-
+    /* Start Timing */
     for (k = 0; k < N - 1; k++) {
         if (rank == 0) {
             Ak = memcpy(Ak, &A[k * N], N*sizeof(double));
             debug("k %d\n", k);
         }
+
         /* Send everyone the k-th row, and scatter the rest of the table */
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-        MPI_Barrier(MPI_COMM_WORLD);
-        if ( rank == 0 )
+//        if (rank == 0){
             get_distr_arrays(k, max_rank, N, displs, counts);
-        MPI_Scatterv(&A[N * (k + 1)], counts, displs, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+//        }
+
+        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Scatterv(&A[N * (k + 1)], counts, displs, MPI_DOUBLE, Ai, N * (((N - k - 1) / max_rank) + 1), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
 #if main_DEBUG
         if(rank == 0) {
@@ -146,28 +147,35 @@ int main(int argc, char **argv)
         }
 #endif
 
+        /* Perform all assigned calculations */
         MPI_Barrier(MPI_COMM_WORLD);
-        l = Ai[k] / Ak[k];
-        for (j = k; j < N; j++) {
-            Ai[j] = Ai[j] - l * Ak[j];
+        for (i = 0; i < counts[rank]; i += N ) {
+            l = Ai[i+k] / Ak[k];
+            for (j = k; j < N; j++) {
+                Ai[i+j] = Ai[i+j] - l * Ak[j];
+            }
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
 #if main_DEBUG
         if(rank == 0) {
-            printf("BEFORE GATHER:\n");
+            printf("====== Ai AFTER processing root's rows: \n");
+            print_matrix_2d(2, N, Ai);
+            printf("MATRIX BEFORE GATHER:\n");
             print_matrix_2d(N, N, A);
         }
+        printf("rank %d waiting for gather\n", rank);
 #endif
-        MPI_Gatherv(Ai, N , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
-#if main_DEBUG
-        if(rank == 0) {
-            printf("AFTER GATHER:\n");
-            print_matrix_2d(N, N, A);
-        }
-#endif
-
         MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Gatherv(Ai, N * (((N - k - 1) / max_rank) + 1) , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        /* If gatherv doesnt ignore zeroes, we might get some in the matrix :/ */
+
+#if main_DEBUG
+        printf("rank %d after gather\n", rank);
+        if(rank == 0) {
+            print_matrix_2d(N, N, A);
+        }
+#endif
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -188,7 +196,6 @@ int main(int argc, char **argv)
     }
     free(Ai);
     free(Ak);
-
 
     return 0;
 }
