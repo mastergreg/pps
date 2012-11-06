@@ -4,7 +4,7 @@
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : diff.py
 # Creation Date : 06-11-2012
-# Last Modified : Tue 06 Nov 2012 04:30:16 PM EET
+# Last Modified : Tue 06 Nov 2012 04:39:13 PM EET
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -15,7 +15,7 @@ def help():
     exit(1)
 
 def parse(f):
-    return [map(float, line.split()) for line in f.readlines()[1:-1]
+    return [map(float, line.split()) for line in f.readlines()[1:-1]]
 
 
 def diff(d1,d2):
@@ -35,7 +35,13 @@ def main():
         f2.close()
 
         diffed = diff(d1, d2)
-        print(diffed)
+        for i,vi in enumerate(diffed):
+            for j,vj in enumerate(vi):
+                if vj > 0:
+                    print("<{0}> <{1}>: Failed with error value {2} on A[{3}][{4}]".format(argv[1], argv[2], vj, i, j))
+                    exit(1)
+        print("<{0}> <{1}> Pass :)".format(argv[1], argv[2]))
+        exit(0)
 
 
 

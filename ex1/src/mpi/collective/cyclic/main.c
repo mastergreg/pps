@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Tue 06 Nov 2012 03:04:13 PM EET
+ * Last Modified : Tue 06 Nov 2012 04:46:56 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 
     int ret = 0;
     FILE *fp = NULL;
-    if(argc != 2) {
-        printf("Usage: %s <matrix file>\n", argv[0]);
+    if(argc != 3) {
+        printf("Usage: %s <matrix file> <output file>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 
     if(rank == 0) {
         //print_matrix_2d(N, N, A);
-        fp = fopen("mat.out", "w");
+        fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
         fclose(fp);
         free(A);
