@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 05 Nov 2012 11:16:42 PM EET
+ * Last Modified : Tue 06 Nov 2012 03:04:13 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -14,68 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 
-#if main_DEBUG
-#define debug(fmt,arg...)     fprintf(stdout, "%s: " fmt, __func__ , ##arg)
-#else
-#define debug(fmt,arg...)     do { } while(0)
-#endif
 
-static double *allocate_2d(int N, int M)
-{
-    double *A;
-    A = malloc(N * M * sizeof(double));
-    return A;
-}
-
-static double *allocate_2d_with_padding(int N, int M, int max_rank)
-{
-    double *A;
-    A = allocate_2d(N + max_rank, M);
-    return A;
-}
-
-
-static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
-{
-    int i,j;
-    double *p;
-    p = A;
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < M; j++) {
-            if(!fscanf(fp, "%lf", p++)) {
-                return NULL;
-            }
-        }
-    }
-    return A;
-}
-
-static void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
-{
-    int i,j;
-    double *p;
-    p = A;
-    for (j = 0; j < M; j++) {
-        fprintf(fp, "=");
-    }
-    fprintf(fp, "\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < M; j++) {
-            fprintf(fp, "%lf\t", *p++);
-        }
-        fprintf(fp, "\n");
-    }
-    for (j = 0; j < M; j++) {
-        fprintf(fp, "=");
-    }
-    fprintf(fp, "\n");
-}
-
-static void print_matrix_2d(int N, int M, double *A)
-{
-    fprint_matrix_2d(stdout, N, M, A);
-}
-
+#include "common.h"
 
 
 int main(int argc, char **argv)
