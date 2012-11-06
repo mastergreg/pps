@@ -17,6 +17,45 @@
 
 #include "common.h"
 
+void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
+        /* Allocate the arrays*/
+        int j;
+        int rows = N - k;
+
+        /* Initialization of Counts array */
+        for (j = 0; j < max_rank ; j++) {
+            counts[j] = N * (rows / max_rank);
+        }
+
+        /* Distribute the indivisible leftover */
+        j = rows % max_rank;    
+        for (k = 0; k < max_rank ; k++) {
+            if (j > 0) {
+                counts[k] += N;
+                j--;
+            }
+        }
+
+        /* Initialization of Displacements array */
+        displs[0] = 0;
+        for (j = 1; j < max_rank ; j++) {
+            displs[j] = displs[j - 1] + counts[j];
+        }
+        
+#if main_DEBUG
+        printf("Sendcounts is :\n");
+        for (j = 0; j < max_rank ; j++) {
+            printf("%d\n", counts[j]);
+        }
+        
+        printf("Displs is :\n");
+        for (j = 0; j < max_rank ; j++) {
+            printf("%d\n", displs[j]);
+        }
+#endif
+}
+ 
+                
 
 int main(int argc, char **argv)
 {
@@ -65,6 +104,9 @@ int main(int argc, char **argv)
     Ak = malloc(N*sizeof(double)); // Buffer for broadcasting the k-th row
     Ai = malloc(N*sizeof(double)); // Buffer for scattering the i-th row
 
+    displs = malloc(max_rank*sizeof(int));
+    counts = malloc(max_rank*sizeof(int));
+
     if (rank == 0) {
         /* Root Allocates the whole table */
         debug("Max rank = %d\n", max_rank);
@@ -79,43 +121,6 @@ int main(int argc, char **argv)
         fclose(fp);
         fp = NULL;
 
-        /* Arrays for Scatterv */
-        displs = malloc(max_rank*sizeof(int));
-        counts = malloc(max_rank*sizeof(int));
-
-        /* Initialization of Counts array */
-        for (j = 0; j < max_rank ; j++) {
-            counts[j] = N * (N / max_rank);
-        }
-
-        /* Distribute the indivisible leftover */
-        j = N % max_rank;    
-        for (k = 0; k < max_rank ; k++) {
-            if (j > 0) {
-                counts[k] += N;
-                j--;
-            }
-        }
-
-        /* Initialization of Displacements array */
-        displs[0] = 0;
-        for (j = 1; j < max_rank ; j++) {
-            displs[j] = displs[j - 1] + counts[j];
-        }
-        
-#if main_DEBUG
-        printf("Sendcounts is :\n");
-        for (j = 0; j < max_rank ; j++) {
-            printf("%d\n", counts[j]);
-        }
-        
-        printf("Displs is :\n");
-        for (j = 0; j < max_rank ; j++) {
-            printf("%d\n", displs[j]);
-        }
-#endif
- 
-                
 
     } 
 
@@ -130,6 +135,7 @@ int main(int argc, char **argv)
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
         MPI_Barrier(MPI_COMM_WORLD);
+        get_distr_arrays(k, max_rank, N, counts, displs);
         MPI_Scatterv(&A[N * (k + 1)], counts, displs, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
 #if main_DEBUG
