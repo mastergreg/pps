@@ -10,7 +10,7 @@ endif
 ifeq ($(DEBUG),y)
 	CCFLAGS += -D$(TARGET)_DEBUG=1
 	CCFLAGS += -g -O0 -Wall -Wextra -Wuninitialized
-	LDFLAGS += -lfence
+	LDFLAGS += -lefence
 else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
 	CCFLAGS += -O$(OPT) -Wall
