@@ -17,12 +17,12 @@
 
 #include "common.h"
 
+/* calculates the distribution arrays for scatterv and gatherv */
 void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
-        /* Allocate the arrays*/
         int j;
-        int rows = N - k;
+        int rows = N - k - 1;
 
-        /* Initialization of Counts array */
+        /* Initialize counts */
         for (j = 0; j < max_rank ; j++) {
             counts[j] = N * (rows / max_rank);
         }
@@ -39,7 +39,7 @@ void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
         /* Initialization of Displacements array */
         displs[0] = 0;
         for (j = 1; j < max_rank ; j++) {
-            displs[j] = displs[j - 1] + counts[j];
+            displs[j] = displs[j - 1] + counts[j - 1];
         }
         
 #if main_DEBUG
@@ -54,7 +54,6 @@ void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
         }
 #endif
 }
- 
                 
 
 int main(int argc, char **argv)
@@ -135,7 +134,8 @@ int main(int argc, char **argv)
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
         MPI_Barrier(MPI_COMM_WORLD);
-        get_distr_arrays(k, max_rank, N, counts, displs);
+        if ( rank == 0 )
+            get_distr_arrays(k, max_rank, N, displs, counts);
         MPI_Scatterv(&A[N * (k + 1)], counts, displs, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
 #if main_DEBUG
