@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.c
 * Creation Date : 06-11-2012
-* Last Modified : Tue 06 Nov 2012 04:06:28 PM EET
+* Last Modified : Tue 06 Nov 2012 04:08:56 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -72,11 +72,11 @@ double timer(void)
     struct timeval tv;
     gettimeofday(&tv, &tz);
     if(seconds == 0) {
+        seconds = tv.t_sec + double(tv.t_usec)/1e-6;
         return 0;
     }
     else {
-        seconds = tv.t_sec + double(tv.t_usec)/1e-6;
-        return seconds;
+        return tv.t_sec + double(tv.t_usec)/1e-6 - seconds;
     }
 }
 
