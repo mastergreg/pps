@@ -168,6 +168,7 @@ int main(int argc, char **argv)
 #endif
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Gatherv(Ai, N * (((N - k - 1) / max_rank) + 1) , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
         /* If gatherv doesnt ignore zeroes, we might get some in the matrix :/ */
 
 #if main_DEBUG
