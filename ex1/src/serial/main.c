@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Tue 06 Nov 2012 03:11:26 PM EET
+* Last Modified : Tue 06 Nov 2012 04:12:24 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -17,6 +17,7 @@ int main(int argc, char **argv)
     int N;
     double *A;
     double l;
+    double sec;
 
     FILE *fp = NULL;
     if(argc != 2) {
@@ -41,6 +42,7 @@ int main(int argc, char **argv)
     }
 
 
+    sec = timer();
     for (k = 0; k < N - 1; k++)
     {
         for (i = k + 1; i < N; i++)
@@ -52,6 +54,8 @@ int main(int argc, char **argv)
             }
         }
     }
+    sec = timer();
+    printf("Calc Time: %lf\n", sec);
 
     fp = fopen("mat.out", "w");
     fprint_matrix_2d(fp, N, N, A);

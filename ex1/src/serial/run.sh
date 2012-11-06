@@ -2,7 +2,7 @@
 set -e
 
 
-FILENAME=mat_5.txt
+FILENAME=mat_big.txt
 
 
 if [[ 'x'$1 == 'x' ]]; 

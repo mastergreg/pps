@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.c
 * Creation Date : 06-11-2012
-* Last Modified : Tue 06 Nov 2012 04:08:56 PM EET
+* Last Modified : Tue 06 Nov 2012 04:18:53 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -68,15 +68,14 @@ void print_matrix_2d(int N, int M, double *A)
 double timer(void)
 {
     static double seconds = 0;
-    static struct timezone tz = DST_NONE
     struct timeval tv;
-    gettimeofday(&tv, &tz);
+    gettimeofday(&tv, NULL);
     if(seconds == 0) {
-        seconds = tv.t_sec + double(tv.t_usec)/1e-6;
+        seconds = tv.tv_sec + (((double) tv.tv_usec)/1e6);
         return 0;
     }
     else {
-        return tv.t_sec + double(tv.t_usec)/1e-6 - seconds;
+        return tv.tv_sec + (((double) tv.tv_usec)/1e6) - seconds;
     }
 }
 
