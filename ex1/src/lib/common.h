@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.h
 * Creation Date : 06-11-2012
-* Last Modified : Tue 06 Nov 2012 03:05:34 PM EET
+* Last Modified : Tue 06 Nov 2012 04:02:41 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -29,5 +29,6 @@ double *allocate_2d_with_padding(int N, int M, int max_rank);
 double *parse_matrix_2d(FILE *fp, int N, int M, double *A);
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
+double timer(void);
 
 #endif /* COMMON_H */

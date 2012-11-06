@@ -1,11 +1,12 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.c
 * Creation Date : 06-11-2012
-* Last Modified : Tue 06 Nov 2012 03:02:38 PM EET
+* Last Modified : Tue 06 Nov 2012 04:06:28 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
 #include "common.h"
+#include <sys/time.h>
 
 double *allocate_2d(int N, int M)
 {
@@ -61,5 +62,21 @@ void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
 void print_matrix_2d(int N, int M, double *A)
 {
     fprint_matrix_2d(stdout, N, M, A);
+}
+
+
+double timer(void)
+{
+    static double seconds = 0;
+    static struct timezone tz = DST_NONE
+    struct timeval tv;
+    gettimeofday(&tv, &tz);
+    if(seconds == 0) {
+        return 0;
+    }
+    else {
+        seconds = tv.t_sec + double(tv.t_usec)/1e-6;
+        return seconds;
+    }
 }
 
