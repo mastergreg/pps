@@ -3,7 +3,7 @@ set -e
 
 
 NTHREADS=4
-FILENAME=mat_5.txt
+FILENAME=mat15.txt
 
 
 if [[ 'x'$1 == 'x' ]]; 

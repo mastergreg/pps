@@ -26,6 +26,8 @@ int main(int argc, char **argv)
     int rank;
     int max_rank;
     int completed_rows;
+    int *counts;
+    int *displs;
     double *Ak = NULL;
     double *A = NULL;
     double *Ai = NULL;
@@ -60,7 +62,6 @@ int main(int argc, char **argv)
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Barrier(MPI_COMM_WORLD);
 
-
     Ak = malloc(N*sizeof(double)); // Buffer for broadcasting the k-th row
     Ai = malloc(N*sizeof(double)); // Buffer for scattering the i-th row
 
@@ -77,8 +78,46 @@ int main(int argc, char **argv)
         }
         fclose(fp);
         fp = NULL;
-    } 
 
+        /* Arrays for Scatterv */
+        displs = malloc(max_rank*sizeof(int));
+        counts = malloc(max_rank*sizeof(int));
+
+        /* Initialization of Counts array */
+        for (j = 0; j < max_rank ; j++) {
+            counts[j] = N * (N / max_rank);
+        }
+
+        /* Distribute the indivisible leftover */
+        j = N % max_rank;    
+        for (k = 0; k < max_rank ; k++) {
+            if (j > 0) {
+                counts[k] += N;
+                j--;
+            }
+        }
+
+        /* Initialization of Displacements array */
+        displs[0] = 0;
+        for (j = 1; j < max_rank ; j++) {
+            displs[j] = displs[j - 1] + counts[j];
+        }
+        
+#if main_DEBUG
+        printf("Sendcounts is :\n");
+        for (j = 0; j < max_rank ; j++) {
+            printf("%d\n", counts[j]);
+        }
+        
+        printf("Displs is :\n");
+        for (j = 0; j < max_rank ; j++) {
+            printf("%d\n", displs[j]);
+        }
+#endif
+ 
+                
+
+    } 
 
 
     for (k = 0; k < N - 1; k++) {
@@ -90,39 +129,38 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-        for(completed_rows = 0; completed_rows < N; completed_rows+=max_rank) {
-            MPI_Barrier(MPI_COMM_WORLD);
-            MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-#if main_DEBUG
-            if(rank == 0) {
-                debug("Hi i'm %d. Ak: %p Ai %p\n", rank, Ai, Ak); 
-                print_matrix_2d(1, N, Ak);
-                print_matrix_2d(1, N, Ai);
-            }
-#endif
+        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Scatterv(&A[N * (k + 1)], counts, displs, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-            MPI_Barrier(MPI_COMM_WORLD);
-            l = Ai[k] / Ak[k];
-            for (j = k; j < N; j++) {
-                Ai[j] = Ai[j] - l * Ak[j];
-            }
-
-            MPI_Barrier(MPI_COMM_WORLD);
 #if main_DEBUG
-            if(rank == 0) {
-                printf("BEFORE GATHER:\n");
-                print_matrix_2d(N, N, A);
-            }
-#endif
-            MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
-#if main_DEBUG
-            if(rank == 0) {
-                printf("AFTER GATHER:\n");
-                print_matrix_2d(N, N, A);
-            }
-#endif
-
+        if(rank == 0) {
+            debug("Hi i'm %d. Ak: %p Ai %p\n", rank, Ai, Ak); 
+            print_matrix_2d(1, N, Ak);
+            print_matrix_2d(1, N, Ai);
         }
+#endif
+
+        MPI_Barrier(MPI_COMM_WORLD);
+        l = Ai[k] / Ak[k];
+        for (j = k; j < N; j++) {
+            Ai[j] = Ai[j] - l * Ak[j];
+        }
+
+        MPI_Barrier(MPI_COMM_WORLD);
+#if main_DEBUG
+        if(rank == 0) {
+            printf("BEFORE GATHER:\n");
+            print_matrix_2d(N, N, A);
+        }
+#endif
+        MPI_Gatherv(Ai, N , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
+#if main_DEBUG
+        if(rank == 0) {
+            printf("AFTER GATHER:\n");
+            print_matrix_2d(N, N, A);
+        }
+#endif
+
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
