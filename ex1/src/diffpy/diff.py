@@ -4,7 +4,7 @@
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : diff.py
 # Creation Date : 06-11-2012
-# Last Modified : Tue 06 Nov 2012 04:28:09 PM EET
+# Last Modified : Tue 06 Nov 2012 04:30:16 PM EET
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -15,7 +15,7 @@ def help():
     exit(1)
 
 def parse(f):
-    return [map(float, line.split()) for line in f]
+    return [map(float, line.split()) for line in f.readlines()[1:-1]
 
 
 def diff(d1,d2):
