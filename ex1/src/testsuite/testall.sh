@@ -24,15 +24,16 @@ do
     serialfile="serial_${i%txt}out"
     ${serialpath} ${i} ${serialfile}
 done
-for i in ${testfiles[@]}
+for j in ${testfolders[@]}
 do
-    echo $i
-    for j in ${testfolders[@]}
+    echo $j
+    for i in ${testfiles[@]}
     do
+        echo $i
         out="${j//\.\.\//}"
         outfile="${out//\//_}_${i%txt}out"
         serialfile="serial_${i%txt}out"
-        echo "${j}/main.exec ${i} ${outfile}"
+#        echo "mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile}"
         mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile}
         ${diffpath} ${serialfile} ${outfile}
     done
