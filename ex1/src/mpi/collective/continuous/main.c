@@ -28,11 +28,14 @@ void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
         }
 
         /* Distribute the indivisible leftover */
-        j = rows % max_rank;    
-        for (k = 0; k < max_rank ; k++) {
-            if (j > 0) {
-                counts[k] += N;
-                j--;
+        if (rows / max_rank != 0) {
+            j = rows % max_rank;    
+            for (k = 0; k < max_rank && j > 0; k++, j--) {
+                    counts[k] += N;
+            }
+        } else {
+            for (k = 0; k < max_rank; k++){
+                counts[k] = N;
             }
         }
 
@@ -148,6 +151,7 @@ int main(int argc, char **argv)
         /* Perform all assigned calculations */
         MPI_Barrier(MPI_COMM_WORLD);
         for (i = 0; i < counts[rank]; i += N ) {
+            printf(" rank %d processing %d rows \n", rank,counts[rank]/N);
             l = Ai[i+k] / Ak[k];
             for (j = k; j < N; j++) {
                 Ai[i+j] = Ai[i+j] - l * Ak[j];
@@ -162,19 +166,15 @@ int main(int argc, char **argv)
             printf("MATRIX BEFORE GATHER:\n");
             print_matrix_2d(N, N, A);
         }
-        printf("rank %d waiting for gather\n", rank);
 #endif
         MPI_Barrier(MPI_COMM_WORLD);
-    //        MPI_Gatherv(Ai, N * (((N - k - 1) / max_rank) + 1) , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    
         MPI_Datatype stype;
         MPI_Type_vector((counts[rank]/N), N, N, MPI_DOUBLE, &stype);
         MPI_Type_commit( &stype );
 
+        printf("rank %d waiting for gather\n", rank);
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Gatherv(&Ai[0], 1, stype, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
-        /* If gatherv doesnt ignore zeroes, we might get some in the matrix :/ */
 
 #if main_DEBUG
         printf("rank %d after gather\n", rank);
