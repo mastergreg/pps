@@ -101,8 +101,6 @@ int main(int argc, char **argv)
 
     Ak = malloc(N * sizeof(double)); // Buffer for broadcasting the k-th row
     Ai = malloc(N * ((N / max_rank) + 1) * sizeof(double)); // Buffer for scattering the rows
-
-
     
     displs = malloc(max_rank * sizeof(int));
     counts = malloc(max_rank * sizeof(int));
@@ -134,7 +132,7 @@ int main(int argc, char **argv)
 
 //        if (rank == 0){
             get_distr_arrays(k, max_rank, N, displs, counts);
-//        }
+ //       }
 
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Scatterv(&A[N * (k + 1)], counts, displs, MPI_DOUBLE, Ai, N * (((N - k - 1) / max_rank) + 1), MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -167,7 +165,14 @@ int main(int argc, char **argv)
         printf("rank %d waiting for gather\n", rank);
 #endif
         MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Gatherv(Ai, N * (((N - k - 1) / max_rank) + 1) , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    //        MPI_Gatherv(Ai, N * (((N - k - 1) / max_rank) + 1) , MPI_DOUBLE, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    
+        MPI_Datatype stype;
+        MPI_Type_vector((counts[rank]/N), N, N, MPI_DOUBLE, &stype);
+        MPI_Type_commit( &stype );
+
+        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Gatherv(&Ai[0], 1, stype, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
         /* If gatherv doesnt ignore zeroes, we might get some in the matrix :/ */
 
