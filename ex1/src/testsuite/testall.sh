@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+
 genpathpath=../generator/generate.py
 diffpath=../diffpy/diff.py
 serialpath=../serial/main.exec
@@ -8,7 +9,8 @@ serialpath=../serial/main.exec
 testfilesSizes=(5 15 42)
 #testfiles=(mat_5.txt mat_15.txt mat_42.txt mat_100.txt mat_1000.txt mat_10000.txt)
 testfiles=(mat_5.txt mat_15.txt mat_42.txt)
-testfolders=(../mpi/collective/cyclic)
+testfolders=(../mpi/collective/cyclic ../mpi/collective/continuous)
+NTHREADS=3
 
 nr=${#testfiles[@]}
 
@@ -30,7 +32,8 @@ do
         out="${j//\.\.\//}"
         outfile="${out//\//_}_${i%txt}out"
         serialfile="serial_${i%txt}out"
-        ${j}/main.exec ${i} ${outfile}
+        echo "${j}/main.exec ${i} ${outfile}"
+        mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile}
         ${diffpath} ${serialfile} ${outfile}
     done
 done
