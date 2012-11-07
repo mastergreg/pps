@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.c
 * Creation Date : 06-11-2012
-* Last Modified : Tue 06 Nov 2012 04:18:53 PM EET
+* Last Modified : Wed 07 Nov 2012 08:27:54 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -76,6 +76,14 @@ double timer(void)
     }
     else {
         return tv.tv_sec + (((double) tv.tv_usec)/1e6) - seconds;
+    }
+}
+
+void usage(int argc, char **argv)
+{
+    if(argc != 3) {
+        printf("Usage: %s <matrix file> <output file>\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
 }
 

@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Tue 06 Nov 2012 03:04:13 PM EET
+ * Last Modified : Wed 07 Nov 2012 08:41:17 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -75,10 +75,7 @@ int main(int argc, char **argv)
     FILE *fp = NULL;
 
 
-    if (argc != 2) {
-        printf("Usage: %s <matrix file>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+    usage(argc, argv);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -151,7 +148,7 @@ int main(int argc, char **argv)
         /* Perform all assigned calculations */
         MPI_Barrier(MPI_COMM_WORLD);
         for (i = 0; i < counts[rank]; i += N ) {
-            printf(" rank %d processing %d rows \n", rank,counts[rank]/N);
+            debug(" rank %d processing %d rows \n", rank,counts[rank]/N);
             l = Ai[i+k] / Ak[k];
             for (j = k; j < N; j++) {
                 Ai[i+j] = Ai[i+j] - l * Ak[j];
@@ -172,7 +169,7 @@ int main(int argc, char **argv)
         MPI_Type_vector((counts[rank]/N), N, N, MPI_DOUBLE, &stype);
         MPI_Type_commit( &stype );
 
-        printf("rank %d waiting for gather\n", rank);
+        debug("rank %d waiting for gather\n", rank);
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Gatherv(&Ai[0], 1, stype, &A[N * (k + 1)], counts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
@@ -195,7 +192,7 @@ int main(int argc, char **argv)
 
     if(rank == 0) {
         //print_matrix_2d(N, N, A);
-        fp = fopen("mat.out", "w");
+        fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
         fclose(fp);
         free(A);

@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Tue 06 Nov 2012 04:46:56 PM EET
+ * Last Modified : Wed 07 Nov 2012 08:36:01 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -33,10 +33,7 @@ int main(int argc, char **argv)
 
     int ret = 0;
     FILE *fp = NULL;
-    if(argc != 3) {
-        printf("Usage: %s <matrix file> <output file>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+    usage(argc, argv);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -90,7 +87,7 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-        for(completed_rows = 0; completed_rows < N; completed_rows+=max_rank) {
+        for(completed_rows = 0; completed_rows < N - 1; completed_rows+=max_rank) {
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #if main_DEBUG

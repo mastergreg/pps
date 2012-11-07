@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.h
 * Creation Date : 06-11-2012
-* Last Modified : Tue 06 Nov 2012 04:02:41 PM EET
+* Last Modified : Wed 07 Nov 2012 08:26:26 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -30,5 +30,6 @@ double *parse_matrix_2d(FILE *fp, int N, int M, double *A);
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
 double timer(void);
+void usage(int argc, char **argv);
 
 #endif /* COMMON_H */
