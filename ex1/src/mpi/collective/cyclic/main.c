@@ -90,7 +90,7 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-        for(completed_rows = 0; completed_rows < N - max_rank; completed_rows+=max_rank) {
+        for(completed_rows = 0; completed_rows < N; completed_rows+=max_rank) {
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #if main_DEBUG

@@ -2,8 +2,8 @@
 set -e
 
 
-NTHREADS=4
-FILENAME=mat15.txt
+NTHREADS=3
+FILENAME=mat5.txt
 
 
 if [[ 'x'$1 == 'x' ]]; 
