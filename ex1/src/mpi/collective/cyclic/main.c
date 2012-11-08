@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 08 Nov 2012 09:44:32 AM EET
+ * Last Modified : Thu 08 Nov 2012 09:49:47 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     double *Ak = NULL;
     double *A = NULL;
     double *Ai = NULL;
+    double sec = 0;
 
 
     int ret = 0;
@@ -77,6 +78,9 @@ int main(int argc, char **argv)
     } 
 
 
+    if(rank == 0) {
+        sec = timer();
+    }
 
     for (k = 0; k < N - 1; k++) {
         if (rank == 0) {
@@ -128,6 +132,12 @@ int main(int argc, char **argv)
 
     MPI_Barrier(MPI_COMM_WORLD);
     ret = MPI_Finalize();
+    if(rank == 0) {
+        sec = timer();
+        printf("Calc Time: %lf\n", sec);
+    }
+
+
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
     }
