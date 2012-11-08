@@ -20,7 +20,7 @@
 
 int main(int argc, char **argv)
 {
-    int j, k;
+    int i, j, k;
     int N;
     double l;
     int rank;
@@ -93,13 +93,13 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, (k % max_rank), MPI_COMM_WORLD);
 
-        for (i = k + 1; i < N ; i+=max_rank) {
-            /* What to process? */
-            l = A[i][k] / Ak[k];
-            for (j = k; j < N; j++) {
-                A[i][j] = A[i][j] - l * Ak[j];
+        for (i = rank; i < N ; i+=max_rank) {
+            if (i > k) {
+                l = A[i * k] / Ak[k];
+                for (j = k; j < N; j++) {
+                    A[i * j] = A[i * j] - l * Ak[j];
+                }
             }
-
         }
     }
 
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
-    if(rank == 0) {
+    if(rank == (max_rank-1)) {
         //print_matrix_2d(N, N, A);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
