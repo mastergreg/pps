@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Tue 06 Nov 2012 04:47:33 PM EET
+* Last Modified : Thu 08 Nov 2012 09:50:55 AM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -20,10 +20,7 @@ int main(int argc, char **argv)
     double sec;
 
     FILE *fp = NULL;
-    if(argc != 3) {
-        printf("Usage: %s <matrix file> <output file>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+    usage(argc, argv);
     /*
      * Allocate me!
      */
