@@ -25,7 +25,6 @@ int main(int argc, char **argv)
     int max_rank;
     int last_rank;
     double l;
-    double *Ak = NULL;
     double *A = NULL;
     double sec = 0;
 
@@ -54,8 +53,6 @@ int main(int argc, char **argv)
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    Ak = malloc(N*sizeof(double)); // Buffer for broadcasting the k-th row
-
     /* Everyone allocates the whole table */
     debug("Max rank = %d\n", max_rank);
     if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
@@ -81,26 +78,17 @@ int main(int argc, char **argv)
 
     for (k = 0; k < N - 1; k++) {
         /* (k % max_rank) is the broadcaster for the k-th row */
-        if (rank == (k % max_rank)) {
-            debug("rank %d broadcasting\n: ", rank);
-            Ak = memcpy(Ak, &A[k * N], N*sizeof(double));
-        }
-
-        /* The person that holds the new k-th row bcasts it */
         MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Bcast(Ak, N, MPI_DOUBLE, (k % max_rank), MPI_COMM_WORLD);
+        MPI_Bcast(&A[k * N], N, MPI_DOUBLE, (k % max_rank), MPI_COMM_WORLD);
 
         /* The last process is (N-1) % max_rank */
-        if (rank == last_rank) {
-            memcpy(&A[k * N], Ak, N*sizeof(double));
-        }
 
         /* Perform work. Initiates i as close to k as possible */
         for (i = (rank + (max_rank * (k / max_rank))); i < N ; i+=max_rank) {
             if (i > k) {
-                l = A[(i * N) + k] / Ak[k];
+                l = A[(i * N) + k] / A[(k * N) + k];
                 for (j = k; j < N; j++) {
-                    A[(i * N) + j] = A[(i * N) + j] - l * Ak[j];
+                    A[(i * N) + j] = A[(i * N) + j] - l * A[(k* N) + j];
                 }
             }
         }
@@ -128,7 +116,6 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     free(A);
-    free(Ak);
 
     return 0;
 }
