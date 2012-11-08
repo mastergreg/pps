@@ -31,7 +31,6 @@ int main(int argc, char **argv)
     double *Ai = NULL;
     double sec = 0;
 
-
     int ret = 0;
     FILE *fp = NULL;
     usage(argc, argv);
@@ -56,9 +55,8 @@ int main(int argc, char **argv)
 
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
     MPI_Barrier(MPI_COMM_WORLD);
-
-
     Ak = malloc(N*sizeof(double)); // Buffer for broadcasting the k-th row
     Ai = malloc(N*sizeof(double)); // Buffer for scattering the i-th row
 
@@ -76,7 +74,6 @@ int main(int argc, char **argv)
         fclose(fp);
         fp = NULL;
     } 
-
 
     if(rank == 0) {
         sec = timer();
@@ -102,32 +99,29 @@ int main(int argc, char **argv)
             }
 #endif
 
-            MPI_Barrier(MPI_COMM_WORLD);
             l = Ai[k] / Ak[k];
             for (j = k; j < N; j++) {
                 Ai[j] = Ai[j] - l * Ak[j];
             }
 
-            MPI_Barrier(MPI_COMM_WORLD);
 #if main_DEBUG
             if(rank == 0) {
                 printf("BEFORE GATHER:\n");
                 print_matrix_2d(N, N, A);
-            }
-#endif
-            if(rank == 0) {
                 debug("N %d\t max_rank %d\t total rows available %d current row start %d\n", N, max_rank, (N + max_rank), (k + 1 + completed_rows));
             }
-            MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
+#endif
+
+            MPI_Barrier(MPI_COMM_WORLD);
+            MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
 #if main_DEBUG
             if(rank == 0) {
                 printf("AFTER GATHER:\n");
                 print_matrix_2d(N, N, A);
             }
 #endif
-
         }
-        MPI_Barrier(MPI_COMM_WORLD);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -136,7 +130,6 @@ int main(int argc, char **argv)
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
-
 
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
@@ -154,7 +147,6 @@ int main(int argc, char **argv)
     }
     free(Ai);
     free(Ak);
-
 
     return 0;
 }

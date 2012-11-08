@@ -46,7 +46,7 @@ void get_distr_arrays(int k, int max_rank, int N, int *displs, int *counts) {
         }
         
 #if main_DEBUG
-        printf("Sendcounts is :\n");
+        printf("Counts is :\n");
         for (j = 0; j < max_rank ; j++) {
             printf("%d\n", counts[j]);
         }
@@ -152,7 +152,6 @@ int main(int argc, char **argv)
 #endif
 
         /* Perform all assigned calculations */
-        MPI_Barrier(MPI_COMM_WORLD);
         for (i = 0; i < counts[rank]; i += N ) {
             debug(" rank %d processing %d rows \n", rank,counts[rank]/N);
             l = Ai[i+k] / Ak[k];
@@ -161,7 +160,6 @@ int main(int argc, char **argv)
             }
         }
 
-        MPI_Barrier(MPI_COMM_WORLD);
 #if main_DEBUG
         if(rank == 0) {
             printf("====== Ai AFTER processing root's rows: \n");
@@ -170,7 +168,6 @@ int main(int argc, char **argv)
             print_matrix_2d(N, N, A);
         }
 #endif
-        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Datatype stype;
         MPI_Type_vector((counts[rank]/N), N, N, MPI_DOUBLE, &stype);
         MPI_Type_commit( &stype );
