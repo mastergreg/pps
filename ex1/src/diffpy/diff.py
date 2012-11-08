@@ -1,13 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8
 #
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : diff.py
 # Creation Date : 06-11-2012
-# Last Modified : Thu 08 Nov 2012 09:20:27 AM EET
+# Last Modified : Thu 08 Nov 2012 10:15:15 AM EET
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
+from __future__ import print_function
 from sys import argv
 from termcolor import colored
 
