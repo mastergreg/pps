@@ -6,11 +6,11 @@ genpathpath=../generator/generate.py
 diffpath=../diffpy/diff.py
 serialpath=../serial/main.exec
 #testfilesSizes=(5 15 42 100 1000 10000)
-testfilesSizes=(5 15 42)
+testfilesSizes=(5 15 42 100 1000)
 #testfiles=(mat_5.txt mat_15.txt mat_42.txt mat_100.txt mat_1000.txt mat_10000.txt)
-testfiles=(mat_5.txt mat_15.txt mat_42.txt)
+testfiles=(mat_5.txt mat_15.txt mat_42.txt mat_100.txt mat_1000.txt)
 testfolders=(../mpi/collective/cyclic ../mpi/collective/continuous)
-NTHREADS=3
+NTHREADS=2
 
 nr=${#testfiles[@]}
 
