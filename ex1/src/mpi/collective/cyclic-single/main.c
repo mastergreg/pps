@@ -101,6 +101,15 @@ int main(int argc, char **argv)
                 }
             }
         }
+#if main_DEBUG
+        if (rank == 0) {
+            debug("RANK 0 AFTER k = %d:\n",k);
+            print_matrix_2d(N,N,A);
+        }
+#endif
+
+
+
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
