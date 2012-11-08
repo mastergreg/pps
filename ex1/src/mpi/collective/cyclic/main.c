@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Wed 07 Nov 2012 08:36:01 PM EET
+ * Last Modified : Thu 08 Nov 2012 09:44:32 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-        for(completed_rows = 0; completed_rows < N - 1; completed_rows+=max_rank) {
+        for(completed_rows = 0; k + completed_rows < N - 1; completed_rows+=max_rank) {
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Scatter(&A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, Ai, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #if main_DEBUG
@@ -111,6 +111,9 @@ int main(int argc, char **argv)
                 print_matrix_2d(N, N, A);
             }
 #endif
+            if(rank == 0) {
+                debug("N %d\t max_rank %d\t total rows available %d current row start %d\n", N, max_rank, (N + max_rank), (k + 1 + completed_rows));
+            }
             MPI_Gather(Ai, N , MPI_DOUBLE, &A[N * (k + 1 + completed_rows)], N, MPI_DOUBLE, 0 ,MPI_COMM_WORLD);
 #if main_DEBUG
             if(rank == 0) {
