@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <string.h>
 
-
 #include "common.h"
 
 
@@ -22,14 +21,13 @@ int main(int argc, char **argv)
 {
     int i, j, k;
     int N;
-    double l;
     int rank;
     int max_rank;
-    int completed_rows;
+    int last_rank;
+    double l;
     double *Ak = NULL;
     double *A = NULL;
     double sec = 0;
-    int last_rank;
 
     int ret = 0;
     FILE *fp = NULL;
@@ -88,14 +86,16 @@ int main(int argc, char **argv)
             Ak = memcpy(Ak, &A[k * N], N*sizeof(double));
         }
 
+        /* The person that holds the new k-th row bcasts it */
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, (k % max_rank), MPI_COMM_WORLD);
 
-        /* Last process to run is (N-1) % max_rank */
+        /* The last process is (N-1) % max_rank */
         if (rank == last_rank) {
             memcpy(&A[k * N], Ak, N*sizeof(double));
         }
 
+        /* Perform work. Initiates i as close to k as possible */
         for (i = (rank + (max_rank * (k / max_rank))); i < N ; i+=max_rank) {
             if (i > k) {
                 l = A[(i * N) + k] / Ak[k];
@@ -107,11 +107,11 @@ int main(int argc, char **argv)
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
-    ret = MPI_Finalize();
     if (rank == 0) {
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
+    ret = MPI_Finalize();
 
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
@@ -120,6 +120,7 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
+    /* Last process has table */
     if (rank == last_rank) {
         //print_matrix_2d(N, N, A);
         fp = fopen(argv[2], "w");
