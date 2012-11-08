@@ -2,7 +2,7 @@
 set -e
 
 
-NTHREADS=4
+NTHREADS=3
 FILENAME=mat_5.txt
 OUTFILE="${FILENAME%txt}out"
 

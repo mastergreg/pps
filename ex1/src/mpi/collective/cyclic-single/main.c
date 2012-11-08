@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     double *Ak = NULL;
     double *A = NULL;
     double sec = 0;
+    int last_rank;
 
     int ret = 0;
     FILE *fp = NULL;
@@ -76,8 +77,10 @@ int main(int argc, char **argv)
  
 
     if(rank == 1) {
-                print_matrix_2d(N, N, A);
+        print_matrix_2d(N, N, A);
     }
+
+    last_rank = (N - 1) % max_rank;
 
     if(rank == 0) {
         sec = timer();
@@ -85,25 +88,33 @@ int main(int argc, char **argv)
 
     for (k = 0; k < N - 1; k++) {
         /* (k % max_rank) is the broadcaster for the k-th row */
+        MPI_Barrier(MPI_COMM_WORLD);
         if (rank == (k % max_rank)) {
+            debug("rank %d broadcasting\n: ", rank);
             Ak = memcpy(Ak, &A[k * N], N*sizeof(double));
-            debug("k %d\n", k);
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(Ak, N, MPI_DOUBLE, (k % max_rank), MPI_COMM_WORLD);
 
+        /* Last process to run is (N-1) % max_rank */
+        if (rank == last_rank) {
+            memcpy(&A[k * N], Ak, N*sizeof(double));
+        }
+
+        MPI_Barrier(MPI_COMM_WORLD);
         for (i = rank; i < N ; i+=max_rank) {
             if (i > k) {
-                l = A[i * k] / Ak[k];
+                l = A[(i * N) + k] / Ak[k];
                 for (j = k; j < N; j++) {
-                    A[i * j] = A[i * j] - l * Ak[j];
+                    A[(i * N) + j] = A[(i * N) + j] - l * Ak[j];
                 }
             }
         }
+
 #if main_DEBUG
-        if (rank == 0) {
-            debug("RANK 0 AFTER k = %d:\n",k);
+        if (rank == last_rank) {
+            debug("LAST RANK AFTER k = %d:\n",k);
             print_matrix_2d(N,N,A);
         }
 #endif
@@ -114,7 +125,7 @@ int main(int argc, char **argv)
 
     MPI_Barrier(MPI_COMM_WORLD);
     ret = MPI_Finalize();
-    if(rank == 0) {
+    if (rank == 0) {
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
@@ -126,7 +137,7 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
-    if(rank == (max_rank-1)) {
+    if (rank == last_rank) {
         //print_matrix_2d(N, N, A);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
