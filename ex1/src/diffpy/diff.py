@@ -4,11 +4,12 @@
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : diff.py
 # Creation Date : 06-11-2012
-# Last Modified : Tue 06 Nov 2012 04:39:13 PM EET
+# Last Modified : Thu 08 Nov 2012 09:20:27 AM EET
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
 from sys import argv
+from termcolor import colored
 
 def help():
     print("""Usage: {0} <file1> <file2>""".format(argv[0]))
@@ -24,6 +25,8 @@ def diff(d1,d2):
         diffed.append([x-y for (x,y) in zip(l1, l2)])
     return diffed
 def main():
+    PASS_COLOR="green"
+    FAIL_COLOR="red"
     if len(argv) != 3:
         help()
     else:
@@ -38,9 +41,9 @@ def main():
         for i,vi in enumerate(diffed):
             for j,vj in enumerate(vi):
                 if vj > 0:
-                    print("<{0}> <{1}>: Failed with error value {2} on A[{3}][{4}]".format(argv[1], argv[2], vj, i, j))
+                    print(colored("<{0}> <{1}>: Failed with error value {2} on A[{3}][{4}]".format(argv[1], argv[2], vj, i, j), FAIL_COLOR))
                     exit(1)
-        print("<{0}> <{1}> Pass :)".format(argv[1], argv[2]))
+        print(colored( "<{0}> <{1}> Pass :)".format(argv[1], argv[2]), PASS_COLOR ))
         exit(0)
 
 
