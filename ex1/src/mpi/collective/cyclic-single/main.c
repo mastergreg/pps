@@ -75,11 +75,6 @@ int main(int argc, char **argv)
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
  
-
-    if(rank == 1) {
-        print_matrix_2d(N, N, A);
-    }
-
     last_rank = (N - 1) % max_rank;
 
     if(rank == 0) {
@@ -88,7 +83,6 @@ int main(int argc, char **argv)
 
     for (k = 0; k < N - 1; k++) {
         /* (k % max_rank) is the broadcaster for the k-th row */
-        MPI_Barrier(MPI_COMM_WORLD);
         if (rank == (k % max_rank)) {
             debug("rank %d broadcasting\n: ", rank);
             Ak = memcpy(Ak, &A[k * N], N*sizeof(double));
@@ -102,8 +96,7 @@ int main(int argc, char **argv)
             memcpy(&A[k * N], Ak, N*sizeof(double));
         }
 
-        MPI_Barrier(MPI_COMM_WORLD);
-        for (i = rank; i < N ; i+=max_rank) {
+        for (i = (rank + (max_rank * (k / max_rank))); i < N ; i+=max_rank) {
             if (i > k) {
                 l = A[(i * N) + k] / Ak[k];
                 for (j = k; j < N; j++) {
@@ -111,16 +104,6 @@ int main(int argc, char **argv)
                 }
             }
         }
-
-#if main_DEBUG
-        if (rank == last_rank) {
-            debug("LAST RANK AFTER k = %d:\n",k);
-            print_matrix_2d(N,N,A);
-        }
-#endif
-
-
-
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
