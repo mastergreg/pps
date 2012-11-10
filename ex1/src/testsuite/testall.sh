@@ -9,7 +9,7 @@ serialpath=../serial/main.exec
 testfilesSizes=(5 15 42 100 1000)
 #testfiles=(mat_5.txt mat_15.txt mat_42.txt mat_100.txt mat_1000.txt mat_10000.txt)
 testfiles=(mat_5.txt mat_15.txt mat_42.txt mat_100.txt mat_1000.txt)
-testfolders=(../mpi/collective/cyclic-single/ ../mpi/collective/continuous)
+testfolders=(../mpi/collective/hybrid/ ../mpi/collective/cyclic-single)
 NTHREADS=2
 
 nr=${#testfiles[@]}
