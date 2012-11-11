@@ -1,0 +1,37 @@
+\documentclass[a4paper,10pt]{article} \usepackage{anysize}
+\marginsize{2cm}{2cm}{1cm}{1cm}
+%\textwidth 6.0in \textheight = 664pt
+\usepackage{xltxtra}
+\usepackage{xunicode}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{xgreek}
+\usepackage{fancyvrb}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{enumitem} \usepackage{framed} \usepackage{relsize}
+\usepackage{float} 
+\setmainfont[Mapping=TeX-text]{CMU Serif}
+\begin{document}
+
+\renewcommand{\theenumi}{\roman{enumi}}
+\include{title/title}
+
+\def\thesubsection {Ζητούμενο \arabic{subsection}}
+\section*{Πηγαίος κώδικας}
+\emph{Κοινή βιβλιοθήκη}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-lib-common.h}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-lib-common.c}
+\setcounter{section}{1}
+\subsection{Σειριακό Πρόγραμμα}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-serial-main.c}
+\subsection{Παραλληλισμός Αλγορίθμου}
+\subsection{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
+\subsection{Μοντέλο ανταλλαγής μηνυμάτων (\textbf{MPI})}
+\subsubsection{Point to Point}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-ptp-hybrid-main.c}
+\subsubsection{Collective}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-collective-hybrid-main.c}
+
+\end{document}
