@@ -1,13 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8
 #
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : generate.py
 # Creation Date : 30-10-2012
-# Last Modified : Tue 06 Nov 2012 03:20:57 PM EET
+# Last Modified : Sun 11 Nov 2012 09:52:17 PM EET
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
+from __future__ import print_function
 from random import random
 from sys import argv
 
