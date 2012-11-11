@@ -25,24 +25,31 @@ int get_bcaster(int *ccounts, int bcaster) {
     }
 }
 
-void process_rows(int k, int rank, int N, int max_rank, int block_rows, double *A){
+void get_displs(int *counts, int max_rank, int *displs) {
+    int j;
+    displs[0] = 0;
+    for (j = 1; j < max_rank ; j++) {
+        displs[j] = displs[j - 1] + counts[j - 1];
+    }
+}
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A){
     /*      performs the calculations for a given set of rows.
      *      In this hybrid version each thread is assigned blocks of 
      *      continuous rows in a cyclic manner.
      */
-    int i, j, w;
+    int j, w;
     double l;
-    /* For every cyclic repetition of a block */
-    for (i = (rank + ((block_rows * max_rank) * (k / (block_rows * max_rank)))); i < N ; i+=(max_rank * block_rows)) {
-            if (i > k) {
-                /* Calculate each continuous row in the block*/
-                for (w = i; w < (i + block_rows) && w < N; w++){
-                    l = A[(w * N) + k] / A[(k * N) + k];
-                    for (j = k; j < N; j++) {
-                        A[(w * N) + j] = A[(w * N) + j] - l * A[(k* N) + j];
-                    }
-                }
-            }
+    int start = max(displs[rank], k+1);
+    for (w = start; w < (start + block_rows) && w < N; w++){
+        l = A[(w * N) + k] / A[(k * N) + k];
+        for (j = k; j < N; j++) {
+            A[(w * N) + j] = A[(w * N) + j] - l * A[(k * N) + j];
+        }
     }
 }
 
@@ -85,6 +92,7 @@ int main(int argc, char **argv)
     int max_rank;
     int block_rows;
     int *counts;
+    int *displs;
     int *ccounts;
     int ret = 0;
     int bcaster = 0;
@@ -118,8 +126,11 @@ int main(int argc, char **argv)
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
     
     counts = malloc(max_rank * sizeof(int));
+    displs = malloc(max_rank * sizeof(int));
     ccounts = malloc(max_rank * sizeof(int));
+
     distribute_rows(max_rank, N, counts);
+    get_displs(counts, max_rank, displs);
     ccounts = memcpy(ccounts,counts,N);
 
     /* Everybody Allocates the whole table */
@@ -147,9 +158,11 @@ int main(int argc, char **argv)
         bcaster = get_bcaster(ccounts, bcaster);
 
         MPI_Barrier(MPI_COMM_WORLD);
+        debug(" broadcaster is %d\n", bcaster);
+        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&A[k * N], N, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-        process_rows(k, rank, N, max_rank, block_rows, A);
+        process_rows(k, rank, N, max_rank, block_rows, displs, A);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -172,6 +185,8 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     free(A);
+    free(counts);
+    free(ccounts);
 
     return 0;
 }
