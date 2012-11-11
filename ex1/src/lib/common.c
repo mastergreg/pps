@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.c
 * Creation Date : 06-11-2012
-* Last Modified : Wed 07 Nov 2012 08:27:54 PM EET
+* Last Modified : Sun 11 Nov 2012 05:45:05 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -57,7 +57,7 @@ void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
         fprintf(fp, "=");
     }
     fprintf(fp, "\n");
-}
+} 
 
 void print_matrix_2d(int N, int M, double *A)
 {
@@ -87,3 +87,34 @@ void usage(int argc, char **argv)
     }
 }
 
+
+void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm)
+{
+    int rank;
+    int i;
+    int max_rank;
+
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_size(comm, &max_rank);
+    if(rank == root) {
+        for(i = 0; i < max_rank; i++) {
+            if(i == rank) {
+                i++;
+            }
+            else {
+                MPI_Send(buffer, count, datatype, i, root, comm);
+            }
+        }
+    }
+    else {
+        MPI_Status status;
+        MPI_Recv(buffer, count, datatype, root, root, comm, &status);
+    }
+
+    
+
+}
+void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, int root, MPI_Comm comm)
+{
+
+}
