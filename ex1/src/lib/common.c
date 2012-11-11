@@ -68,13 +68,16 @@ void print_matrix_2d(int N, int M, double *A)
 double timer(void)
 {
     static double seconds = 0;
+    static int operation = 0;
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    if(seconds == 0) {
+    if (operation == 0) {
         seconds = tv.tv_sec + (((double) tv.tv_usec)/1e6);
+        operation = 1;
         return 0;
     }
     else {
+        operation = 0;
         return tv.tv_sec + (((double) tv.tv_usec)/1e6) - seconds;
     }
 }

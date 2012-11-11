@@ -1,0 +1,63 @@
+afein@archtop ~/Repos/pps/ex1/src/mpi/collective (master*) % ./run.sh 
+make: Nothing to be done for `all'.
+i'm rank 0 BEFORE the scatter and N is 5
+i'm rank 1 BEFORE the scatter and N is 5
+i'm rank 2 BEFORE the scatter and N is 5
+i'm rank 3 BEFORE the scatter and N is 5
+i'm rank 4 BEFORE the scatter and N is 5
+i'm rank 0 AFTER the scatter, check out my bitchin' Ab 
+i'm rank 0 AFTER the scatter, check out my bitchin' Ab 
+[archtop:12831] *** Process received signal ***
+[archtop:12831] Signal: Segmentation fault (11)
+[archtop:12831] Signal code: Address not mapped (1)
+[archtop:12831] Failing at address: 0x7fffa6fa8941
+i'm rank 0 AFTER the scatter, check out my bitchin' Ab 
+-0.000000
+0.000000
+1812263433435465897114992290941114294130966528.000000
+1.000000
+-249240399971643960772268074469425152.000000
+2.000000
+-61892188704148949033566131695543910400.000000
+3.000000
+0.000000
+-nan
+0.000000
+0.000000
+0.000000
+[archtop:12831] [ 0] /usr/lib/libpthread.so.0(+0xf1a0) [0x7febfc1ac1a0]
+[archtop:12831] [ 1] ./main() [0x400d02]
+[archtop:12831] [ 2] /usr/lib/libc.so.6(__libc_start_main+0xf5) [0x7febfbe17725]
+[archtop:12831] [ 3] ./main() [0x4009b9]
+[archtop:12831] *** End of error message ***
+0.000000
+i'm rank 0 AFTER the scatter, check out my bitchin' Ab 
+i'm rank 0 AFTER the scatter, check out my bitchin' Ab 
+[archtop:12828] *** Process received signal ***
+[archtop:12828] Signal: Segmentation fault (11)
+[archtop:12828] Signal code: Address not mapped (1)
+[archtop:12828] Failing at address: (nil)
+[archtop:12829] *** Process received signal ***
+[archtop:12829] Signal: Segmentation fault (11)
+[archtop:12829] Signal code:  (128)
+[archtop:12829] Failing at address: (nil)
+[archtop:12828] [ 0] /usr/lib/libpthread.so.0(+0xf1a0) [0x7fa89610a1a0]
+[archtop:12828] [ 1] ./main() [0x400d02]
+[archtop:12829] [ 0] /usr/lib/libpthread.so.0(+0xf1a0) [0x7fc30cf4d1a0]
+[archtop:12829] [ 1] ./main() [0x400d02]
+[archtop:12829] [ 2] /usr/lib/libc.so.6(__libc_start_main+0xf5) [0x7fc30cbb8725]
+[archtop:12829] [ 3] ./main() [0x4009b9]
+[archtop:12829] *** End of error message ***
+[archtop:12828] [ 2] /usr/lib/libc.so.6(__libc_start_main+0xf5) [0x7fa895d75725]
+[archtop:12828] [ 3] ./main() [0x4009b9]
+[archtop:12828] *** End of error message ***
+0.000000
+0.000000
+0.000000
+0.000000
+-0.000000
+242243958725915364032651560076984476051175500896503725086063592397604529330777874388332046042744233152842701743698235319731790496517502473906758030586701594506334429388686414267780130145298784415042186224628731659853125833342190272109488260664306981404672.000000
+--------------------------------------------------------------------------
+mpirun noticed that process rank 2 with PID 12829 on node archtop exited on signal 11 (Segmentation fault).
+--------------------------------------------------------------------------
+
