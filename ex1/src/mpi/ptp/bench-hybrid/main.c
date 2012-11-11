@@ -47,6 +47,7 @@ int main(int argc, char **argv)
     int max_rank;
     int last_rank;
     int block_rows;
+    int min_rows = 0;
     double *A = NULL;
     double sec = 0;
     double min = 0;
@@ -94,8 +95,6 @@ int main(int argc, char **argv)
 
         last_rank = (N - 1) % max_rank;
 
-    //    block_rows = BLOCK_ROWS;
-     
         if(rank == 0) {
             sec = timer();
         }
@@ -108,23 +107,27 @@ int main(int argc, char **argv)
             process_rows(k, rank, N, max_rank, A, block_rows);
         }
 
-        MPI_Barrier(MPI_COMM_WORLD);
         if (rank == 0) {
             sec = timer();
             if (min == 0 || sec < min) {
                 min = sec;
+                min_rows = block_rows;
             }
+            debug("Calc Time: %lf\n", sec);
+            debug("    with block_rows: %d\n", block_rows);
         }
+
     }
 
-    debug("Min Calc Time: %lf\n", sec);
-    debug("    with block_rows: %d\n", block_rows);
-    ret = MPI_Finalize();
-
     if (rank == 0){
+        debug("Min Calc Time: %lf\n", min);
+        debug("    with block_rows: %d\n", min_rows);
         fclose(fp);
         fp = NULL;
     }
+
+    ret = MPI_Finalize();
+    debug("after finalize\n");
 
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
