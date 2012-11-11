@@ -19,11 +19,11 @@
 #define BLOCK_ROWS 2
 
 
-/*      process_rows: performs the calculations for a given set of rows.
- *          In this hybrid version each thread is assigned blocks of 
- *          continuous rows in a cyclic manner.
- */
 void process_rows(int k, int rank, int N, int max_rank, double *A){
+    /*      performs the calculations for a given set of rows.
+     *      In this hybrid version each thread is assigned blocks of 
+     *      continuous rows in a cyclic manner.
+     */
     int i, j, w;
     double l;
     /* For every cyclic repetition of a block */
