@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 08 Nov 2012 09:52:29 AM EET
+ * Last Modified : Sun 11 Nov 2012 09:03:29 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -75,12 +75,6 @@ void distribute_rows(int max_rank, int N, int *counts) {
             }
         }
         
-#if main_DEBUG
-        printf("Counts is :\n");
-        for (j = 0; j < max_rank ; j++) {
-            printf("%d\n", counts[j]);
-        }
-#endif
 }
                 
 
@@ -131,7 +125,13 @@ int main(int argc, char **argv)
 
     distribute_rows(max_rank, N, counts);
     get_displs(counts, max_rank, displs);
-    ccounts = memcpy(ccounts,counts,N);
+    memcpy(ccounts, counts, max_rank * sizeof(int));
+#if main_DEBUG
+        printf("CCounts is :\n");
+        for (j = 0; j < max_rank ; j++) {
+            printf("%d\n", ccounts[j]);
+        }
+#endif
 
     /* Everybody Allocates the whole table */
     if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
@@ -152,6 +152,7 @@ int main(int argc, char **argv)
     if(rank == 0) {
         sec = timer();
     }
+
 
     for (k = 0; k < N - 1; k++) {
         block_rows = counts[rank];
