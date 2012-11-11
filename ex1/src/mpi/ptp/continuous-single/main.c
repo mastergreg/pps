@@ -117,7 +117,7 @@ int main(int argc, char **argv)
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    propagate_with_flooding(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
     
     counts = malloc(max_rank * sizeof(int));
     displs = malloc(max_rank * sizeof(int));
@@ -146,7 +146,7 @@ int main(int argc, char **argv)
     } 
 
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Bcast(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    propagate_with_flooding(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     /* Start Timing */
     if(rank == 0) {

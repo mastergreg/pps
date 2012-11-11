@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Sun 11 Nov 2012 06:40:33 PM EET
+ * Last Modified : Sun 11 Nov 2012 09:36:48 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -16,7 +16,7 @@
 
 #include "common.h"
 
-#define BLOCK_ROWS 2
+#define BLOCK_ROWS 1
 
 
 void process_rows(int k, int rank, int N, int max_rank, double *A){

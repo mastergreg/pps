@@ -39,10 +39,14 @@
 
 \subsection{Παραλληλισμός Αλγορίθμου}
 
-Ο παραλληλισμος του αλγορίθμου εντοπίζεται στο γεγονός ότι υπάρχει ανεξαρτησία
-του υπολογισμού κατά γραμμές για δεδομένο $k$. 
+Ο παραλληλισμός του αλγορίθμου εντοπίζεται στο γεγονός ότι υπάρχει ανεξαρτησία
+του υπολογισμού κατά γραμμές για δεδομένο $k$. Καθ όλη την εκτέλεση του
+προγράμματος κρατάμε σταθερό τον τρόπο διαμοιρασμού των γραμμών του πίνακα,
+μοιράζοντας σε κάθε επανάληψη την $k^{th}$ γραμμή. 
 
+\vspace{1.1em}
 \begin{minipage}[t]{0.5\textwidth}
+    \centering
         \begin{tabular}{| c | c | c | c | c | c | c |}
             \hline
             \rowcolor{bootblue} & & & & & & \\
@@ -60,8 +64,11 @@
             \rowcolor{bootblue} & & & & & & \\
             \hline
         \end{tabular}
+
+        Circular
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
+    \centering
         \begin{tabular}{| c | c | c | c | c | c | c |}
             \hline
             \rowcolor{bootblue} & & & & & & \\
@@ -79,6 +86,8 @@
             \rowcolor{bootred} & & & & & & \\
             \hline
         \end{tabular}
+
+        Continuous
 \end{minipage}
 
 \subsection{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
@@ -88,9 +97,10 @@
 \subsubsection{Point to Point}
 
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-ptp-hybrid-main.c}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-ptp-continuous-single-main.c}
 
 \subsubsection{Collective}
-
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-collective-hybrid-main.c}
+\inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-collective-continuous-single-main.c}
 
 \end{document}
