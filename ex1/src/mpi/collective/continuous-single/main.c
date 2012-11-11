@@ -1,12 +1,12 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 08 Nov 2012 09:49:47 AM EET
+ * Last Modified : Thu 08 Nov 2012 09:52:29 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
 
-#include <mpi.h>
+#include <mpi.h> 
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -16,9 +16,16 @@
 
 #include "common.h"
 
-#define BLOCK_ROWS 2
 
-void process_rows(int k, int rank, int N, int max_rank, double *A, int block_rows){
+int get_bcaster(int *ccounts, int bcaster) {
+    if (ccounts[bcaster]-- > 0 ){
+        return bcaster;
+    } else {
+        return bcaster+1;
+    }
+}
+
+void process_rows(int k, int rank, int N, int max_rank, int block_rows, double *A){
     /*      performs the calculations for a given set of rows.
      *      In this hybrid version each thread is assigned blocks of 
      *      continuous rows in a cyclic manner.
@@ -39,21 +46,54 @@ void process_rows(int k, int rank, int N, int max_rank, double *A, int block_row
     }
 }
 
+/*  distributes the rows in a continuous fashion */
+void distribute_rows(int max_rank, int N, int *counts) {
+        int j, k;
+        int rows = N;
+
+        /* Initialize counts */
+        for (j = 0; j < max_rank ; j++) {
+            counts[j] = (rows / max_rank);
+        }
+
+        /* Distribute the indivisible leftover */
+        if (rows / max_rank != 0) {
+            j = rows % max_rank;    
+            for (k = 0; k < max_rank && j > 0; k++, j--) {
+                    counts[k] += 1;
+            }
+        } else {
+            for (k = 0; k < max_rank; k++){
+                counts[k] = 1;
+            }
+        }
+        
+#if main_DEBUG
+        printf("Counts is :\n");
+        for (j = 0; j < max_rank ; j++) {
+            printf("%d\n", counts[j]);
+        }
+#endif
+}
+                
+
 int main(int argc, char **argv)
 {
-    int k;
+    int i, j, k;
     int N;
     int rank;
     int max_rank;
-    int last_rank;
     int block_rows;
-    int min_rows = 0;
-    double *A = NULL;
-    double sec = 0;
-    double min = 0;
-
+    int *counts;
+    int *ccounts;
     int ret = 0;
+    int bcaster = 0;
+    double l;
+    double sec;
+    double *A = NULL;
     FILE *fp = NULL;
+
+
     usage(argc, argv);
 
     MPI_Init(&argc, &argv);
@@ -76,58 +116,48 @@ int main(int argc, char **argv)
 
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    
+    counts = malloc(max_rank * sizeof(int));
+    ccounts = malloc(max_rank * sizeof(int));
+    distribute_rows(max_rank, N, counts);
+    ccounts = memcpy(ccounts,counts,N);
 
-    /* Everyone allocates the whole table */
-    debug("Max rank = %d\n", max_rank);
+    /* Everybody Allocates the whole table */
     if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
-    /* Root Parses file */
-    for (block_rows = 1; block_rows < (N / max_rank) && sec <= 2*min; block_rows++) {
-        if (rank == 0) {
-            if(parse_matrix_2d(fp, N, N, A) == NULL) {
-                MPI_Abort(MPI_COMM_WORLD, 1);
-            }
+    if (rank == 0) {
+        if(parse_matrix_2d(fp, N, N, A) == NULL) {
+            MPI_Abort(MPI_COMM_WORLD, 1);
         }
-        /* And distributes the table */
-        MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Bcast(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
-        last_rank = (N - 1) % max_rank;
-
-        if(rank == 0) {
-            sec = timer();
-        }
-
-        for (k = 0; k < N - 1; k++) {
-            /* The owner of the row for this k broadcasts it*/
-            MPI_Barrier(MPI_COMM_WORLD);
-            MPI_Bcast(&A[k * N], N, MPI_DOUBLE, ((k % (max_rank * block_rows)) / block_rows), MPI_COMM_WORLD);
-
-            process_rows(k, rank, N, max_rank, A, block_rows);
-        }
-
-        if (rank == 0) {
-            sec = timer();
-            if (min == 0 || sec < min) {
-                min = sec;
-                min_rows = block_rows;
-            }
-            debug("Calc Time: %lf\n", sec);
-            debug("    with block_rows: %d\n", block_rows);
-        }
-
-    }
-
-    if (rank == 0){
-        debug("Min Calc Time: %lf\n", min);
-        debug("    with block_rows: %d\n", min_rows);
         fclose(fp);
         fp = NULL;
+    } 
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Bcast(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    /* Start Timing */
+    if(rank == 0) {
+        sec = timer();
     }
 
+    for (k = 0; k < N - 1; k++) {
+        block_rows = counts[rank];
+        bcaster = get_bcaster(ccounts, bcaster);
+
+        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Bcast(&A[k * N], N, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+
+        process_rows(k, rank, N, max_rank, block_rows, A);
+    }
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    if(rank == 0) {
+        sec = timer();
+        printf("Calc Time: %lf\n", sec);
+    }
     ret = MPI_Finalize();
-    debug("after finalize\n");
 
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
@@ -136,9 +166,7 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
-    /* Last process has table */
-    if (rank == last_rank) {
-        //print_matrix_2d(N, N, A);
+    if(rank == (max_rank - 1)) {
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
         fclose(fp);
