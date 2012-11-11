@@ -49,6 +49,7 @@ int main(int argc, char **argv)
     int block_rows;
     double *A = NULL;
     double sec = 0;
+    double min = 0;
 
     int ret = 0;
     FILE *fp = NULL;
@@ -81,7 +82,7 @@ int main(int argc, char **argv)
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
     /* Root Parses file */
-    for (block_rows = 1; block_rows < (N / max_rank); block_rows++) {
+    for (block_rows = 1; block_rows < (N / max_rank) && sec <= 2*min; block_rows++) {
         if (rank == 0) {
             if(parse_matrix_2d(fp, N, N, A) == NULL) {
                 MPI_Abort(MPI_COMM_WORLD, 1);
@@ -110,10 +111,14 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         if (rank == 0) {
             sec = timer();
-            printf("Calc Time: %lf\n", sec);
-            printf("    block_rows: %d\n", block_rows);
+            if (min == 0 || sec < min) {
+                min = sec;
+            }
         }
     }
+
+    debug("Min Calc Time: %lf\n", sec);
+    debug("    with block_rows: %d\n", block_rows);
     ret = MPI_Finalize();
 
     if (rank == 0){
