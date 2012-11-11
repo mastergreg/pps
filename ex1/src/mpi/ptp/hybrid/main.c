@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Sun 11 Nov 2012 06:14:11 PM EET
+ * Last Modified : Sun 11 Nov 2012 06:40:33 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
-    propagate_with_send(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    propagate_with_flooding(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     /* Everyone allocates the whole table */
     debug("Max rank = %d\n", max_rank);
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
     }
     /* And distributes the table */
     MPI_Barrier(MPI_COMM_WORLD);
-    propagate_with_send(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    propagate_with_flooding(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     last_rank = (N - 1) % max_rank;
  
@@ -101,7 +101,7 @@ int main(int argc, char **argv)
     for (k = 0; k < N - 1; k++) {
         /* The owner of the row for this k broadcasts it*/
         MPI_Barrier(MPI_COMM_WORLD);
-        propagate_with_send(&A[k * N], N, MPI_DOUBLE, ((k % (max_rank * BLOCK_ROWS)) / BLOCK_ROWS), MPI_COMM_WORLD);
+        propagate_with_flooding(&A[k * N], N, MPI_DOUBLE, ((k % (max_rank * BLOCK_ROWS)) / BLOCK_ROWS), MPI_COMM_WORLD);
 
         process_rows(k, rank, N, max_rank, A);
     }

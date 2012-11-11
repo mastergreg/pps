@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : common.c
 * Creation Date : 06-11-2012
-* Last Modified : Sun 11 Nov 2012 06:12:40 PM EET
+* Last Modified : Sun 11 Nov 2012 06:40:49 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -118,8 +118,37 @@ void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, int roo
     
 
 }
+
 void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, int root, MPI_Comm comm)
 {
+    int rank;
+    int max_rank;
+    int cur;
 
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_size(comm, &max_rank);
+
+    if(root != 0) {
+        if(rank == root) {
+            MPI_Send(buffer, count, datatype, 0, root, comm);
+        }
+        if(rank == 0) {
+            MPI_Status status;
+            MPI_Recv(buffer, count, datatype, root, root, comm, &status);
+        }
+    }
+
+
+    if(rank != 0) {
+        MPI_Status status;
+        MPI_Recv(buffer, count, datatype, (rank-1)/2, root, comm, &status);
+    }
+    cur = 2*rank+1;
+    if(cur < max_rank) {
+        MPI_Send(buffer, count, datatype, cur, root, comm);
+    }
+    if(++cur < max_rank) {
+        MPI_Send(buffer, count, datatype, cur, root, comm);
+    }
 }
 #endif /* USE_MPI */
