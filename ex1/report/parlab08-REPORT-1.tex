@@ -5,7 +5,8 @@
 \usepackage{xunicode}
 \usepackage{graphicx}
 \usepackage{color}
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[table]{xcolor}
+%\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{xgreek}
 \usepackage{fancyvrb}
 \usepackage{minted}
@@ -15,23 +16,81 @@
 \setmainfont[Mapping=TeX-text]{CMU Serif}
 \begin{document}
 
+\definecolor{bootred}{RGB}{248,148,6}
+\definecolor{bootgreen}{RGB}{81,163,81}
+\definecolor{bootblue}{RGB}{73, 178, 205}
+
 \renewcommand{\theenumi}{\roman{enumi}}
 \include{title/title}
 
 \def\thesubsection {Ζητούμενο \arabic{subsection}}
 \section*{Πηγαίος κώδικας}
+
 \emph{Κοινή βιβλιοθήκη}
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-lib-common.h}
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-lib-common.c}
+
 \setcounter{section}{1}
 \subsection{Σειριακό Πρόγραμμα}
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-serial-main.c}
+
 \subsection{Παραλληλισμός Αλγορίθμου}
+
+Ο παραλληλισμος του αλγορίθμου εντοπίζεται στο γεγονός ότι υπάρχει ανεξαρτησία
+του υπολογισμού κατά γραμμές για δεδομένο $k$. 
+
+\begin{minipage}[t]{0.5\textwidth}
+        \begin{tabular}{| c | c | c | c | c | c | c |}
+            \hline
+            \rowcolor{bootblue} & & & & & & \\
+            \hline
+            \rowcolor{bootgreen} & & & & & & \\
+            \hline
+            \rowcolor{bootred} & & & & & & \\
+            \hline
+            \rowcolor{bootblue} & & & & & & \\
+            \hline
+            \rowcolor{bootgreen} & & & & & & \\
+            \hline
+            \rowcolor{bootred} & & & & & & \\
+            \hline
+            \rowcolor{bootblue} & & & & & & \\
+            \hline
+        \end{tabular}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+        \begin{tabular}{| c | c | c | c | c | c | c |}
+            \hline
+            \rowcolor{bootblue} & & & & & & \\
+            \hline
+            \rowcolor{bootblue} & & & & & & \\
+            \hline
+            \rowcolor{bootblue} & & & & & & \\
+            \hline
+            \rowcolor{bootgreen} & & & & & & \\
+            \hline
+            \rowcolor{bootgreen} & & & & & & \\
+            \hline
+            \rowcolor{bootred} & & & & & & \\
+            \hline
+            \rowcolor{bootred} & & & & & & \\
+            \hline
+        \end{tabular}
+\end{minipage}
+
 \subsection{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
+
 \subsection{Μοντέλο ανταλλαγής μηνυμάτων (\textbf{MPI})}
+
 \subsubsection{Point to Point}
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-ptp-hybrid-main.c}
+
 \subsubsection{Collective}
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-collective-hybrid-main.c}
 
 \end{document}
