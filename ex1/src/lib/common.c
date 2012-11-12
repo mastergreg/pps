@@ -1,9 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-* File Name : common.c
-* Creation Date : 06-11-2012
-* Last Modified : Sun 11 Nov 2012 06:40:49 PM EET
-* Created By : Greg Liras <gregliras@gmail.com>
-_._._._._._._._._._._._._._._._._._._._._.*/
+ * File Name : common.c
+ * Creation Date : 06-11-2012
+ * Last Modified : Mon 12 Nov 2012 09:53:05 AM EET
+ * Created By : Greg Liras <gregliras@gmail.com>
+ * Created By : Alex Maurogiannis <nalfemp@gmail.com>
+ _._._._._._._._._._._._._._._._._._._._._.*/
 
 #include "common.h"
 #include <sys/time.h>
@@ -21,7 +22,6 @@ double *allocate_2d_with_padding(int N, int M, int max_rank)
     A = allocate_2d(N + max_rank, M);
     return A;
 }
-
 
 double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
 {
@@ -63,7 +63,6 @@ void print_matrix_2d(int N, int M, double *A)
 {
     fprint_matrix_2d(stdout, N, M, A);
 }
-
 
 double timer(void)
 {
@@ -114,9 +113,6 @@ void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, int roo
         MPI_Status status;
         MPI_Recv(buffer, count, datatype, root, root, comm, &status);
     }
-
-    
-
 }
 
 void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, int root, MPI_Comm comm)
@@ -137,7 +133,6 @@ void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, in
             MPI_Recv(buffer, count, datatype, root, root, comm, &status);
         }
     }
-
 
     if(rank != 0) {
         MPI_Status status;

@@ -1,9 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-* File Name : common.h
-* Creation Date : 06-11-2012
-* Last Modified : Sun 11 Nov 2012 06:12:55 PM EET
-* Created By : Greg Liras <gregliras@gmail.com>
-_._._._._._._._._._._._._._._._._._._._._.*/
+ * File Name : common.h
+ * Creation Date : 06-11-2012
+ * Last Modified : Mon 12 Nov 2012 09:53:23 AM EET
+ * Created By : Greg Liras <gregliras@gmail.com>
+ * Created By : Alex Maurogiannis <nalfemp@gmail.com>
+ _._._._._._._._._._._._._._._._._._._._._.*/
 
 #ifndef DEBUG_FUNC
 #define DEBUG_FUNC
@@ -18,8 +19,6 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 
 #ifndef COMMON_H
 #define COMMON_H
-
-
 
 #include <stdlib.h>
 #include <stdio.h>
