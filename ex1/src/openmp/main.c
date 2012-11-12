@@ -41,13 +41,13 @@ int main(int argc, char **argv)
     }
 
 
-    sec = timer();
-
     int chunk = N/omp_get_max_threads();
+
+    sec = timer();
 
     for (k = 0; k < N - 1; k++)
     {
-#pragma omp parallel for schedule(static, chunk)
+#pragma omp parallel for schedule(static, chunk) private(l,j)
         for (i = k + 1; i < N; i++)
         {
             l = A[i * N + k] / A[k * N + k];
