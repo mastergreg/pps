@@ -1,7 +1,7 @@
 TARGET = main
 CC = gcc
 CCFLAGS += 
-CFLAGS+= -O3 -falign-arrays -fexpensive-optimizations -funroll-loops \
+OPTCFLAGS+= -march=native -O3 -fexpensive-optimizations -funroll-loops \
 	 -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize \
 	 -ftree-vect-loop-version -ftree-vectorize
 LDFLAGS += -fopenmp
@@ -18,6 +18,7 @@ ifeq ($(DEBUG),y)
 else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
 	CCFLAGS += -Werror -Wall
+	CCFLAGS += $(OPTCFLAGS)
 endif
 
 CCFILES += $(wildcard *.c)
