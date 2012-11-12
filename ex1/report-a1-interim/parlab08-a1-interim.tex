@@ -110,9 +110,10 @@
 \subsection{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
 
 %}}} OpenMP
-Η υλοποίηση μοντέλου κοινού χώρου διευθύνσεων βασίζεται στην δομή #pragma omp for, με χρήση private μεταβλητών divisor και A2 για κάθε thread ώστε να αποφεύγονται όσο γίνεται οι προσβάσεις στην κοινή μνήμη.
+Η υλοποίηση μοντέλου κοινού χώρου διευθύνσεων βασίζεται στην δομή pragma omp for, με χρήση private μεταβλητών divisor και A2 για κάθε thread ώστε να αποφεύγονται όσο γίνεται οι προσβάσεις στην κοινή μνήμη. Επιπλέον, έχουν πραγματοποιηθεί βελτιστοποιήσεις μέσω flags του gcc, όπως φαίνεται στο Makefile.
 
 \inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-openmp-main.c}
+\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-openmp-Makefile}
 
 \pagebreak
 
