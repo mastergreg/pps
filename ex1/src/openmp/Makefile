@@ -1,22 +1,29 @@
 TARGET = main
 CC = gcc
-CCFLAGS += -fopenmp
+CCFLAGS += 
+CFLAGS+= -O3 -falign-arrays -fexpensive-optimizations -funroll-loops \
+	 -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize \
+	 -ftree-vect-loop-version -ftree-vectorize
+LDFLAGS += -fopenmp
 OPT = 2
 
-DEBUG = "y"
+ifndef DEBUG
+       DEBUG = n
+endif
 
-ifeq ($(DEBUG),"y")
+ifeq ($(DEBUG),y)
 	CCFLAGS += -D$(TARGET)_DEBUG=1
 	CCFLAGS += -g -O0 -Werror -Wall -Wextra -Wuninitialized
-	LDFLAGS += -lfence
+	LDFLAGS += -lefence
 else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
-	CCFLAGS += -O$(OPT) -Werror -Wall
+	CCFLAGS += -Werror -Wall
 endif
 
 CCFILES += $(wildcard *.c)
 OBJ +=  $(patsubst %.c,%.o,$(CCFILES))
 DEPENDS += $(wildcard *.h) 
+
 
 all: $(TARGET).exec
 
@@ -24,7 +31,9 @@ $(TARGET).exec: $(OBJ) $(DEPENDS)
 	$(CC) $(LDFLAGS) $(OBJ) -o $(TARGET).exec
 
 %.o:	%.c
-	$(CC) -c $(CCFLAGS) $< -o $@
+	$(CC) -c $(LDFLAGS) $(CCFLAGS) $< -o $@
+
+
 .PHONY:	clean all indent tags
 clean:
 	rm -f $(OBJ) $(TARGET)
@@ -32,4 +41,3 @@ indent:
 	astyle --style=linux $(CCFILES)
 tags:
 	ctags -R *
-	

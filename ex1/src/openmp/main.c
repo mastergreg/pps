@@ -1,71 +1,66 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Thu 01 Nov 2012 04:59:04 PM EET
+* Last Modified : Mon 12 Nov 2012 06:23:00 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <omp.h>
 
+#include "common.h"
 
-int main(void)
+int main(int argc, char **argv)
 {
     int i,j,k;
     int N;
-    double **A;
+    double *A;
     double l;
-    int tid, nthreads;
-    nthreads = omp_get_num_threads();
+    double sec;
 
+    FILE *fp = NULL;
+    usage(argc, argv);
     /*
      * Allocate me!
      */
-
-    scanf("%d\n", &N);
-
-    A = malloc(N*sizeof(double*));
-    for (k = 0; k < N; k++)
-    {
-        A[k] = malloc(N*sizeof(double));
-    }
-
-    for (i = 0; i < N; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            scanf("%lf", &A[i][j]);
+    fp = fopen(argv[1], "r");
+    if(fp) {
+        if(!fscanf(fp, "%d\n", &N)) {
+            exit(EXIT_FAILURE);
         }
     }
 
+    if((A = allocate_2d(N, N)) == NULL) {
+        exit(EXIT_FAILURE);
+    }
+    if(parse_matrix_2d(fp, N, N, A) == NULL) {
+        exit(EXIT_FAILURE);
+    }
 
 
-#pragma omp parallel private(tid, i, j, k)
+    sec = timer();
+
+
+    for (k = 0; k < N - 1; k++)
     {
-        tid = omp_get_thread_num();
-        for (k = tid; k < N - 1; k += nthreads)
+#pragma omp parallel for 
+        for (i = k + 1; i < N; i++)
         {
-            for (i = k + 1; i < N; i++)
+            l = A[i * N + k] / A[k * N + k];
+            for (j = k; j < N; j++)
             {
-                l = A[i][k] / A[k][k];
-                for (j = k; j < N; j++)
-                {
-                    A[i][j] = A[i][j] -l*A[k][j];
-                }
+                A[i * N + j] = A[i * N + j] - l * A[k * N + j];
             }
         }
     }
+    sec = timer();
+    printf("Calc Time: %lf\n", sec);
 
-    //for (i = 0; i < N; i++)
-    //{
-    //    for (j = 0; j < N; j++)
-    //    {
-    //        printf("%lf\t", A[i][j]);
-    //    }
-    //    printf("\n");
-    //}
+    fp = fopen(argv[2], "w");
+    fprint_matrix_2d(fp, N, N, A);
+    fclose(fp);
+    free(A);
 
     return 0;
 }
