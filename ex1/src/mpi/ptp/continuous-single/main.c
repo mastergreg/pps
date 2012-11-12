@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
-    if (rank == 0) {
+    if(rank == 0) {
         debug("rank: %d opens file: %s\n", rank, argv[1]);
         fp = fopen(argv[1], "r");
         if(fp) {
@@ -128,6 +128,7 @@ int main(int argc, char **argv)
     distribute_rows(max_rank, N, counts);
     get_displs(counts, max_rank, displs);
     memcpy(ccounts, counts, max_rank * sizeof(int));
+
 #if main_DEBUG
         printf("CCounts is :\n");
         for (j = 0; j < max_rank ; j++) {
@@ -139,7 +140,7 @@ int main(int argc, char **argv)
     if((A = allocate_2d(N, N)) == NULL) {
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
-    if (rank == 0) {
+    if(rank == 0) {
         if(parse_matrix_2d(fp, N, N, A) == NULL) {
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
@@ -150,14 +151,14 @@ int main(int argc, char **argv)
     MPI_Barrier(MPI_COMM_WORLD);
     propagate_with_flooding(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
+    block_rows = counts[rank];
+
     /* Start Timing */
     if(rank == 0) {
         sec = timer();
     }
 
-
     for (k = 0; k < N - 1; k++) {
-        block_rows = counts[rank];
         bcaster = get_bcaster(ccounts, bcaster);
 
         debug(" broadcaster is %d\n", bcaster);
@@ -189,6 +190,7 @@ int main(int argc, char **argv)
     free(A);
     free(counts);
     free(ccounts);
+    free(displs);
 
     return 0;
 }
