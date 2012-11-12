@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Sun 11 Nov 2012 09:36:48 PM EET
+ * Last Modified : Mon 12 Nov 2012 09:58:12 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -19,7 +19,8 @@
 #define BLOCK_ROWS 1
 
 
-void process_rows(int k, int rank, int N, int max_rank, double *A){
+void process_rows(int k, int rank, int N, int max_rank, double *A)
+{
     /*      performs the calculations for a given set of rows.
      *      In this hybrid version each thread is assigned blocks of 
      *      continuous rows in a cyclic manner.
@@ -27,16 +28,17 @@ void process_rows(int k, int rank, int N, int max_rank, double *A){
     int i, j, w;
     double l;
     /* For every cyclic repetition of a block */
-    for (i = (rank + ((BLOCK_ROWS * max_rank) * (k / (BLOCK_ROWS * max_rank)))); i < N ; i+=(max_rank * BLOCK_ROWS)) {
-            if (i > k) {
-                /* Calculate each continuous row in the block*/
-                for (w = i; w < (i + BLOCK_ROWS) && w < (N * N); w++){
-                    l = A[(w * N) + k] / A[(k * N) + k];
-                    for (j = k; j < N; j++) {
-                        A[(w * N) + j] = A[(w * N) + j] - l * A[(k* N) + j];
-                    }
+    for (i = (rank + ((BLOCK_ROWS * max_rank) * (k / (BLOCK_ROWS * max_rank)))); \
+            i < N ; i+=(max_rank * BLOCK_ROWS)) {
+        if (i > k) {
+            /* Calculate each continuous row in the block*/
+            for (w = i; w < (i + BLOCK_ROWS) && w < (N * N); w++){
+                l = A[(w * N) + k] / A[(k * N) + k];
+                for (j = k; j < N; j++) {
+                    A[(w * N) + j] = A[(w * N) + j] - l * A[(k* N) + j];
                 }
             }
+        }
     }
 }
 
@@ -69,7 +71,6 @@ int main(int argc, char **argv)
         else {
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
-
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -101,8 +102,8 @@ int main(int argc, char **argv)
     for (k = 0; k < N - 1; k++) {
         /* The owner of the row for this k broadcasts it*/
         MPI_Barrier(MPI_COMM_WORLD);
-        propagate_with_flooding(&A[k * N], N, MPI_DOUBLE, ((k % (max_rank * BLOCK_ROWS)) / BLOCK_ROWS), MPI_COMM_WORLD);
-
+        propagate_with_flooding(&A[k * N], N, MPI_DOUBLE, \
+                ((k % (max_rank * BLOCK_ROWS)) / BLOCK_ROWS), MPI_COMM_WORLD);
         process_rows(k, rank, N, max_rank, A);
     }
 

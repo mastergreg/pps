@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Sun 11 Nov 2012 09:03:29 PM EET
+ * Last Modified : Mon 12 Nov 2012 09:56:29 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -17,7 +17,8 @@
 #include "common.h"
 
 
-int get_bcaster(int *ccounts, int bcaster) {
+int get_bcaster(int *ccounts, int bcaster) 
+{
     if (ccounts[bcaster]-- > 0 ){
         return bcaster;
     } else {
@@ -25,7 +26,8 @@ int get_bcaster(int *ccounts, int bcaster) {
     }
 }
 
-void get_displs(int *counts, int max_rank, int *displs) {
+void get_displs(int *counts, int max_rank, int *displs) 
+{
     int j;
     displs[0] = 0;
     for (j = 1; j < max_rank ; j++) {
@@ -33,11 +35,13 @@ void get_displs(int *counts, int max_rank, int *displs) {
     }
 }
 
-int max(int a, int b) {
+int max(int a, int b) 
+{
     return a > b ? a : b;
 }
 
-void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A){
+void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A)
+{
     /*      performs the calculations for a given set of rows.
      *      In this hybrid version each thread is assigned blocks of 
      *      continuous rows in a cyclic manner.
@@ -54,7 +58,8 @@ void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *dis
 }
 
 /*  distributes the rows in a continuous fashion */
-void distribute_rows(int max_rank, int N, int *counts) {
+void distribute_rows(int max_rank, int N, int *counts) 
+{
         int j, k;
         int rows = N;
 
