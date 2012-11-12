@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 12 Nov 2012 01:25:05 PM EET
+ * Last Modified : Mon 12 Nov 2012 01:34:38 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -43,8 +43,6 @@ int max(int a, int b)
 void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A)
 {
     /*      performs the calculations for a given set of rows.
-     *      In this hybrid version each thread is assigned blocks of 
-     *      continuous rows in a cyclic manner.
      */
     int j, w;
     double l;
