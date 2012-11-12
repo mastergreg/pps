@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Mon 12 Nov 2012 09:53:23 AM EET
+ * Last Modified : Mon 12 Nov 2012 10:06:15 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -33,8 +33,10 @@ double timer(void);
 void usage(int argc, char **argv);
 
 #ifdef USE_MPI /* USE_MPI */
-void propagate_with_send(void *buffer, int count , MPI_Datatype datatype, int root, MPI_Comm comm);
-void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, int root, MPI_Comm comm);
+void propagate_with_send(void *buffer, int count , MPI_Datatype datatype, \
+        int root, MPI_Comm comm);
+void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, \
+        int root, MPI_Comm comm);
 #endif /* USE_MPI */
 
 #endif /* COMMON_H */

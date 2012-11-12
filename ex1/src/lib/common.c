@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Mon 12 Nov 2012 09:53:05 AM EET
+ * Last Modified : Mon 12 Nov 2012 10:06:02 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -90,7 +90,8 @@ void usage(int argc, char **argv)
 }
 
 #ifdef USE_MPI /* USE_MPI */
-void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm)
+void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, \
+        int root, MPI_Comm comm)
 {
     int rank;
     int i;
@@ -115,7 +116,8 @@ void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, int roo
     }
 }
 
-void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, int root, MPI_Comm comm)
+void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, \
+        int root, MPI_Comm comm)
 {
     int rank;
     int max_rank;
