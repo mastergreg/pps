@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Mon 12 Nov 2012 08:15:19 PM EET
+* Last Modified : Mon 12 Nov 2012 08:54:16 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -41,20 +41,28 @@ int main(int argc, char **argv)
     }
 
 
-    sec = timer();
-
     int chunk = N/omp_get_max_threads();
+    double divisor;
+    double *A2;
     chunk = 1;
+
+    sec = timer();
 
     for (k = 0; k < N - 1; k++)
     {
-#pragma omp parallel for schedule(static, chunk) private(i, l, j)
-        for (i = k + 1; i < N; i++)
+#pragma omp parallel private(divisor)
         {
-            l = A[i * N + k] / A[k * N + k];
-            for (j = k; j < N; j++)
+            divisor = A[k * N + k];
+#pragma omp for schedule(static, chunk) private(l,j, A2)
+            for (i = k + 1; i < N; i++)
             {
-                A[i * N + j] = A[i * N + j] - l * A[k * N + j];
+                A2 = &A[i * N];
+
+                l = A2[k] / divisor;
+                for (j = k; j < N; j++)
+                {
+                    A2[j] = A2[j] - l * A[k * N + j];
+                }
             }
         }
     }
