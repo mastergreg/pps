@@ -1,1 +1,0 @@
-../../src/mpi/collective/continuous-single/common.h

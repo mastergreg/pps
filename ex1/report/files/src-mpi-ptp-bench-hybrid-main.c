@@ -1,1 +1,0 @@
-../../src/mpi/ptp/bench-hybrid/main.c
