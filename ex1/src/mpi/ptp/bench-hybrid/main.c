@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 
     /* Everyone allocates the whole table */
     debug("Max rank = %d\n", max_rank);
-    if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
+    if((A = allocate_2d(N, N, max_rank)) == NULL) {
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
     /* Root Parses file */

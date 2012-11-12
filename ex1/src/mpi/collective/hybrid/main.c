@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 12 Nov 2012 10:03:37 AM EET
+ * Last Modified : Mon 12 Nov 2012 01:25:30 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 
     /* Everyone allocates the whole table */
     debug("Max rank = %d\n", max_rank);
-    if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
+    if((A = allocate_2d(N, N)) == NULL) {
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
     /* Root Parses file */

@@ -1,8 +1,8 @@
 all:
-	make -C ../mpi/ptp/continuous-single 
-	make -C ../mpi/ptp/hybrid 
-	make -C ../mpi/collective/hybrid/ 
-	make -C ../mpi/collective/continuous-single
+	make -B -C ../mpi/ptp/continuous-single 
+	make -B -C ../mpi/ptp/hybrid 
+	make -B -C ../mpi/collective/hybrid/ 
+	make -B -C ../mpi/collective/continuous-single
 
 
 

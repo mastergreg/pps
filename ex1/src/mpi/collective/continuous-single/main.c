@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 12 Nov 2012 10:03:03 AM EET
+ * Last Modified : Mon 12 Nov 2012 01:25:55 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -87,7 +87,7 @@ void distribute_rows(int max_rank, int N, int *counts)
 
 int main(int argc, char **argv)
 {
-    int i, j, k;
+    int k;
     int N;
     int rank;
     int max_rank;
@@ -97,7 +97,6 @@ int main(int argc, char **argv)
     int *ccounts;
     int ret = 0;
     int bcaster = 0;
-    double l;
     double sec;
     double *A = NULL;
     FILE *fp = NULL;
@@ -142,7 +141,7 @@ int main(int argc, char **argv)
 #endif
 
     /* Everybody Allocates the whole table */
-    if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
+    if((A = allocate_2d(N, N)) == NULL) {
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
     if (rank == 0) {
