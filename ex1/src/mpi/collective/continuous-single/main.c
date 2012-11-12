@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Sun 11 Nov 2012 09:03:29 PM EET
+ * Last Modified : Mon 12 Nov 2012 10:03:03 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -17,15 +17,18 @@
 #include "common.h"
 
 
-int get_bcaster(int *ccounts, int bcaster) {
+int get_bcaster(int *ccounts, int bcaster) 
+{
     if (ccounts[bcaster]-- > 0 ){
         return bcaster;
-    } else {
+    } 
+    else {
         return bcaster+1;
     }
 }
 
-void get_displs(int *counts, int max_rank, int *displs) {
+void get_displs(int *counts, int max_rank, int *displs) 
+{
     int j;
     displs[0] = 0;
     for (j = 1; j < max_rank ; j++) {
@@ -33,11 +36,13 @@ void get_displs(int *counts, int max_rank, int *displs) {
     }
 }
 
-int max(int a, int b) {
+int max(int a, int b) 
+{
     return a > b ? a : b;
 }
 
-void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A){
+void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A)
+{
     /*      performs the calculations for a given set of rows.
      *      In this hybrid version each thread is assigned blocks of 
      *      continuous rows in a cyclic manner.
@@ -54,29 +59,31 @@ void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *dis
 }
 
 /*  distributes the rows in a continuous fashion */
-void distribute_rows(int max_rank, int N, int *counts) {
-        int j, k;
-        int rows = N;
+void distribute_rows(int max_rank, int N, int *counts) 
+{
+    int j, k;
+    int rows = N;
 
-        /* Initialize counts */
-        for (j = 0; j < max_rank ; j++) {
-            counts[j] = (rows / max_rank);
-        }
+    /* Initialize counts */
+    for (j = 0; j < max_rank ; j++) {
+        counts[j] = (rows / max_rank);
+    }
 
-        /* Distribute the indivisible leftover */
-        if (rows / max_rank != 0) {
-            j = rows % max_rank;    
-            for (k = 0; k < max_rank && j > 0; k++, j--) {
-                    counts[k] += 1;
-            }
-        } else {
-            for (k = 0; k < max_rank; k++){
-                counts[k] = 1;
-            }
+    /* Distribute the indivisible leftover */
+    if (rows / max_rank != 0) {
+        j = rows % max_rank;    
+        for (k = 0; k < max_rank && j > 0; k++, j--) {
+            counts[k] += 1;
         }
-        
+    } 
+    else {
+        for (k = 0; k < max_rank; k++) {
+            counts[k] = 1;
+        }
+    }
+
 }
-                
+
 
 int main(int argc, char **argv)
 {
@@ -118,7 +125,7 @@ int main(int argc, char **argv)
 
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    
+
     counts = malloc(max_rank * sizeof(int));
     displs = malloc(max_rank * sizeof(int));
     ccounts = malloc(max_rank * sizeof(int));
@@ -126,11 +133,12 @@ int main(int argc, char **argv)
     distribute_rows(max_rank, N, counts);
     get_displs(counts, max_rank, displs);
     memcpy(ccounts, counts, max_rank * sizeof(int));
+
 #if main_DEBUG
-        printf("CCounts is :\n");
-        for (j = 0; j < max_rank ; j++) {
-            printf("%d\n", ccounts[j]);
-        }
+    printf("CCounts is :\n");
+    for (j = 0; j < max_rank ; j++) {
+        printf("%d\n", ccounts[j]);
+    }
 #endif
 
     /* Everybody Allocates the whole table */
