@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Mon 12 Nov 2012 10:06:15 AM EET
+ * Last Modified : Mon 12 Nov 2012 09:04:50 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -22,7 +22,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <mpi.h>
 
 double *allocate_2d(int N, int M);
 double *allocate_2d_with_padding(int N, int M, int max_rank);
@@ -33,6 +32,7 @@ double timer(void);
 void usage(int argc, char **argv);
 
 #ifdef USE_MPI /* USE_MPI */
+#include <mpi.h>
 void propagate_with_send(void *buffer, int count , MPI_Datatype datatype, \
         int root, MPI_Comm comm);
 void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, \
