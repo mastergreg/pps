@@ -1,0 +1,1 @@
+../../src/mpi/collective/hybrid/main.c
