@@ -8,7 +8,7 @@ serialpath=../serial/main.exec
 #testfilesSizes=(5 15 42 100 1000)
 testfilesSizes=(100 1000)
 #testfiles=(mat_5.txt mat_15.txt mat_42.txt mat_100.txt mat_1000.txt mat_10000.txt)
-MPItestfolders=( ../openmp/ ../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
+#MPItestfolders=( ../openmp/ ../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
 OPENMPtestfolders=( ../openmp)
 NTHREADS=2
 
