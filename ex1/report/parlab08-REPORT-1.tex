@@ -26,16 +26,26 @@
 \def\thesubsection {Ζητούμενο \arabic{subsection}}
 \section*{Πηγαίος κώδικας}
 
-\emph{Κοινή βιβλιοθήκη}
+%{{{ Library
+
+\subsection*{Κοινή βιβλιοθήκη}
 
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-lib-common.h}
 
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-lib-common.c}
 
+%}}} Library
+
 \setcounter{section}{1}
+%{{{ Serial
+
 \subsection{Σειριακό Πρόγραμμα}
 
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-serial-main.c}
+
+%}}} Serial
+
+%{{{ Theory
 
 \subsection{Παραλληλισμός Αλγορίθμου}
 
@@ -48,6 +58,7 @@
 \begin{minipage}[t]{0.5\textwidth}
     \centering
         \begin{tabular}{| c | c | c | c | c | c | c |}
+            \multicolumn{7}{c}{\dots} \\
             \hline
             \rowcolor{bootblue} & & & & & & \\
             \hline
@@ -63,9 +74,10 @@
             \hline
             \rowcolor{bootblue} & & & & & & \\
             \hline
+            \multicolumn{7}{c}{\dots} \\
         \end{tabular}
 
-        Circular
+        \textit{Circular}
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
     \centering
@@ -81,26 +93,52 @@
             \hline
             \rowcolor{bootgreen} & & & & & & \\
             \hline
+            \rowcolor{bootgreen} & & & & & & \\
+            \hline
             \rowcolor{bootred} & & & & & & \\
             \hline
             \rowcolor{bootred} & & & & & & \\
             \hline
         \end{tabular}
 
-        Continuous
+        \textit{Continuous}
 \end{minipage}
+%}}} Theory
+
+%{{{ OpenMP
 
 \subsection{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
 
+%}}} OpenMP
+
+\pagebreak
+
+%{{{ MPI
 \subsection{Μοντέλο ανταλλαγής μηνυμάτων (\textbf{MPI})}
 
 \subsubsection{Point to Point}
 
+Η υλοποίηση \textbf{point-to-point} με χρήση flooding για λογαριθμικό
+propagation και κυκλική κατανομή των γραμμών (\textit{Circular}).
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-ptp-hybrid-main.c}
+
+Η υλοποίηση \textbf{point-to-point} με χρήση flooding για λογαριθμικό
+propagation και συνεχή κατανομή των γραμμών (\textit{Continuous}).
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-ptp-continuous-single-main.c}
 
 \subsubsection{Collective}
+Η \textbf{collective} υλοποίηση για κυκλική κατανομή των γραμμών
+(\textit{Circular}).
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-collective-hybrid-main.c}
+
+Η \textbf{collective} υλοποίηση για συνεχή κατανομή των γραμμών
+(\textit{Continuous}).
+
 \inputminted[linenos,fontsize=\footnotesize,frame=leftline]{c}{files/src-mpi-collective-continuous-single-main.c}
+
+%}}} MPI
 
 \end{document}
