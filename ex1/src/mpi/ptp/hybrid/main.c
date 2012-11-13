@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Mon 12 Nov 2012 01:25:21 PM EET
+ * Last Modified : Tue 13 Nov 2012 10:08:55 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -62,9 +62,9 @@ int main(int argc, char **argv)
 
     if (rank == 0) {
         debug("rank: %d opens file: %s\n", rank, argv[1]);
-        fp = fopen(argv[1], "r");
+        fp = fopen(argv[1], "rb");
         if(fp) {
-            if(!fscanf(fp, "%d\n", &N)) {
+            if(fread(&N, sizeof(int), 1, fp) != 1) {
                 MPI_Abort(MPI_COMM_WORLD, 1);
             }
         }
