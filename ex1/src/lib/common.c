@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Tue 13 Nov 2012 09:59:08 AM EET
+ * Last Modified : Tue 13 Nov 2012 12:05:06 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -9,21 +9,17 @@
 #include "common.h"
 #include <sys/time.h>
 
-double *allocate_2d(int N, int M)
+
+
+
+static double *allocate_2d(int N, int M)
 {
     double *A;
     A = malloc(N * M * sizeof(double));
     return A;
 }
 
-double *allocate_2d_with_padding(int N, int M, int max_rank)
-{
-    double *A;
-    A = allocate_2d(N + max_rank, M);
-    return A;
-}
-
-double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
+static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
 {
     int i,j;
     double *p;
@@ -89,6 +85,34 @@ void usage(int argc, char **argv)
         printf("Usage: %s <matrix file> <output file>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
+}
+
+Matrix *get_matrix(char *filename)
+{
+    FILE *fp;
+    double *A;
+    int N;
+    Matrix *mat;
+
+    if(NULL == (mat = malloc(sizeof(struct Matrix)))) {
+        exit(EXIT_FAILURE);
+    }
+    fp = fopen(filename, "rb");
+    if(fp) {
+        if(fread(&N, sizeof(int), 1, fp) != 1) {
+            exit(EXIT_FAILURE);
+        }
+    }
+    if((A = allocate_2d(N, N)) == NULL) {
+        exit(EXIT_FAILURE);
+    }
+    if(parse_matrix_2d(fp, N, N, A) == NULL) {
+        exit(EXIT_FAILURE);
+    }
+    fclose(fp);
+    mat->N = N;
+    mat->A = A;
+    return mat;
 }
 
 #ifdef USE_MPI /* USE_MPI */

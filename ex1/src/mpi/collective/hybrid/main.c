@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Tue 13 Nov 2012 10:08:55 AM EET
+ * Last Modified : Tue 13 Nov 2012 12:14:06 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -55,43 +55,19 @@ int main(int argc, char **argv)
     FILE *fp = NULL;
     usage(argc, argv);
 
+    Matrix *mat = get_matrix(argv[1]);
+    N = mat->N;
+    A = mat->A;
+
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
-    if (rank == 0) {
-        debug("rank: %d opens file: %s\n", rank, argv[1]);
-        fp = fopen(argv[1], "rb");
-        if(fp) {
-            if(fread(&N, sizeof(int), 1, fp) != 1) {
-                MPI_Abort(MPI_COMM_WORLD, 1);
-            }
-        }
-        else {
-            MPI_Abort(MPI_COMM_WORLD, 1);
-        }
-
-    }
-
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     /* Everyone allocates the whole table */
     debug("Max rank = %d\n", max_rank);
-    if((A = allocate_2d(N, N)) == NULL) {
-        MPI_Abort(MPI_COMM_WORLD, 1);
-    }
-    /* Root Parses file */
-    if (rank == 0) {
-        if(parse_matrix_2d(fp, N, N, A) == NULL) {
-            MPI_Abort(MPI_COMM_WORLD, 1);
-        }
-        fclose(fp);
-        fp = NULL;
-    }
-    /* And distributes the table */
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Bcast(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     last_rank = (N - 1) % max_rank;
  

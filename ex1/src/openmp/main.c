@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Tue 13 Nov 2012 10:08:51 AM EET
+* Last Modified : Tue 13 Nov 2012 12:02:29 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -26,19 +26,11 @@ int main(int argc, char **argv)
     /*
      * Allocate me!
      */
-    fp = fopen(argv[1], "rb");
-    if(fp) {
-        if(fread(&N, sizeof(int), 1, fp) != 1) {
-            exit(EXIT_FAILURE);
-        }
-    }
 
-    if((A = allocate_2d(N, N)) == NULL) {
-        exit(EXIT_FAILURE);
-    }
-    if(parse_matrix_2d(fp, N, N, A) == NULL) {
-        exit(EXIT_FAILURE);
-    }
+    Matrix *mat = get_matrix(argv[1]);
+    N = mat->N;
+    A = mat->A;
+
 
 
     int chunk = N/omp_get_max_threads();
