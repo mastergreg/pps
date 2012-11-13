@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Mon 12 Nov 2012 10:06:02 AM EET
+ * Last Modified : Tue 13 Nov 2012 09:59:08 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -30,7 +30,9 @@ double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
     p = A;
     for (i = 0; i < N; i++) {
         for (j = 0; j < M; j++) {
-            if(!fscanf(fp, "%lf", p++)) {
+            if(fread(p++, sizeof(double), 1, fp) != 1) {
+            //if(!fscanf(fp, "%lf", p++)) {
+            //if(!fscanf(fp, "%lf", p++)) {
                 return NULL;
             }
         }
