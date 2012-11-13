@@ -45,7 +45,7 @@ do
         outfile="${out//\//_}_${i%in}out"
         serialfile="serial_${i%in}out"
         mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile}
-        ${diffpath} ${serialfile} ${outfile}
+#        ${diffpath} ${serialfile} ${outfile}
     done
 done
 
@@ -61,6 +61,6 @@ do
         outfile="${out//\//_}_${i%in}out"
         serialfile="serial_${i%in}out"
         ${j}/main.exec ${i} ${outfile}
-        ${diffpath} ${serialfile} ${outfile}
+#        ${diffpath} ${serialfile} ${outfile}
     done
 done
