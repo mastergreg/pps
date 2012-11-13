@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Mon 12 Nov 2012 08:54:16 PM EET
+* Last Modified : Tue 13 Nov 2012 10:08:51 AM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -26,9 +26,9 @@ int main(int argc, char **argv)
     /*
      * Allocate me!
      */
-    fp = fopen(argv[1], "r");
+    fp = fopen(argv[1], "rb");
     if(fp) {
-        if(!fscanf(fp, "%d\n", &N)) {
+        if(fread(&N, sizeof(int), 1, fp) != 1) {
             exit(EXIT_FAILURE);
         }
     }
@@ -42,26 +42,26 @@ int main(int argc, char **argv)
 
 
     int chunk = N/omp_get_max_threads();
-    double divisor;
-    double *A2;
+    double *Ai;
+    double *Ak;
     chunk = 1;
 
     sec = timer();
 
     for (k = 0; k < N - 1; k++)
     {
-#pragma omp parallel private(divisor)
+#pragma omp parallel private(Ak)
         {
-            divisor = A[k * N + k];
-#pragma omp for schedule(static, chunk) private(l,j, A2)
+            Ak = &A[k * N];
+#pragma omp for schedule(static, chunk) private(l,j, Ai)
             for (i = k + 1; i < N; i++)
             {
-                A2 = &A[i * N];
+                Ai = &A[i * N];
 
-                l = A2[k] / divisor;
+                l = Ai[k] / Ak[k];
                 for (j = k; j < N; j++)
                 {
-                    A2[j] = A2[j] - l * A[k * N + j];
+                    Ai[j] = Ai[j] - l * Ak[j];
                 }
             }
         }
