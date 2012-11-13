@@ -6,9 +6,10 @@ genpathpath=../generator/generate.exec
 diffpath=../diffpy/diff.py
 serialpath=../serial/main.exec
 #testfilesSizes=(5 15 42 100 1000)
-testfilesSizes=(100 1000 2000)
+testfilesSizes=(1000)
 MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
-OPENMPtestfolders=( ../openmp)
+#MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid)
+OPENMPtestfolders=(../openmp)
 NTHREADS=2
 
 nr=${#testfiles[@]}
