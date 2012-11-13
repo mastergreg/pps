@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Thu 08 Nov 2012 09:50:55 AM EET
+* Last Modified : Tue 13 Nov 2012 10:08:55 AM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -24,9 +24,9 @@ int main(int argc, char **argv)
     /*
      * Allocate me!
      */
-    fp = fopen(argv[1], "r");
+    fp = fopen(argv[1], "rb");
     if(fp) {
-        if(!fscanf(fp, "%d\n", &N)) {
+        if(fread(&N, sizeof(int), 1, fp) != 1) {
             exit(EXIT_FAILURE);
         }
     }
