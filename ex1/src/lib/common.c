@@ -95,18 +95,22 @@ Matrix *get_matrix(char *filename)
     Matrix *mat;
 
     if(NULL == (mat = malloc(sizeof(struct Matrix)))) {
+        debug("Could not allocate empty Matrix\n");
         exit(EXIT_FAILURE);
     }
     fp = fopen(filename, "rb");
     if(fp) {
         if(fread(&N, sizeof(int), 1, fp) != 1) {
+            debug("Could not read N from file\n");
             exit(EXIT_FAILURE);
         }
     }
     if((A = allocate_2d(N, N)) == NULL) {
+        debug("Could not allocate enough contiguous memory\n");
         exit(EXIT_FAILURE);
     }
     if(parse_matrix_2d(fp, N, N, A) == NULL) {
+        debug("Could not parse matrix\n");
         exit(EXIT_FAILURE);
     }
     fclose(fp);
