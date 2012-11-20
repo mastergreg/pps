@@ -3,7 +3,7 @@ set -e
 
 
 NTHREADS=3
-FILENAME=mat5.txt
+FILENAME=mat1000.in
 OUTFILE="${FILENAME%txt}out"
 
 

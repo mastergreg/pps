@@ -84,6 +84,7 @@ void distribute_rows(int max_rank, int N, int *counts)
 int main(int argc, char **argv)
 {
     int k;
+    int j;
     int N;
     int rank;
     int max_rank;
