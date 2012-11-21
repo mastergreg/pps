@@ -17,16 +17,36 @@
 #include "common.h"
 
 
-int get_bcaster(int *ccounts, int bcaster) 
-{
-    if (ccounts[bcaster]-- > 0 ){
-        return bcaster;
-    } 
-    else {
-        return bcaster+1;
+/* Returns the index at which the k-th row is located for a given rank */
+int get_short_index(int k, int rank, int *displs, int *counts) {
+    int result;
+    if (k > (displs[rank] + counts[rank])){
+        result = -1;
+    } else {
+        if (k >= displs[rank]) {
+            result = k - displs[rank]; 
+        } else {
+            result = 0;
+        }
     }
+    debug("for k: %d and rank: %d, i think the index is %d\n",k,rank,result);
+    return result;
 }
 
+/* Returns the rank of the broadcaster given the previous one */
+int get_bcaster(int *ccounts, int bcaster) 
+{
+    int result,i;
+    if (ccounts[bcaster]-- > 0 ){
+        result =  bcaster;
+    } 
+    else {
+        result = bcaster+1;
+    }
+    return result;
+}
+
+/* Returns the displacements table in rows */
 void get_displs(int *counts, int max_rank, int *displs) 
 {
     int j;
@@ -36,23 +56,19 @@ void get_displs(int *counts, int max_rank, int *displs)
     }
 }
 
-int max(int a, int b) 
+/*      performs the calculations for a given set of rows.
+ *      Each thread is assigned a continuous quantity of rows
+ */
+void process_rows(int k, int rank, int N, int *counts, int *displs, double *Ap, double *Ak)
 {
-    return a > b ? a : b;
-}
 
-void process_rows(int k, int rank, int N, int block_rows, int *displs, double *Ap)
-{
-    /*      performs the calculations for a given set of rows.
-     *      Each thread is assigned a continuous quantity of rows
-     */
     int j, w;
     double l;
-    int start = max(displs[rank], k+1);
-    for (w = start; w < (start + block_rows) && w < N; w++){
-        l = A[(w * N) + k] / A[(k * N) + k];
+    int start = get_short_index(k, rank, displs, counts);
+    for (w = start; w < (start + counts[rank]) && w < N && w >= 0; w++){
+        l = Ap[(w * N) + k] / Ak[k];
         for (j = k; j < N; j++) {
-            A[(w * N) + j] = A[(w * N) + j] - l * A[(k * N) + j];
+            Ap[(w * N) + j] = Ap[(w * N) + j] - l * Ak[j];
         }
     }
 }
@@ -80,18 +96,15 @@ void distribute_rows(int max_rank, int N, int *counts)
             counts[k] = 1;
         }
     }
-
 }
-
 
 int main(int argc, char **argv)
 {
     int k;
-    int j;
     int N;
+    int i;
     int rank;
     int max_rank;
-    int block_rows;
     int workload;
     int *counts;
     int *displs;
@@ -101,7 +114,9 @@ int main(int argc, char **argv)
     double sec;
     double *A = NULL;
     double *Ap = NULL;
+    double *Ak = NULL;
     FILE *fp = NULL;
+    MPI_Datatype row_type;
 
     usage(argc, argv);
 
@@ -109,45 +124,55 @@ int main(int argc, char **argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
+    /* Root gets the matrix */
     if (rank == 0){
         Matrix *mat = get_matrix(argv[1]);
         N = mat->N;
         A = mat->A;
     }
+    /* And broadcasts N */
+    //( cause we dont want others to know about A)
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    debug("%d\n",N);
 
-    // Max number of rows for each thread 
-    workload = (N / max_rank) + 1;
+    workload = (N / max_rank) + 1; // Max number of rows for each thread
 
-    Ap = malloc(workload * sizeof(double));
+    if (rank == 0){
+        debug("A: \n");
+        fprint_matrix_2d(stdout, N, N, A);
+    }
+
+    /* Allocations */
+    Ak = malloc(N * sizeof(double));
+    Ap = malloc(workload * N * sizeof(double));
     counts = malloc(max_rank * sizeof(int));
     displs = malloc(max_rank * sizeof(int));
     ccounts = malloc(max_rank * sizeof(int));
 
+    /* Initializations */
     distribute_rows(max_rank, N, counts);
     get_displs(counts, max_rank, displs);
     memcpy(ccounts, counts, max_rank * sizeof(int));
 
-    if (rank == 0){
-        printf("A: ");
-        for (j=0;j<N;j++){
-            printf("%lf ",A[j]);
-        }
-        printf("\n");
-    }
-    /* Scatter the table to Ap (works) */
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Scatterv(A, counts, displs, MPI_DOUBLE, 
-            Ap, workload, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    /* Scatter the table to each thread's Ap */
+    MPI_Type_vector(1, N, N, MPI_DOUBLE, &row_type);
+    MPI_Type_commit(&row_type);
 
-#if main_DEBUG
-    printf("CCounts is :\n");
-    for (j = 0; j < max_rank ; j++) {
-        printf("%d\n", ccounts[j]);
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Scatterv(A, counts, displs, row_type, 
+            Ap, workload, row_type, 0, MPI_COMM_WORLD);
+
+
+    if (rank == 0){
+        debug("first one's matrix\n");
+        fprint_matrix_2d(stdout, workload, N, Ap);
     }
-#endif
+    if (rank == max_rank - 1){
+        debug("last one's matrix\n");
+        fprint_matrix_2d(stdout, workload, N, Ap);
+    }
+
+    MPI_Type_free(&row_type);
 
     /* Start Timing */
     MPI_Barrier(MPI_COMM_WORLD);
@@ -155,16 +180,29 @@ int main(int argc, char **argv)
         sec = timer();
     }
 
-    for (k = 0; k < N - 1; k++) {
-        block_rows = counts[rank];
+    for (k = 0; k < N ; k++) {
+        /* Find who owns the k-th row */
         bcaster = get_bcaster(ccounts, bcaster);
-
+        debug("k: %d bcaster is %d \n", k,bcaster);
+        
+        /* The broadcaster puts his k-th row in the Ak buffer */
+        if (rank == bcaster){
+            i = get_short_index(k, rank, displs, counts);
+            memcpy(Ak, &Ap[i*N], N * sizeof(double));
+        }
+        /* Everyone receives the k-th row */
         MPI_Barrier(MPI_COMM_WORLD);
-        debug(" broadcaster is %d\n", bcaster);
-        MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Bcast(&A[k * N], N, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+        MPI_Bcast(Ak, N, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-        process_rows(k, rank, N, block_rows, displs, Ap);
+        /* Root collects all the broadcasts to fill the final matrix */
+        if ((rank == 0) && (bcaster != 0)){
+            memcpy(&A[k * N], Ak, N * sizeof(double));
+        }
+
+        /* And off you go to work. Last loop is reserved for syncing root */
+        if (k < (N - 1)){
+            process_rows(k, rank, N, counts, displs, Ak, Ap);
+        }
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -172,8 +210,8 @@ int main(int argc, char **argv)
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
-    ret = MPI_Finalize();
 
+    ret = MPI_Finalize();
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
     }
@@ -181,12 +219,15 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
-    if(rank == (max_rank - 1)) {
+    if(rank == 0) {
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
         fclose(fp);
+        free(A);
     }
-    free(A);
+    free(Ap);
+    free(Ak);
+    free(displs);
     free(counts);
     free(ccounts);
 
