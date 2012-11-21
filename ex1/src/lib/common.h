@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Tue 13 Nov 2012 12:05:36 PM EET
+ * Last Modified : Thu 22 Nov 2012 01:22:41 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -31,6 +31,7 @@ struct Matrix {
 typedef struct Matrix Matrix;
 
 Matrix *get_matrix(char *filename);
+double **appoint_2D(double *A, int N, int M);
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
 double timer(void);

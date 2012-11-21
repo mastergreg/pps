@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Tue 13 Nov 2012 12:05:06 PM EET
+ * Last Modified : Thu 22 Nov 2012 01:22:34 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -117,6 +117,20 @@ Matrix *get_matrix(char *filename)
     mat->N = N;
     mat->A = A;
     return mat;
+}
+
+double **appoint_2D(double *A, int N, int M)
+{
+    int i;
+    double **A2D = (double **) malloc(N*sizeof(double *));
+    /* sanity check */
+    if(NULL == A2D) {
+        return NULL;
+    }
+    for(i = 0; i < N; i++) {
+        A2D[i] = &A[i*M];
+    }
+    return A2D;
 }
 
 #ifdef USE_MPI /* USE_MPI */
