@@ -41,11 +41,10 @@ int max(int a, int b)
     return a > b ? a : b;
 }
 
-void process_rows(int k, int rank, int N, int max_rank, int block_rows, int *displs, double *A)
+void process_rows(int k, int rank, int N, int block_rows, int *displs, double *Ap)
 {
     /*      performs the calculations for a given set of rows.
-     *      In this hybrid version each thread is assigned blocks of 
-     *      continuous rows in a cyclic manner.
+     *      Each thread is assigned a continuous quantity of rows
      */
     int j, w;
     double l;
@@ -88,10 +87,12 @@ void distribute_rows(int max_rank, int N, int *counts)
 int main(int argc, char **argv)
 {
     int k;
+    int j;
     int N;
     int rank;
     int max_rank;
     int block_rows;
+    int workload;
     int *counts;
     int *displs;
     int *ccounts;
@@ -99,21 +100,28 @@ int main(int argc, char **argv)
     int bcaster = 0;
     double sec;
     double *A = NULL;
+    double *Ap = NULL;
     FILE *fp = NULL;
 
-
     usage(argc, argv);
-
-    Matrix *mat = get_matrix(argv[1]);
-    N = mat->N;
-    A = mat->A;
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
+    if (rank == 0){
+        Matrix *mat = get_matrix(argv[1]);
+        N = mat->N;
+        A = mat->A;
+    }
     MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    debug("%d\n",N);
 
+    // Max number of rows for each thread 
+    workload = (N / max_rank) + 1;
+
+    Ap = malloc(workload * sizeof(double));
     counts = malloc(max_rank * sizeof(int));
     displs = malloc(max_rank * sizeof(int));
     ccounts = malloc(max_rank * sizeof(int));
@@ -122,6 +130,18 @@ int main(int argc, char **argv)
     get_displs(counts, max_rank, displs);
     memcpy(ccounts, counts, max_rank * sizeof(int));
 
+    if (rank == 0){
+        printf("A: ");
+        for (j=0;j<N;j++){
+            printf("%lf ",A[j]);
+        }
+        printf("\n");
+    }
+    /* Scatter the table to Ap (works) */
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Scatterv(A, counts, displs, MPI_DOUBLE, 
+            Ap, workload, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
 #if main_DEBUG
     printf("CCounts is :\n");
     for (j = 0; j < max_rank ; j++) {
@@ -129,13 +149,11 @@ int main(int argc, char **argv)
     }
 #endif
 
-    MPI_Barrier(MPI_COMM_WORLD);
-
     /* Start Timing */
+    MPI_Barrier(MPI_COMM_WORLD);
     if(rank == 0) {
         sec = timer();
     }
-
 
     for (k = 0; k < N - 1; k++) {
         block_rows = counts[rank];
@@ -146,7 +164,7 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&A[k * N], N, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-        process_rows(k, rank, N, max_rank, block_rows, displs, A);
+        process_rows(k, rank, N, block_rows, displs, Ap);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
