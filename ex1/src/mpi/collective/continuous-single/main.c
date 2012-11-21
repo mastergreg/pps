@@ -19,10 +19,8 @@
 
 /* Returns the index at which the k-th row is located for a given rank */
 int get_short_index(int k, int rank, int *displs, int *counts) {
-    int result;
-    if (k > (displs[rank] + counts[rank])){
-        result = -1;
-    } else {
+    int result = -1;
+    if (k <= (displs[rank] + counts[rank] - 1)){
         if (k >= displs[rank]) {
             result = k - displs[rank]; 
         } else {
@@ -36,13 +34,14 @@ int get_short_index(int k, int rank, int *displs, int *counts) {
 /* Returns the rank of the broadcaster given the previous one */
 int get_bcaster(int *ccounts, int bcaster) 
 {
-    int result,i;
-    if (ccounts[bcaster]-- > 0 ){
+    int result;
+    if (ccounts[bcaster] > 0 ){
         result =  bcaster;
     } 
     else {
         result = bcaster+1;
     }
+    ccounts[result]--;
     return result;
 }
 
@@ -61,7 +60,6 @@ void get_displs(int *counts, int max_rank, int *displs)
  */
 void process_rows(int k, int rank, int N, int *counts, int *displs, double *Ap, double *Ak)
 {
-
     int j, w;
     double l;
     int start = get_short_index(k, rank, displs, counts);
@@ -71,6 +69,7 @@ void process_rows(int k, int rank, int N, int *counts, int *displs, double *Ap, 
             Ap[(w * N) + j] = Ap[(w * N) + j] - l * Ak[j];
         }
     }
+    
 }
 
 /*  distributes the rows in a continuous fashion */
@@ -161,20 +160,9 @@ int main(int argc, char **argv)
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Scatterv(A, counts, displs, row_type, 
             Ap, workload, row_type, 0, MPI_COMM_WORLD);
-
-
-    if (rank == 0){
-        debug("first one's matrix\n");
-        fprint_matrix_2d(stdout, workload, N, Ap);
-    }
-    if (rank == max_rank - 1){
-        debug("last one's matrix\n");
-        fprint_matrix_2d(stdout, workload, N, Ap);
-    }
-
     MPI_Type_free(&row_type);
 
-    /* Start Timing */
+        /* Start Timing */
     MPI_Barrier(MPI_COMM_WORLD);
     if(rank == 0) {
         sec = timer();
@@ -183,8 +171,7 @@ int main(int argc, char **argv)
     for (k = 0; k < N ; k++) {
         /* Find who owns the k-th row */
         bcaster = get_bcaster(ccounts, bcaster);
-        debug("k: %d bcaster is %d \n", k,bcaster);
-        
+            
         /* The broadcaster puts his k-th row in the Ak buffer */
         if (rank == bcaster){
             i = get_short_index(k, rank, displs, counts);
@@ -195,13 +182,13 @@ int main(int argc, char **argv)
         MPI_Bcast(Ak, N, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
         /* Root collects all the broadcasts to fill the final matrix */
-        if ((rank == 0) && (bcaster != 0)){
+        if (rank == 0){
             memcpy(&A[k * N], Ak, N * sizeof(double));
         }
 
         /* And off you go to work. Last loop is reserved for syncing root */
         if (k < (N - 1)){
-            process_rows(k, rank, N, counts, displs, Ak, Ap);
+            process_rows(k, rank, N, counts, displs, Ap, Ak);
         }
     }
 
