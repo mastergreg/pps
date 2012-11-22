@@ -55,13 +55,13 @@ int main(int argc, char **argv)
     FILE *fp = NULL;
     usage(argc, argv);
 
-    Matrix *mat = get_matrix(argv[1]);
-    N = mat->N;
-    A = mat->A;
-
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
+
+    Matrix *mat = get_matrix(argv[1], max_rank);
+    N = mat->N;
+    A = mat->A;
 
     MPI_Barrier(MPI_COMM_WORLD);
 

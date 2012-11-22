@@ -61,7 +61,7 @@ void distribute_rows(int max_rank, int N, int *counts)
     int j, rows;
     int workload = (N / max_rank) + 1; 
 
-    for (rows = N, j=0; j < max_rank-1; j++, rows-=workload) {
+    for (rows = N, j=0; j < max_rank; j++ ,rows-=workload) {
         if (rows > workload) {
             counts[j] = workload;
         } else {
@@ -80,7 +80,6 @@ int main(int argc, char **argv)
     int workload;
     int *counts;
     int *displs;
-    int *ccounts;
     int ret = 0;
     int bcaster = 0;
     double sec;

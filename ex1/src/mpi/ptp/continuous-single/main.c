@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 
     /* Root gets the matrix */
     if (rank == 0){
-        Matrix *mat = get_matrix(argv[1]);
+        Matrix *mat = get_matrix(argv[1], max_rank);
         N = mat->N;
         A = mat->A;
         A2D = appoint_2D(A, N, N);

@@ -2,7 +2,7 @@
 set -e
 
 
-FILENAME=mat_big.txt
+FILENAME=mat_5.txt
 
 
 if [[ 'x'$1 == 'x' ]]; 
@@ -22,7 +22,7 @@ else
         then
             make -B DEBUG=y
             echo "Running with debug"
-            ./main.exec ${FILENAME}
+            ./main.exec ${FILENAME} mat_5.out
         else
             echo "Bad arguements, no run, for debug ./run.sh d"
         fi
