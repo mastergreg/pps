@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     /*
      * Allocate me!
      */
-    Matrix *mat = get_matrix(argv[1]);
+    Matrix *mat = get_matrix(argv[1],0);
     N = mat->N;
     A = mat->A;
     fp = fopen(argv[1], "rb");

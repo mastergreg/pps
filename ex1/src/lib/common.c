@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 22 Nov 2012 01:22:34 AM EET
+ * Last Modified : Thu 22 Nov 2012 04:38:15 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -17,6 +17,11 @@ static double *allocate_2d(int N, int M)
     double *A;
     A = malloc(N * M * sizeof(double));
     return A;
+}
+
+static double *allocate_2d_with_padding(int N, int M, int max_rank)
+{
+    return allocate_2d(N+max_rank, M);
 }
 
 static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
@@ -87,7 +92,7 @@ void usage(int argc, char **argv)
     }
 }
 
-Matrix *get_matrix(char *filename)
+Matrix *get_matrix(char *filename, int max_rank)
 {
     FILE *fp;
     double *A;
@@ -105,7 +110,7 @@ Matrix *get_matrix(char *filename)
             exit(EXIT_FAILURE);
         }
     }
-    if((A = allocate_2d(N, N)) == NULL) {
+    if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
         debug("Could not allocate enough contiguous memory\n");
         exit(EXIT_FAILURE);
     }
