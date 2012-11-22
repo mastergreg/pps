@@ -163,6 +163,8 @@ int main(int argc, char **argv)
         /* Root collects all the broadcasts to fill the final matrix */
         if (rank == 0) {
             memcpy(A2D[k], Ak, N * sizeof(double));
+            printf("k: %d\n", k);
+            print_matrix_2d(1,N,Ak);
         }
 
         /* And off you go to work. */
@@ -183,6 +185,7 @@ int main(int argc, char **argv)
 
         /* Root collects all the broadcasts to fill the final matrix */
         if (rank == 0) {
+            printf("\nfinal double of the row: %lf\n", Ak[N-1]);
             memcpy(A2D[N-1], Ak, N * sizeof(double));
         }
     }
