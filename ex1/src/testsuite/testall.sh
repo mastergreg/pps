@@ -4,11 +4,12 @@ set -e
 
 genpathpath=../generator/generate.exec
 diffpath=../diffpy/diff.py
+#diffpath=echo
 serialpath=../serial/main.exec
-#testfilesSizes=(5 15 42 100 1000)
-testfilesSizes=(2000 5000)
-MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
-#MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid)
+testfilesSizes=(5 15 42 100 1000)
+#testfilesSizes=(5 15 42 100 500 1000 2000 5000)
+#MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
+MPItestfolders=(../mpi/collective/continuous-single)
 OPENMPtestfolders=(../openmp)
 NTHREADS=2
 for i in ${testfilesSizes[@]}
@@ -33,6 +34,7 @@ do
     ${serialpath} ${i} ${serialfile}
 done
 
+
 # Parallel execution using MPI
 echo "============ MPI EXECUTION =============="
 for j in ${MPItestfolders[@]}
@@ -45,7 +47,7 @@ do
         outfile="${out//\//_}_${i%in}out"
         serialfile="serial_${i%in}out"
         mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile}
-#        ${diffpath} ${serialfile} ${outfile}
+        ${diffpath} ${serialfile} ${outfile}
     done
 done
 
@@ -61,6 +63,6 @@ do
         outfile="${out//\//_}_${i%in}out"
         serialfile="serial_${i%in}out"
         ${j}/main.exec ${i} ${outfile}
-#        ${diffpath} ${serialfile} ${outfile}
+        ${diffpath} ${serialfile} ${outfile}
     done
 done

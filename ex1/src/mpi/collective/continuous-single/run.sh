@@ -2,8 +2,8 @@
 set -e
 
 
-NTHREADS=3
-FILENAME=mat1000.txt
+NTHREADS=2
+FILENAME=mat_15.in
 OUTFILE="${FILENAME%txt}out"
 
 
