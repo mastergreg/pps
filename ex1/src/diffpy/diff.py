@@ -4,7 +4,7 @@
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : diff.py
 # Creation Date : 06-11-2012
-# Last Modified : Thu 08 Nov 2012 10:15:15 AM EET
+# Last Modified : Fri 23 Nov 2012 08:27:02 PM EET
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -23,7 +23,7 @@ def parse(f):
 def diff(d1,d2):
     diffed = []
     for l1,l2 in zip(d1,d2):
-        diffed.append([x-y for (x,y) in zip(l1, l2)])
+        diffed.append([abs(x-y) for (x,y) in zip(l1, l2)])
     return diffed
 def main():
     PASS_COLOR="green"
@@ -34,7 +34,7 @@ def main():
         f1 = open(argv[1], 'r')
         d1 = parse(f1)
         f1.close()
-        f2 = open(argv[1], 'r')
+        f2 = open(argv[2], 'r')
         d2 = parse(f2)
         f2.close()
 
