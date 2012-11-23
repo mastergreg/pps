@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Tue 13 Nov 2012 12:05:06 PM EET
+ * Last Modified : Thu 22 Nov 2012 04:38:15 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -17,6 +17,11 @@ static double *allocate_2d(int N, int M)
     double *A;
     A = malloc(N * M * sizeof(double));
     return A;
+}
+
+static double *allocate_2d_with_padding(int N, int M, int max_rank)
+{
+    return allocate_2d(N+max_rank, M);
 }
 
 static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
@@ -87,7 +92,7 @@ void usage(int argc, char **argv)
     }
 }
 
-Matrix *get_matrix(char *filename)
+Matrix *get_matrix(char *filename, int max_rank)
 {
     FILE *fp;
     double *A;
@@ -95,24 +100,42 @@ Matrix *get_matrix(char *filename)
     Matrix *mat;
 
     if(NULL == (mat = malloc(sizeof(struct Matrix)))) {
+        debug("Could not allocate empty Matrix\n");
         exit(EXIT_FAILURE);
     }
     fp = fopen(filename, "rb");
     if(fp) {
         if(fread(&N, sizeof(int), 1, fp) != 1) {
+            debug("Could not read N from file\n");
             exit(EXIT_FAILURE);
         }
     }
-    if((A = allocate_2d(N, N)) == NULL) {
+    if((A = allocate_2d_with_padding(N, N, max_rank)) == NULL) {
+        debug("Could not allocate enough contiguous memory\n");
         exit(EXIT_FAILURE);
     }
     if(parse_matrix_2d(fp, N, N, A) == NULL) {
+        debug("Could not parse matrix\n");
         exit(EXIT_FAILURE);
     }
     fclose(fp);
     mat->N = N;
     mat->A = A;
     return mat;
+}
+
+double **appoint_2D(double *A, int N, int M)
+{
+    int i;
+    double **A2D = (double **) malloc(N*sizeof(double *));
+    /* sanity check */
+    if(NULL == A2D) {
+        return NULL;
+    }
+    for(i = 0; i < N; i++) {
+        A2D[i] = &A[i*M];
+    }
+    return A2D;
 }
 
 #ifdef USE_MPI /* USE_MPI */

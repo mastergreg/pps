@@ -1,4 +1,6 @@
 all:
+	make -B -C ../generator
+	make -B -C ../serial
 	make -B -C ../mpi/ptp/continuous-single 
 	make -B -C ../mpi/ptp/hybrid 
 	make -B -C ../mpi/collective/hybrid

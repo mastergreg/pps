@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Tue 13 Nov 2012 12:05:36 PM EET
+ * Last Modified : Thu 22 Nov 2012 05:59:35 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -20,6 +20,12 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+
+
+
+#define MIN(a,b) ((a) < (b)) ? (a) : (b)
+#define MAX(a,b)  ((a) > (b)) ? (a) : (b)
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -30,7 +36,8 @@ struct Matrix {
 
 typedef struct Matrix Matrix;
 
-Matrix *get_matrix(char *filename);
+Matrix *get_matrix(char *filename, int max_rank);
+double **appoint_2D(double *A, int N, int M);
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
 double timer(void);
