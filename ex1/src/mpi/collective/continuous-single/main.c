@@ -47,23 +47,10 @@ void process_rows(int k, int rank, int N, int workload, double **Ap2D, double *A
         start = workload;
     }
 
-    if (rank == 1 ) {
-        printf("rank: %d k: %d\n", rank, k);
-    }
-
     for (w = start; w < workload; w++) {
-        if (rank == 1 ) {
-            printf("before %d-th row\n", w);
-            print_matrix_2d(1,N,Ap2D[w]);
-        }
         l = Ap2D[w][k] / Ak[k];
         for (j = k; j < N; j++) {
             Ap2D[w][j] = Ap2D[w][j] - l * Ak[j];
-        }
-
-        if (rank == 1 ) {
-            printf("after %d-th row\n", w);
-            print_matrix_2d(1,N,Ap2D[w]);
         }
     }
 }
@@ -173,8 +160,6 @@ int main(int argc, char **argv)
 
         /* Root collects all the broadcasts to fill the final matrix */
         if (rank == 0) {
-            printf("final: \n", k);
-            print_matrix_2d(1,N-k,&Ak[k]);
             memcpy(A2D[N-1], Ak, N * sizeof(double));
         }
     }
