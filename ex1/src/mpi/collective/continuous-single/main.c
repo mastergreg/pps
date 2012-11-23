@@ -131,11 +131,6 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-        if (rank == 0) {
-            debug("k: %d and the rows broadcasted was:\n", k);
-            print_matrix_2d(1,N-k,&Ak[k]);
-        }
-
         /* Root collects all the broadcasts to fill the final matrix */
         if (rank == 0) {
             memcpy(A2D[k], Ak, N * sizeof(double));
@@ -146,7 +141,7 @@ int main(int argc, char **argv)
     }
 
     { /* This will collect the final data we need to root */
-        /* Find who owns the k-th row */
+        /* Find who owns the last row */
         bcaster = max_rank - 1;
             
         /* The broadcaster puts his k-th row in the Ak buffer */
@@ -158,12 +153,13 @@ int main(int argc, char **argv)
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&Ak[k], 1, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-        /* Root collects all the broadcasts to fill the final matrix */
+        /* Root collects the broadcast to fill the final matrix */
         if (rank == 0) {
             memcpy(A2D[N-1], Ak, N * sizeof(double));
         }
     }
 
+    /* Stop Timing */
     MPI_Barrier(MPI_COMM_WORLD);
     if(rank == 0) {
         sec = timer();
@@ -178,6 +174,7 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
+    /* Format and output solved matrix */
     if(rank == 0) {
         upper_triangularize(N, A2D);
         fp = fopen(argv[2], "w");
