@@ -109,7 +109,7 @@ int main(int argc, char **argv)
     MPI_Scatter(A, workload * N, MPI_DOUBLE, \
             Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
-    Ap2D = appoint_2D(Ap, N, N);
+    Ap2D = appoint_2D(Ap, workload, N);
 
     /* Start Timing */
     MPI_Barrier(MPI_COMM_WORLD);
