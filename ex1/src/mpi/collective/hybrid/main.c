@@ -18,6 +18,55 @@
 
 #define BLOCK_ROWS 1
 
+/* Sort a pseudo-2D array cyclically by rows */
+void scatter_sort(int max_rank, int N, double *A) {
+    /* creates a temporary matrix to hold the distrubution *
+    *  and an array of pointers to each thread's current head */
+    int i, j;
+    double ***T; // T[max_rank][workload][N]
+    int *head;  // head[max_rank]
+    int owner;
+    int cur_head;
+    int cur_index;
+    int workload = (N / max_rank) + 1;
+    debug("Threads: %d\n", max_rank);
+    debug("Max Work per Thread: %d\n", workload);
+
+    head = malloc(max_rank * sizeof(int));
+    T = (double ***) malloc(max_rank * sizeof(double **));
+
+    /* Initializations */
+    for (i=0; i < max_rank; i++) {
+        T[i] = (double **) malloc(workload * sizeof(double *));
+        for (j=0; j < workload; j++) {
+            T[i][j] = (double *) malloc(N * sizeof(double));
+        }
+    }
+    for (i=0; i < max_rank; i++) {
+        head[i] = 0; 
+    }
+
+    /* Distribute the rows to Temp cyclically */
+    for (i=0; i < N; i++) {
+        owner = i % max_rank;
+        memcpy(T[owner][head[owner]++], &A[i * N], N * sizeof(double));
+
+    }
+    printf("After distr\n");
+
+    /* Gather everything back to the original array */
+    /* This time, they're continuous */
+    cur_index = 0;
+    for (i=0; i < max_rank; i++) {
+        cur_head = 0;
+        while (cur_head < head[i]) {
+            memcpy(&A[cur_index * N], T[i][cur_head++], N * sizeof(double));
+            cur_index += 1;
+        }
+    }
+    free(T);
+    free(head);
+}
 
 void process_rows(int k, int rank, int N, int max_rank, double *A)
 {
@@ -48,29 +97,43 @@ int main(int argc, char **argv)
     int rank;
     int max_rank;
     int last_rank;
+    int workload;
+    int ret = 0;
     double *A = NULL;
     double sec = 0;
-
-    int ret = 0;
     FILE *fp = NULL;
+
     usage(argc, argv);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
-    Matrix *mat = get_matrix(argv[1], max_rank);
-    N = mat->N;
-    A = mat->A;
+    /* Root gets the matrix */
+    if (rank == 0) {
+        Matrix *mat = get_matrix(argv[1], max_rank);
+        N = mat->N;
+        A = mat->A;
+        scatter_sort(max_rank, N, A); 
+    }
+    /* And broadcasts N */
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+    workload = (N / max_rank) + 1;
+
+    /* Allocations */
+    Ak = malloc(N * sizeof(double));
+    Ap = malloc(workload * N * sizeof(double));
 
     MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Scatterv(A, workload * N, MPI_DOUBLE, \
+            Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    Ap2D = appoint_2D(Ap, workload, N);
 
-    /* Everyone allocates the whole table */
-    debug("Max rank = %d\n", max_rank);
-    MPI_Barrier(MPI_COMM_WORLD);
 
-    last_rank = (N - 1) % max_rank;
- 
+
+    /* Start Timing */
     if(rank == 0) {
         sec = timer();
     }
