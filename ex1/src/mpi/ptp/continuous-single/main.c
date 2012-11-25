@@ -125,7 +125,7 @@ int main(int argc, char **argv)
         /* The broadcaster puts his k-th row in the Ak buffer */
         if (rank == bcaster) {
             i = k % workload;
-            memcpy(Ak, Ap2D[i], N * sizeof(double));
+            memcpy(&Ak[k], &Ap2D[i][k], (N-k) * sizeof(double));
         }
 
         /* Everyone receives the k-th row */
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 
         /* Root collects all the broadcasts to fill the final matrix */
         if (rank == 0) {
-            memcpy(A2D[k], Ak, N * sizeof(double));
+            memcpy(&A2D[k][k], &Ak[k], (N-k) * sizeof(double));
         }
 
         /* And off you go to work. */
@@ -147,17 +147,12 @@ int main(int argc, char **argv)
             
         /* The broadcaster puts his k-th row in the Ak buffer */
         if (rank == bcaster){
-            memcpy(Ak, Ap2D[k % workload], N * sizeof(double));
+            memcpy(&Ak[k], &Ap2D[k % workload][k], sizeof(double));
         }
 
         /* Everyone receives the last double of the last row */
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&Ak[k], 1, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
-
-        /* Root collects the broadcast to fill the final matrix */
-        if (rank == 0) {
-            memcpy(A2D[N-1], Ak, N * sizeof(double));
-        }
     }
 
     /* Stop Timing */
@@ -177,6 +172,7 @@ int main(int argc, char **argv)
 
     /* Format and output solved matrix */
     if(rank == 0) {
+        memcpy(&A2D[N-1][k], &Ak[k], sizeof(double));
         upper_triangularize(N, A2D);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
