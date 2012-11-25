@@ -18,6 +18,17 @@
 
 #define BLOCK_ROWS 1
 
+/* Turns a 2D matrix to upper triangular */
+void upper_triangularize(int N, double **Ap2D)
+{
+    int i,j;
+    for (i=1; i < N; i++) {
+        for (j=0; j < i; j++) {
+            Ap2D[i][j] = 0;
+        }
+    }
+}
+
 /* Sort a pseudo-2D array cyclically by rows */
 void scatter_sort(int max_rank, int N, double *A) {
     /* creates a temporary matrix to hold the distrubution *
@@ -29,8 +40,6 @@ void scatter_sort(int max_rank, int N, double *A) {
     int cur_head;
     int cur_index;
     int workload = (N / max_rank) + 1;
-    debug("Threads: %d\n", max_rank);
-    debug("Max Work per Thread: %d\n", workload);
 
     head = malloc(max_rank * sizeof(int));
     T = (double ***) malloc(max_rank * sizeof(double **));
@@ -52,7 +61,6 @@ void scatter_sort(int max_rank, int N, double *A) {
         memcpy(T[owner][head[owner]++], &A[i * N], N * sizeof(double));
 
     }
-    printf("After distr\n");
 
     /* Gather everything back to the original array */
     /* This time, they're continuous */
@@ -68,24 +76,61 @@ void scatter_sort(int max_rank, int N, double *A) {
     free(head);
 }
 
-void process_rows(int k, int rank, int N, int max_rank, double *A)
+/* Returns the displacements table in rows */
+void get_displs(int *counts, int max_rank, int *displs) 
+{
+    int j;
+    displs[0] = 0;
+    for (j = 1; j < max_rank ; j++) {
+        displs[j] = displs[j - 1] + counts[j - 1];
+    }
+}
+
+/*  distributes the rows in a continuous fashion */
+void distribute_rows(int max_rank, int N, int *counts) 
+{
+    int j, k;
+    int rows = N;
+
+    /* Initialize counts */
+    for (j = 0; j < max_rank ; j++) {
+        counts[j] = (rows / max_rank);
+    }
+
+    /* Distribute the indivisible leftover */
+    if (rows / max_rank != 0) {
+        j = rows % max_rank;    
+        for (k = 0; k < max_rank && j > 0; k++, j--) {
+            counts[k] += 1;
+        }
+    } 
+    else {
+        for (k = 0; k < max_rank; k++) {
+            counts[k] = 1;
+        }
+    }
+}
+
+void process_rows(int k, int rank, int N, int workload, int max_rank, \
+        double **Ap2D, double *Ak)
 {
     /*      performs the calculations for a given set of rows.
      *      In this hybrid version each thread is assigned blocks of 
      *      continuous rows in a cyclic manner.
      */
-    int i, j, w;
+    int j, w;
     double l;
-    /* For every cyclic repetition of a block */
-    for (i = (rank + ((BLOCK_ROWS * max_rank) * (k / (BLOCK_ROWS * max_rank)))); i < N ; i+=(max_rank * BLOCK_ROWS)) {
-        if (i > k) {
-            /* Calculate each continuous row in the block*/
-            for (w = i; w < (i + BLOCK_ROWS) && w < (N * N); w++){
-                l = A[(w * N) + k] / A[(k * N) + k];
-                for (j = k; j < N; j++) {
-                    A[(w * N) + j] = A[(w * N) + j] - l * A[(k* N) + j];
-                }
-            }
+    int start;
+
+    start = k / max_rank;
+    /* If you have broadcasted, dont do calculations for that row */
+    if (rank <= (k % max_rank)){
+        start++;
+    }
+    for (w = start; w < workload; w++) {
+        l = Ap2D[w][k] / Ak[k];
+        for (j = k; j < N; j++) {
+            Ap2D[w][j] = Ap2D[w][j] - l * Ak[j];
         }
     }
 }
@@ -93,15 +138,24 @@ void process_rows(int k, int rank, int N, int max_rank, double *A)
 int main(int argc, char **argv)
 {
     int k;
+    int i;
     int N;
     int rank;
     int max_rank;
-    int last_rank;
+    int bcaster;
     int workload;
+    int collect_index;
     int ret = 0;
+    int *counts;
+    int *displs;
     double *A = NULL;
+    double **A2D = NULL;
+    double *Ap = NULL;
+    double **Ap2D = NULL;
+    double *Ak = NULL;
     double sec = 0;
     FILE *fp = NULL;
+    MPI_Datatype row_type;
 
     usage(argc, argv);
 
@@ -115,7 +169,9 @@ int main(int argc, char **argv)
         N = mat->N;
         A = mat->A;
         scatter_sort(max_rank, N, A); 
+        A2D = appoint_2D(A, N, N);
     }
+
     /* And broadcasts N */
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -125,13 +181,22 @@ int main(int argc, char **argv)
     /* Allocations */
     Ak = malloc(N * sizeof(double));
     Ap = malloc(workload * N * sizeof(double));
+    counts = malloc(max_rank * sizeof(int));
+    displs = malloc(max_rank * sizeof(int));
 
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Scatterv(A, workload * N, MPI_DOUBLE, \
-            Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    /* Initializations */
+    distribute_rows(max_rank, N, counts);
+    get_displs(counts, max_rank, displs);
     Ap2D = appoint_2D(Ap, workload, N);
+    collect_index = 0;
 
-
+    /* Scatter the table to each thread's Ap */
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Type_vector(1, N, N, MPI_DOUBLE, &row_type);
+    MPI_Type_commit(&row_type);
+    MPI_Scatterv(A, counts, displs, row_type, \
+        Ap, workload, row_type, 0, MPI_COMM_WORLD);
+    MPI_Type_free(&row_type);
 
     /* Start Timing */
     if(rank == 0) {
@@ -139,11 +204,38 @@ int main(int argc, char **argv)
     }
 
     for (k = 0; k < N - 1; k++) {
-        /* The owner of the row for this k broadcasts it*/
-        MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Bcast(&A[k * N], N, MPI_DOUBLE, ((k % (max_rank * BLOCK_ROWS)) / BLOCK_ROWS), MPI_COMM_WORLD);
+        /* Find who owns the k-th row */
+        bcaster = k % max_rank;
 
-        process_rows(k, rank, N, max_rank, A);
+        /* The broadcaster puts what's needed of his k-th
+         * row in the Ak buffer */
+        if (rank == bcaster) {
+            i = k / max_rank;
+            memcpy(&Ak[k], &Ap2D[i][k], (N-k) * sizeof(double));
+        }
+
+        /* Everyone receives the k-th row */
+        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+
+        /* Root collects all the broadcasts to fill the final matrix */
+        if (rank == 0) {
+            memcpy(&A2D[collect_index++][k], &Ak[k], (N-k) * sizeof(double));
+        }
+
+        /* And off you go to work. */
+        process_rows(k, rank, N, workload, max_rank, Ap2D, Ak);
+    }
+
+    /* Broadcast the last row to root (TODO: we can change it to send, right?)*/
+    {
+        bcaster = k % max_rank;
+        if (rank == bcaster) {
+            i = k / max_rank;
+            memcpy(&Ak[k], &Ap2D[i][k], sizeof(double));
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -160,9 +252,9 @@ int main(int argc, char **argv)
         debug("%d NOT FINALIZED!!! with code: %d\n", rank, ret);
     }
 
-    /* Last process has table */
-    if (rank == last_rank) {
-        //print_matrix_2d(N, N, A);
+    if (rank == 0) {
+        memcpy(A2D[collect_index], Ak, N * sizeof(double));
+        upper_triangularize(N, A2D);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
         fclose(fp);
