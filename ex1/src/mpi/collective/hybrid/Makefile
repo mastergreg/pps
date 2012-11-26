@@ -1,6 +1,6 @@
 TARGET = main
 CC = mpicc
-CCFLAGS +=
+CCFLAGS += -DUSE_MPI
 OPT = 2
 
 ifndef DEBUG
@@ -15,6 +15,11 @@ else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
 	CCFLAGS += -O$(OPT) -Wall
 endif
+
+CCFLAGS+= -march=native -O3 -fexpensive-optimizations -funroll-loops \
+	 -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize \
+	 -ftree-vect-loop-version -ftree-vectorize
+
 
 CCFILES += $(wildcard *.c)
 OBJ +=  $(patsubst %.c,%.o,$(CCFILES))

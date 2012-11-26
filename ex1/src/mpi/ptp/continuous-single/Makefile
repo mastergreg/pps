@@ -16,6 +16,11 @@ else
 	CCFLAGS += -O$(OPT) -Wall
 endif
 
+CCFLAGS+= -march=native -O3 -fexpensive-optimizations -funroll-loops \
+	 -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize \
+	 -ftree-vect-loop-version -ftree-vectorize
+
+
 CCFILES += $(wildcard *.c)
 OBJ +=  $(patsubst %.c,%.o,$(CCFILES))
 DEPENDS += $(wildcard *.h) 

@@ -6,12 +6,11 @@ genpathpath=../generator/generate.exec
 diffpath=../diffpy/diff.py
 #diffpath=echo
 serialpath=../serial/main.exec
-testfilesSizes=(5 15 42 100 1000)
+testfilesSizes=(100 1000 3000 5000)
 #testfilesSizes=(5 15 42 100 500 1000 2000 5000)
-#MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
-MPItestfolders=(../mpi/collective/continuous-single)
+MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
 OPENMPtestfolders=(../openmp)
-NTHREADS=2
+NTHREADS=4
 for i in ${testfilesSizes[@]}
 do
     testfiles[${i}]="mat_${i}.in"
