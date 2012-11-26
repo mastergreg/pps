@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : generate.c
 * Creation Date : 13-11-2012
-* Last Modified : Tue 13 Nov 2012 10:04:08 AM EET
+* Last Modified : Fri 23 Nov 2012 08:57:41 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
     for(i = 0; i < msize; i++) {
         for(j = 0; j < msize; j++) {
-            value = random()/100.0;
+            while((value = random()/100.0) == 0) ;
             fwrite((void *) &value, sizeof(double), 1, fp);
         }
     }

@@ -21,7 +21,7 @@ CC = gcc
 CCFLAGS +=
 OPT = 2
 
-DEBUG = "y"
+DEBUG = "n"
 
 ifeq ($(DEBUG),"y")
 	CCFLAGS += -D$(TARGET)_DEBUG=1 -D$(TARGET)
