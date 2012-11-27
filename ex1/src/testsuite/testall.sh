@@ -4,7 +4,7 @@ set -e
 
 genpathpath=../generator/generate.exec
 diffpath=../diffpy/diff.py
-#diffpath=echo
+diffpath=echo
 serialpath=../serial/main.exec
 testfilesSizes=(100 1000 3000 5000)
 #testfilesSizes=(5 15 42 100 500 1000 2000 5000)

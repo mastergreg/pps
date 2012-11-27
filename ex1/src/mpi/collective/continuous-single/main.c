@@ -88,7 +88,6 @@ int main(int argc, char **argv)
         A2D = appoint_2D(A, N, N);
     }
     /* And broadcasts N */
-    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     workload = (N / max_rank) + 1; // Max number of rows for each thread
@@ -105,7 +104,6 @@ int main(int argc, char **argv)
     Ap = malloc(workload * N * sizeof(double));
 
     /* Scatter the table to each thread's Ap */
-    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Scatter(A, workload * N, MPI_DOUBLE, \
             Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
@@ -128,30 +126,10 @@ int main(int argc, char **argv)
         }
 
         /* Everyone receives the k-th row */
-        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
-
-        /* Root collects all the broadcasts to fill the final matrix */
-        if (rank == 0) {
-            memcpy(&A2D[k][k], &Ak[k], (N-k) * sizeof(double));
-        }
 
         /* And off you go to work. */
         process_rows(k, rank, N, workload, Ap2D, Ak);
-    }
-
-    { /* This will collect the final data we need to root */
-        /* Find who owns the last row */
-        bcaster = max_rank - 1;
-            
-        /* The broadcaster puts his k-th row in the Ak buffer */
-        if (rank == bcaster){
-            memcpy(&Ak[k], &Ap2D[k % workload][k], sizeof(double));
-        }
-
-        /* Everyone receives the last double of the last row */
-        MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Bcast(&Ak[k], 1, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
     }
 
     /* Stop Timing */
@@ -160,6 +138,26 @@ int main(int argc, char **argv)
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
+
+    //    /* Root collects all the broadcasts to fill the final matrix */
+    //    if (rank == 0) {
+    //        memcpy(&A2D[k][k], &Ak[k], (N-k) * sizeof(double));
+    //    }
+
+
+    //{ /* This will collect the final data we need to root */
+    //    /* Find who owns the last row */
+    //    bcaster = max_rank - 1;
+    //        
+    //    /* The broadcaster puts his k-th row in the Ak buffer */
+    //    if (rank == bcaster){
+    //        memcpy(&Ak[k], &Ap2D[k % workload][k], sizeof(double));
+    //    }
+
+    //    MPI_Barrier(MPI_COMM_WORLD);
+    //    MPI_Bcast(&Ak[k], 1, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+    //}
+
 
     ret = MPI_Finalize();
     if(ret == 0) {

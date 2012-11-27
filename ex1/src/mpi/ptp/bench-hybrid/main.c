@@ -74,7 +74,6 @@ int main(int argc, char **argv)
 
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     /* Everyone allocates the whole table */
@@ -90,7 +89,6 @@ int main(int argc, char **argv)
             }
         }
         /* And distributes the table */
-        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(A, N*N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
         last_rank = (N - 1) % max_rank;
@@ -101,7 +99,6 @@ int main(int argc, char **argv)
 
         for (k = 0; k < N - 1; k++) {
             /* The owner of the row for this k broadcasts it*/
-            MPI_Barrier(MPI_COMM_WORLD);
             MPI_Bcast(&A[k * N], N, MPI_DOUBLE, ((k % (max_rank * block_rows)) / block_rows), MPI_COMM_WORLD);
 
             process_rows(k, rank, N, max_rank, A, block_rows);

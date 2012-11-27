@@ -215,27 +215,11 @@ int main(int argc, char **argv)
         }
 
         /* Everyone receives the k-th row */
-        MPI_Barrier(MPI_COMM_WORLD);
         MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-        /* Root collects all the broadcasts to fill the final matrix */
-        if (rank == 0) {
-            memcpy(&A2D[collect_index++][k], &Ak[k], (N-k) * sizeof(double));
-        }
 
         /* And off you go to work. */
         process_rows(k, rank, N, workload, max_rank, Ap2D, Ak);
-    }
-
-    /* Broadcast the last row to root (TODO: we can change it to send, right?)*/
-    {
-        bcaster = k % max_rank;
-        if (rank == bcaster) {
-            i = k / max_rank;
-            memcpy(&Ak[k], &Ap2D[i][k], sizeof(double));
-        }
-        MPI_Barrier(MPI_COMM_WORLD);
-        MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -243,6 +227,9 @@ int main(int argc, char **argv)
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
+    /* Broadcast the last row to root (TODO: we can change it to send, right?)*/
+    /* Root collects all the broadcasts to fill the final matrix */
+
     ret = MPI_Finalize();
 
     if(ret == 0) {
