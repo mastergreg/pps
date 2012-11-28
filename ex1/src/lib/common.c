@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Wed 28 Nov 2012 02:55:35 AM EET
+ * Last Modified : Wed 28 Nov 2012 10:24:29 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -25,31 +25,39 @@ static double *allocate_2d_with_padding(int N, int M, int max_rank)
     return allocate_2d(N+max_rank, M);
 }
 
-static double *parse_matrix_2d_cyclic(FILE *fp, int N, int M, double *A, int max_rank)
+static double *parse_matrix_2d_cyclic(FILE *fp, unsigned int N, unsigned int M, double *A, int max_rank)
 {
     int i,j;
     double *p;
     int workload = N / max_rank + 1;
     int remainder = N % max_rank;
+    double **A2D = appoint_2D(A, N, M);
+
     for(i = 0; i < workload - 1; i++) {
         for(j = 0; j < max_rank; j++) {
-            p = &A[j*workload+i];
-            if(fread(p, M*sizeof(double), 1, fp) != 1) {
+            p = A2D[j*workload + i];
+
+            if(fread(p, sizeof(double), M, fp) != M) {
                 return NULL;
             }
         }
     }
-    for(i = 0; i < remainder; i++) {
-        p = &A[i*workload-1];
-        if(fread(p, M*sizeof(double), 1, fp) != 1) {
+
+    /* this loop reads any remaining data from the file */
+    for(i = 1; i <= remainder; i++) {
+        p = A2D[i*workload] - 1; 
+        if(fread(p, sizeof(double), M, fp) != M) {
             return NULL;
         }
     }
+
+    /* this loop memsets the final line of the bottom parts */
     for(i = remainder; i > 0; i--) {
-        p = &A[i*workload-1];
+        p = A2D[i*workload] - 1;
         memset(p, 0, M*sizeof(double));
     }
 
+    free(A2D);
     return A;
 }
 
