@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 22 Nov 2012 06:07:13 PM EET
+ * Last Modified : Wed 28 Nov 2012 10:21:06 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -41,7 +41,7 @@ void process_rows(int k, int rank, int N, int workload, double **Ap2D, double *A
         start = 0;
     /* If broadcaster, do all rows after the one you bcasted */
     } else if ( rank == (k / workload)) {
-        start = k % workload;
+        start = k % workload + 1;
     /* If before broadcaster, dont do anything */
     } else {
         start = workload;
@@ -139,24 +139,9 @@ int main(int argc, char **argv)
         printf("Calc Time: %lf\n", sec);
     }
 
-    //    /* Root collects all the broadcasts to fill the final matrix */
-    //    if (rank == 0) {
-    //        memcpy(&A2D[k][k], &Ak[k], (N-k) * sizeof(double));
-    //    }
-
-
-    //{ /* This will collect the final data we need to root */
-    //    /* Find who owns the last row */
-    //    bcaster = max_rank - 1;
-    //        
-    //    /* The broadcaster puts his k-th row in the Ak buffer */
-    //    if (rank == bcaster){
-    //        memcpy(&Ak[k], &Ap2D[k % workload][k], sizeof(double));
-    //    }
-
-    //    MPI_Barrier(MPI_COMM_WORLD);
-    //    MPI_Bcast(&Ak[k], 1, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
-    //}
+    /* Gather the table from each thread's Ap */
+    MPI_Gather(Ap, workload * N, MPI_DOUBLE, \
+            A, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
 
     ret = MPI_Finalize();
@@ -169,7 +154,6 @@ int main(int argc, char **argv)
 
     /* Format and output solved matrix */
     if(rank == 0) {
-        memcpy(&A2D[N-1][k], &Ak[k], N * sizeof(double));
         upper_triangularize(N, A2D);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
