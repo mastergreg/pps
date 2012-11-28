@@ -1,13 +1,14 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 22 Nov 2012 04:38:15 PM EET
+ * Last Modified : Wed 28 Nov 2012 02:55:35 AM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
 
 #include "common.h"
 #include <sys/time.h>
+#include <string.h>
 
 
 
@@ -24,21 +25,37 @@ static double *allocate_2d_with_padding(int N, int M, int max_rank)
     return allocate_2d(N+max_rank, M);
 }
 
-static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
+static double *parse_matrix_2d_cyclic(FILE *fp, int N, int M, double *A, int max_rank)
 {
     int i,j;
     double *p;
-    p = A;
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < M; j++) {
-            if(fread(p++, sizeof(double), 1, fp) != 1) {
-            //if(!fscanf(fp, "%lf", p++)) {
-            //if(!fscanf(fp, "%lf", p++)) {
+    int workload = N / max_rank + 1;
+    int remainder = N % max_rank;
+    for(i = 0; i < workload - 1; i++) {
+        for(j = 0; j < max_rank; j++) {
+            p = &A[j*workload+i];
+            if(fread(p, M*sizeof(double), 1, fp) != 1) {
                 return NULL;
             }
         }
     }
+    for(i = 0; i < remainder; i++) {
+        p = &A[i*workload-1];
+        if(fread(p, M*sizeof(double), 1, fp) != 1) {
+            return NULL;
+        }
+    }
+    for(i = remainder; i > 0; i--) {
+        p = &A[i*workload-1];
+        memset(p, 0, M*sizeof(double));
+    }
+
     return A;
+}
+
+static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
+{
+    return parse_matrix_2d_cyclic(fp, N, M, A, 1);
 }
 
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
