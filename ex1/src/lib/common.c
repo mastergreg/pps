@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 05:10:35 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:22:08 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -43,9 +43,11 @@ static double *parse_matrix_2d_cyclic(FILE *fp, unsigned int N, unsigned int M, 
         }
     }
 
+
+
     /* this loop reads any remaining data from the file */
     for(i = 1; i <= remainder; i++) {
-        p = A2D[i*workload] - 1; 
+        p = A2D[i*workload] - M; 
         if(fread(p, sizeof(double), M, fp) != M) {
             return NULL;
         }
@@ -53,9 +55,10 @@ static double *parse_matrix_2d_cyclic(FILE *fp, unsigned int N, unsigned int M, 
 
     /* this loop memsets the final line of the bottom parts */
     for(i = remainder; i > 0; i--) {
-        p = A2D[i*workload] - 1;
+        p = A2D[i*workload] - M; 
         memset(p, 0, M*sizeof(double));
     }
+
 
     free(A2D);
     return A;
@@ -160,6 +163,7 @@ Matrix *get_matrix(char *filename, int max_rank, OPMODE operation)
     fclose(fp);
     mat->N = N;
     mat->A = A;
+
     return mat;
 }
 
