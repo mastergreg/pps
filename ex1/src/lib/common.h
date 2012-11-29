@@ -21,8 +21,8 @@
 #define COMMON_H
 
 
-
-enum OPMODE { CONTINUOUS, CYCLIC };
+/* Operation Mode */
+enum OPMODE { CONTINUOUS, CYCLIC, OPMODE_SIZE };
 typedef enum OPMODE OPMODE;
 
 #define MIN(a,b) ((a) < (b)) ? (a) : (b)
@@ -44,6 +44,7 @@ void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
 double timer(void);
 void usage(int argc, char **argv);
+void *  get_propagation(char **argv);
 
 
 #ifdef USE_MPI /* USE_MPI */
