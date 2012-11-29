@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Wed 28 Nov 2012 10:24:29 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:01:10 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -170,6 +170,7 @@ void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, \
     int rank;
     int i;
     int max_rank;
+    MPI_Status status;
 
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &max_rank);
@@ -185,7 +186,6 @@ void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, \
         }
     }
     else {
-        MPI_Status status;
         MPI_Recv(buffer, count, datatype, root, root, comm, &status);
     }
 }
@@ -199,13 +199,13 @@ void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, \
 
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &max_rank);
+    MPI_Status status;
 
     if(root != 0) {
         if(rank == root) {
             MPI_Send(buffer, count, datatype, 0, root, comm);
         }
         if(rank == 0) {
-            MPI_Status status;
             MPI_Recv(buffer, count, datatype, root, root, comm, &status);
         }
     }
@@ -222,4 +222,67 @@ void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, \
         MPI_Send(buffer, count, datatype, cur, root, comm);
     }
 }
+
+/* Returns the displacements table in rows */
+void get_displs(int *counts, int max_rank, int *displs) 
+{
+    int j;
+    displs[0] = 0;
+    for (j = 1; j < max_rank ; j++) {
+        displs[j] = displs[j - 1] + counts[j - 1];
+    }
+}
+
+/*  distributes the rows in a continuous fashion */
+void get_counts(int max_rank, int N, int *counts) 
+{
+    int j, k;
+    int rows = N;
+
+    /* Initialize counts */
+    for (j = 0; j < max_rank ; j++) {
+        counts[j] = (rows / max_rank);
+    }
+
+    /* Distribute the indivisible leftover */
+    if (rows / max_rank != 0) {
+        j = rows % max_rank;    
+        for (k = 0; k < max_rank && j > 0; k++, j--) {
+            counts[k] += 1;
+        }
+    } 
+    else {
+        for (k = 0; k < max_rank; k++) {
+            counts[k] = 1;
+        }
+    }
+}
+
+
+/* Gather everything to root */
+void gather_to_root_cyclic(double **Ap2D, int max_rank, int rank, int root, double **A2D, int N, int M)
+{
+    int i;
+    int bcaster;
+    int current_row;
+    MPI_Status status;
+    for(i = 0; i < N; i++) {
+        bcaster = i % max_rank;
+        current_row = i / max_rank;
+        MPI_Barrier(MPI_COMM_WORLD);
+        if(rank == bcaster) {
+            if(bcaster == root) {
+                memcpy(A2D[i], Ap2D[current_row], M*sizeof(double));
+            }
+            else {
+                MPI_Send(Ap2D[current_row], M, MPI_DOUBLE, 0, i, MPI_COMM_WORLD);
+            }
+        }
+        else if (rank == root) {
+            MPI_Recv(A2D[i], M, MPI_DOUBLE, bcaster, i, MPI_COMM_WORLD, &status);
+        }
+    }
+}
+
+
 #endif /* USE_MPI */

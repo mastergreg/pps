@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Thu 22 Nov 2012 05:59:35 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:01:56 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -50,6 +50,9 @@ void propagate_with_send(void *buffer, int count , MPI_Datatype datatype, \
         int root, MPI_Comm comm);
 void propagate_with_flooding(void *buffer, int count , MPI_Datatype datatype, \
         int root, MPI_Comm comm);
+void gather_to_root_cyclic(double **Ap2D, int max_rank, int rank, int root, double **A2D, int N, int M);
+void get_counts(int max_rank, int N, int *counts);
+void get_displs(int *counts, int max_rank, int *displs);
 #endif /* USE_MPI */
 
 #endif /* COMMON_H */

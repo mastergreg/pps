@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 02:45:14 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:02:24 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -76,41 +76,6 @@ void scatter_sort(int max_rank, int N, double *A) {
     free(head);
 }
 
-/* Returns the displacements table in rows */
-void get_displs(int *counts, int max_rank, int *displs) 
-{
-    int j;
-    displs[0] = 0;
-    for (j = 1; j < max_rank ; j++) {
-        displs[j] = displs[j - 1] + counts[j - 1];
-    }
-}
-
-/*  distributes the rows in a continuous fashion */
-void distribute_rows(int max_rank, int N, int *counts) 
-{
-    int j, k;
-    int rows = N;
-
-    /* Initialize counts */
-    for (j = 0; j < max_rank ; j++) {
-        counts[j] = (rows / max_rank);
-    }
-
-    /* Distribute the indivisible leftover */
-    if (rows / max_rank != 0) {
-        j = rows % max_rank;    
-        for (k = 0; k < max_rank && j > 0; k++, j--) {
-            counts[k] += 1;
-        }
-    } 
-    else {
-        for (k = 0; k < max_rank; k++) {
-            counts[k] = 1;
-        }
-    }
-}
-
 void process_rows(int k, int rank, int N, int workload, int max_rank, \
         double **Ap2D, double *Ak)
 {
@@ -134,29 +99,6 @@ void process_rows(int k, int rank, int N, int workload, int max_rank, \
         }
     }
 }
-
-void gather_to_root_cyclic(double **Ap2D, int max_rank, int rank, int root, double **A2D, int N, int M)
-{
-    int i;
-    int bcaster;
-    MPI_Status status;
-    for(i = 0; i < N; i++) {
-        bcaster = i % max_rank;
-        if(rank == bcaster) {
-            if(bcaster == root) {
-                memcpy(A2D[i], Ap2D[i / max_rank], M*sizeof(double));
-            }
-            else {
-                MPI_Send(Ap2D[i / max_rank], M, MPI_DOUBLE, 0, i, MPI_COMM_WORLD);
-            }
-        }
-        else if (rank == root) {
-            debug("%d %d\n", bcaster, i);
-            MPI_Recv(A2D[i], M, MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &status);
-        }
-    }
-}
-
 
 int main(int argc, char **argv)
 {
@@ -208,7 +150,7 @@ int main(int argc, char **argv)
     displs = malloc(max_rank * sizeof(int));
 
     /* Initializations */
-    distribute_rows(max_rank, N, counts);
+    get_counts(max_rank, N, counts);
     get_displs(counts, max_rank, displs);
     Ap2D = appoint_2D(Ap, workload, N);
     collect_index = 0;
