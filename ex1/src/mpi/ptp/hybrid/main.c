@@ -73,9 +73,10 @@ int main(int argc, char **argv)
     double sec = 0;
     FILE *fp = NULL;
     MPI_Datatype row_type;
-    OPMODE Operation;
+    void (*propagate) (void*, int, MPI_Datatype, int, MPI_Comm);
 
     usage(argc, argv);
+    propagate = get_propagation(argv);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -130,7 +131,7 @@ int main(int argc, char **argv)
         }
 
         /* Everyone receives the k-th row */
-        propagate_with_flooding(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+        (*propagate) (&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
         /* And off you go to work. */
         process_rows(k, rank, N, workload, max_rank, Ap2D, Ak);

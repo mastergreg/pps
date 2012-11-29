@@ -3,7 +3,7 @@ set -e
 
 
 NTHREADS=3
-FILENAME=mat1000.txt
+FILENAME=mat5.txt
 OUTFILE="${FILENAME%txt}out"
 
 
@@ -21,13 +21,13 @@ else
             LD_PRELOAD=/usr/lib/valgrind/libmpiwrap-x86-linux.so \
             mpirun -np ${NTHREADS} \
             valgrind --suppressions=val.supp --track-origins=yes --show-reachable=yes --leak-check=full --log-file=val.out \
-            ./main.exec ${FILENAME} ${OUTFILE}
+            ./main.exec ${FILENAME} ${OUTFILE} 1
     else
         if [[ 'x'$1 == 'xd' ]];
         then
             make -B DEBUG=y
             echo "Running with debug"
-            mpirun -np ${NTHREADS} ./main.exec ${FILENAME} ${OUTFILE}
+            mpirun -np ${NTHREADS} ./main.exec ${FILENAME} ${OUTFILE} 1
         else
             echo "Bad arguements, no run, for debug ./run.sh d"
         fi

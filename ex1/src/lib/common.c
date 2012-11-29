@@ -118,8 +118,8 @@ double timer(void)
 
 void usage(int argc, char **argv)
 {
-    if(argc != 3) {
-        printf("Usage: %s <matrix file> <output file>\n", argv[0]);
+    if(argc != 4) {
+        printf("Usage: %s <matrix file> <output file> <propagation mode>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 }
@@ -174,12 +174,12 @@ double **appoint_2D(double *A, int N, int M)
 
 /* get operation mode from the third argument.
  * 1 for continuous, 0 for ptp */
-PROPMODE get_propagation(int argc, char **argv)
+void * get_propagation(char **argv)
 {
-    if (argv[3] == 1) {
-        return COLLECTIVE;
-    else {
-        return PTP;
+    if (argv[3] == 0) {
+        return &propagate_with_flooding;
+    } else {
+        return &MPI_Bcast;
     }
 }
 
