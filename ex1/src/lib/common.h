@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 03:01:56 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:13:50 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -22,6 +22,8 @@
 
 
 
+enum OPMODE { CONTINUOUS, CYCLIC };
+typedef enum OPMODE OPMODE;
 
 #define MIN(a,b) ((a) < (b)) ? (a) : (b)
 #define MAX(a,b)  ((a) > (b)) ? (a) : (b)
@@ -36,7 +38,7 @@ struct Matrix {
 
 typedef struct Matrix Matrix;
 
-Matrix *get_matrix(char *filename, int max_rank);
+Matrix *get_matrix(char *filename, int max_rank, OPMODE operation);
 double **appoint_2D(double *A, int N, int M);
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);

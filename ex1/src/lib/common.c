@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 03:01:10 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:16:21 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -61,9 +61,14 @@ static double *parse_matrix_2d_cyclic(FILE *fp, unsigned int N, unsigned int M, 
     return A;
 }
 
-static double *parse_matrix_2d(FILE *fp, int N, int M, double *A)
+static double *parse_matrix_2d(FILE *fp, int N, int M, double *A, int max_rank, OPMODE operation)
 {
-    return parse_matrix_2d_cyclic(fp, N, M, A, 1);
+    switch(operation) {
+        case CONTINUOUS:
+            return parse_matrix_2d_cyclic(fp, N, M, A, 1);
+        case CYCLIC:
+            return parse_matrix_2d_cyclic(fp, N, M, A, max_rank);
+    }
 }
 
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
@@ -117,7 +122,7 @@ void usage(int argc, char **argv)
     }
 }
 
-Matrix *get_matrix(char *filename, int max_rank)
+Matrix *get_matrix(char *filename, int max_rank, OPMODE operation)
 {
     FILE *fp;
     double *A;
@@ -139,7 +144,7 @@ Matrix *get_matrix(char *filename, int max_rank)
         debug("Could not allocate enough contiguous memory\n");
         exit(EXIT_FAILURE);
     }
-    if(parse_matrix_2d(fp, N, N, A) == NULL) {
+    if(parse_matrix_2d(fp, N, N, A, max_rank, operation) == NULL) {
         debug("Could not parse matrix\n");
         exit(EXIT_FAILURE);
     }
