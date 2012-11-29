@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Tue 13 Nov 2012 12:02:29 PM EET
+* Last Modified : Thu 29 Nov 2012 03:31:48 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
      * Allocate me!
      */
 
-    Matrix *mat = get_matrix(argv[1],0);
+    Matrix *mat = get_matrix(argv[1],0, CONTINUOUS);
     N = mat->N;
     A = mat->A;
 
