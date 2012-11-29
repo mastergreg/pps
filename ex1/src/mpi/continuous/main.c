@@ -73,8 +73,10 @@ int main(int argc, char **argv)
     double **Ap2D = NULL;
     double *Ak = NULL;
     FILE *fp = NULL;
+    void (*propagate) (void*, int, MPI_Datatype, int, MPI_Comm);
 
     usage(argc, argv);
+    propagate = get_propagation(argv);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -126,7 +128,7 @@ int main(int argc, char **argv)
         }
 
         /* Everyone receives the k-th row */
-        MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+        (*propagate) (&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
         /* And off you go to work. */
         process_rows(k, rank, N, workload, Ap2D, Ak);
