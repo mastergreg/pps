@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Tue 13 Nov 2012 12:14:06 PM EET
+ * Last Modified : Thu 29 Nov 2012 02:45:14 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -135,6 +135,29 @@ void process_rows(int k, int rank, int N, int workload, int max_rank, \
     }
 }
 
+void gather_to_root_cyclic(double **Ap2D, int max_rank, int rank, int root, double **A2D, int N, int M)
+{
+    int i;
+    int bcaster;
+    MPI_Status status;
+    for(i = 0; i < N; i++) {
+        bcaster = i % max_rank;
+        if(rank == bcaster) {
+            if(bcaster == root) {
+                memcpy(A2D[i], Ap2D[i / max_rank], M*sizeof(double));
+            }
+            else {
+                MPI_Send(Ap2D[i / max_rank], M, MPI_DOUBLE, 0, i, MPI_COMM_WORLD);
+            }
+        }
+        else if (rank == root) {
+            debug("%d %d\n", bcaster, i);
+            MPI_Recv(A2D[i], M, MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &status);
+        }
+    }
+}
+
+
 int main(int argc, char **argv)
 {
     int k;
@@ -230,8 +253,11 @@ int main(int argc, char **argv)
     /* Broadcast the last row to root (TODO: we can change it to send, right?)*/
     /* Root collects all the broadcasts to fill the final matrix */
 
-    ret = MPI_Finalize();
 
+    /* Gather the table from each thread's Ap */
+    gather_to_root_cyclic(Ap2D, max_rank, rank, 0, A2D, N, N);
+
+    ret = MPI_Finalize();
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
     }
@@ -240,7 +266,6 @@ int main(int argc, char **argv)
     }
 
     if (rank == 0) {
-        memcpy(A2D[collect_index], Ak, N * sizeof(double));
         upper_triangularize(N, A2D);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
