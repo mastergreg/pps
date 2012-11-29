@@ -29,54 +29,6 @@ void upper_triangularize(int N, double **Ap2D)
     }
 }
 
-/* Sort a pseudo-2D array cyclically by rows */
-void scatter_sort(int max_rank, int N, double *A) {
-    /* creates a temporary matrix to hold the distrubution *
-    *  and an array of pointers to each thread's current head */
-    int i, j;
-    double ***T; // T[max_rank][workload][N]
-    int *head;  // head[max_rank]
-    int owner;
-    int cur_head;
-    int cur_index;
-    int workload = (N / max_rank) + 1;
-
-    head = malloc(max_rank * sizeof(int));
-    T = (double ***) malloc(max_rank * sizeof(double **));
-
-    /* Initializations */
-    for (i=0; i < max_rank; i++) {
-        T[i] = (double **) malloc(workload * sizeof(double *));
-        for (j=0; j < workload; j++) {
-            T[i][j] = (double *) malloc(N * sizeof(double));
-        }
-    }
-    for (i=0; i < max_rank; i++) {
-        head[i] = 0; 
-    }
-
-    /* Distribute the rows to Temp cyclically */
-    for (i=0; i < N; i++) {
-        owner = i % max_rank;
-        memcpy(T[owner][head[owner]++], &A[i * N], N * sizeof(double));
-
-    }
-
-    /* Gather everything back to the original array */
-    /* This time, they're continuous */
-    cur_index = 0;
-    for (i=0; i < max_rank; i++) {
-        cur_head = 0;
-        while (cur_head < head[i]) {
-            memcpy(&A[cur_index * N], T[i][cur_head++], N * sizeof(double));
-            cur_index += 1;
-        }
-    }
-    free(T);
-    free(head);
-}
-
-
 void process_rows(int k, int rank, int N, int workload, int max_rank, \
         double **Ap2D, double *Ak)
 {
@@ -110,7 +62,6 @@ int main(int argc, char **argv)
     int max_rank;
     int bcaster;
     int workload;
-    int collect_index;
     int ret = 0;
     int *counts;
     int *displs;
@@ -122,6 +73,7 @@ int main(int argc, char **argv)
     double sec = 0;
     FILE *fp = NULL;
     MPI_Datatype row_type;
+    OPMODE Operation;
 
     usage(argc, argv);
 
@@ -134,7 +86,6 @@ int main(int argc, char **argv)
         Matrix *mat = get_matrix(argv[1], max_rank);
         N = mat->N;
         A = mat->A;
-        scatter_sort(max_rank, N, A); 
         A2D = appoint_2D(A, N, N);
     }
 
@@ -153,7 +104,6 @@ int main(int argc, char **argv)
     get_counts(max_rank, N, counts);
     get_displs(counts, max_rank, displs);
     Ap2D = appoint_2D(Ap, workload, N);
-    collect_index = 0;
 
     /* Scatter the table to each thread's Ap */
     MPI_Barrier(MPI_COMM_WORLD);
@@ -182,7 +132,6 @@ int main(int argc, char **argv)
         /* Everyone receives the k-th row */
         propagate_with_flooding(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
 
-
         /* And off you go to work. */
         process_rows(k, rank, N, workload, max_rank, Ap2D, Ak);
     }
@@ -193,17 +142,11 @@ int main(int argc, char **argv)
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
-    //{
-    //    bcaster = k % max_rank;
-    //    if (rank == bcaster) {
-    //        i = k / max_rank;
-    //        memcpy(&Ak[k], &Ap2D[i][k], sizeof(double));
-    //    }
-    //    MPI_Bcast(&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
-    //}
+
+    /* Gather the table from each thread's Ap */
+    gather_to_root_cyclic(Ap2D, max_rank, rank, 0, A2D, N, N);
 
     ret = MPI_Finalize();
-
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);
     }
@@ -212,7 +155,6 @@ int main(int argc, char **argv)
     }
 
     if (rank == 0) {
-        memcpy(A2D[collect_index], Ak, N * sizeof(double));
         upper_triangularize(N, A2D);
         fp = fopen(argv[2], "w");
         fprint_matrix_2d(fp, N, N, A);
