@@ -4,11 +4,12 @@ set -e
 
 genpathpath=../generator/generate.exec
 diffpath=../diffpy/diff.py
-diffpath=echo
+#diffpath=echo
 serialpath=../serial/main.exec
-testfilesSizes=(100 1000 3000 5000)
+testfilesSizes=(10 100)
 #testfilesSizes=(5 15 42 100 500 1000 2000 5000)
-MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
+#MPItestfolders=(../mpi/ptp/continuous-single ../mpi/ptp/hybrid ../mpi/collective/hybrid ../mpi/collective/continuous-single)
+MPItestfolders=(../mpi/continuous ../mpi/cyclic)
 OPENMPtestfolders=(../openmp)
 NTHREADS=4
 for i in ${testfilesSizes[@]}
@@ -39,13 +40,25 @@ echo "============ MPI EXECUTION =============="
 for j in ${MPItestfolders[@]}
 do
     echo $j
+    echo "Point-To-Point runs"
     for i in ${testfiles[@]}
     do
-        echo "Running testfile :" ${i}
+        echo "Running testfile:" ${i}
         out="${j//\.\.\//}"
-        outfile="${out//\//_}_${i%in}out"
+        outfile="${out//\//_}_ptp_${i%in}out"
         serialfile="serial_${i%in}out"
         mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile}
+        ${diffpath} ${serialfile} ${outfile}
+    done
+
+    echo "Collective runs"
+    for i in ${testfiles[@]}
+    do
+        echo "Running testfile:" ${i}
+        out="${j//\.\.\//}"
+        outfile="${out//\//_}_collective_${i%in}out"
+        serialfile="serial_${i%in}out"
+        mpirun -np ${NTHREADS} ${j}/main.exec ${i} ${outfile} 1
         ${diffpath} ${serialfile} ${outfile}
     done
 done
