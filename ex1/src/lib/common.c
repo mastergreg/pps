@@ -184,7 +184,7 @@ double **appoint_2D(double *A, int N, int M)
 void * get_propagation(int argc, char **argv)
 {
     if (argc > 3) {
-        if (atoi(argv[3]) == 1) {
+        if (argv[3][0] == '1') {
             return &MPI_Bcast;
         }
     } 
