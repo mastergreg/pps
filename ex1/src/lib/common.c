@@ -119,7 +119,7 @@ double timer(void)
 void usage(int argc, char **argv)
 {
 #ifdef USE_MPI /* USE_MPI */
-    if(argc != 4) {
+    if(argc > 4 || argc < 3) {
         printf("Usage: %s <matrix file> <output file> [propagation mode: default=0 (ptp)]\n", argv[0]);
         exit(EXIT_FAILURE);
     }
