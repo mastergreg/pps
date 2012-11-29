@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 03:21:27 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:03:29 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -92,6 +92,7 @@ int main(int argc, char **argv)
 
     /* And broadcasts N */
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    debug("ping\n");
 
     workload = (N / max_rank) + 1;
 

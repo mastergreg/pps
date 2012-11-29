@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 03:18:11 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:10:35 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -31,7 +31,7 @@ static double *parse_matrix_2d_cyclic(FILE *fp, unsigned int N, unsigned int M, 
     double *p;
     int workload = N / max_rank + 1;
     int remainder = N % max_rank;
-    double **A2D = appoint_2D(A, N, M);
+    double **A2D = appoint_2D(A, N + max_rank, M);
 
     for(i = 0; i < workload - 1; i++) {
         for(j = 0; j < max_rank; j++) {
