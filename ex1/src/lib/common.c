@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 05:22:08 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:56:30 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -54,7 +54,7 @@ static double *parse_matrix_2d_cyclic(FILE *fp, unsigned int N, unsigned int M, 
     }
 
     /* this loop memsets the final line of the bottom parts */
-    for(i = remainder; i > 0; i--) {
+    for(i = max_rank - remainder + 1; i < max_rank; i++) {
         p = A2D[i*workload] - M; 
         memset(p, 0, M*sizeof(double));
     }

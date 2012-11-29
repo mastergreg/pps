@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 05:12:12 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:53:47 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -72,7 +72,6 @@ int main(int argc, char **argv)
     double *Ak = NULL;
     double sec = 0;
     FILE *fp = NULL;
-    MPI_Datatype row_type;
     void (*propagate) (void*, int, MPI_Datatype, int, MPI_Comm);
 
     usage(argc, argv);
@@ -87,12 +86,11 @@ int main(int argc, char **argv)
         Matrix *mat = get_matrix(argv[1], max_rank, CYCLIC);
         N = mat->N;
         A = mat->A;
-        A2D = appoint_2D(A, N, N);
+        A2D = appoint_2D(A, N+max_rank, N);
     }
 
     /* And broadcasts N */
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    debug("ping\n");
 
     workload = (N / max_rank) + 1;
 
