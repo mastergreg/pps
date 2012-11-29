@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 05:03:29 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:12:12 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -108,13 +108,15 @@ int main(int argc, char **argv)
     Ap2D = appoint_2D(Ap, workload, N);
 
     /* Scatter the table to each thread's Ap */
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Type_vector(1, N, N, MPI_DOUBLE, &row_type);
-    MPI_Type_commit(&row_type);
-    MPI_Scatterv(A, counts, displs, row_type, \
-        Ap, workload, row_type, 0, MPI_COMM_WORLD);
-    MPI_Type_free(&row_type);
+    //MPI_Barrier(MPI_COMM_WORLD);
+    //MPI_Type_vector(1, N, N, MPI_DOUBLE, &row_type);
+    //MPI_Type_commit(&row_type);
+    //MPI_Scatterv(A, counts, displs, row_type, \
+    //    Ap, workload, row_type, 0, MPI_COMM_WORLD);
+    //MPI_Type_free(&row_type);
 
+    MPI_Scatter(A, workload * N, MPI_DOUBLE, \
+            Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     /* Start Timing */
     if(rank == 0) {
         sec = timer();
