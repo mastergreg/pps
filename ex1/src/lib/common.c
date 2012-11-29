@@ -171,6 +171,18 @@ double **appoint_2D(double *A, int N, int M)
 }
 
 #ifdef USE_MPI /* USE_MPI */
+
+/* get operation mode from the third argument.
+ * 1 for continuous, 0 for ptp */
+PROPMODE get_propagation(int argc, char **argv)
+{
+    if (argv[3] == 1) {
+        return COLLECTIVE;
+    else {
+        return PTP;
+    }
+}
+
 void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, \
         int root, MPI_Comm comm)
 {

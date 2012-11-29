@@ -21,9 +21,13 @@
 #define COMMON_H
 
 
-
-enum OPMODE { CONTINUOUS, CYCLIC };
+/* Operation Mode */
+enum OPMODE { CONTINUOUS, CYCLIC, OPMODE_SIZE };
 typedef enum OPMODE OPMODE;
+
+/* Propagation Mode */
+enum PROPMODE { COLLECTIVE, PTP, PROPMODE_SIZE };
+typedef enum PROPMODE PROPMODE;
 
 #define MIN(a,b) ((a) < (b)) ? (a) : (b)
 #define MAX(a,b)  ((a) > (b)) ? (a) : (b)
@@ -44,6 +48,7 @@ void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
 double timer(void);
 void usage(int argc, char **argv);
+PROPMODE get_propagation(int argc, char **argv);
 
 
 #ifdef USE_MPI /* USE_MPI */
