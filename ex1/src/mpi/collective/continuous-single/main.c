@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Wed 28 Nov 2012 10:21:06 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:31:18 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
     /* Root gets the matrix */
     if (rank == 0){
-        Matrix *mat = get_matrix(argv[1], max_rank);
+        Matrix *mat = get_matrix(argv[1], max_rank, CONTINUOUS);
         N = mat->N;
         A = mat->A;
         A2D = appoint_2D(A, N, N);
