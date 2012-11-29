@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 03:02:24 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:21:50 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 
     /* Root gets the matrix */
     if (rank == 0) {
-        Matrix *mat = get_matrix(argv[1], max_rank);
+        Matrix *mat = get_matrix(argv[1], max_rank, CYCLIC);
         N = mat->N;
         A = mat->A;
         scatter_sort(max_rank, N, A); 
