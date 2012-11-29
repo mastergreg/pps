@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 03:16:21 PM EET
+ * Last Modified : Thu 29 Nov 2012 03:18:11 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -68,6 +68,8 @@ static double *parse_matrix_2d(FILE *fp, int N, int M, double *A, int max_rank, 
             return parse_matrix_2d_cyclic(fp, N, M, A, 1);
         case CYCLIC:
             return parse_matrix_2d_cyclic(fp, N, M, A, max_rank);
+        default:
+            return NULL;
     }
 }
 
