@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 05:53:47 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:59:32 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -17,17 +17,6 @@
 #include "common.h"
 
 #define BLOCK_ROWS 1
-
-/* Turns a 2D matrix to upper triangular */
-void upper_triangularize(int N, double **Ap2D)
-{
-    int i,j;
-    for (i=1; i < N; i++) {
-        for (j=0; j < i; j++) {
-            Ap2D[i][j] = 0;
-        }
-    }
-}
 
 void process_rows(int k, int rank, int N, int workload, int max_rank, \
         double **Ap2D, double *Ak)

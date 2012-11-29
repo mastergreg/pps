@@ -1,7 +1,6 @@
 TARGET = main
 CC = mpicc
 CCFLAGS += -DUSE_MPI
-OPT = 2
 
 ifndef DEBUG
        DEBUG = n
@@ -13,12 +12,12 @@ ifeq ($(DEBUG),y)
 	LDFLAGS += -lefence
 else
 	CCFLAGS += -D$(TARGET)_DEBUG=0
-	CCFLAGS += -O$(OPT) -Wall
+	CCFLAGS += -Wall
+	CCFLAGS+= -march=native -O3 -fexpensive-optimizations -funroll-loops \
+		 -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize \
+		 -ftree-vect-loop-version -ftree-vectorize
 endif
 
-CCFLAGS+= -march=native -O3 -fexpensive-optimizations -funroll-loops \
-	 -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize \
-	 -ftree-vect-loop-version -ftree-vectorize
 
 
 CCFILES += $(wildcard *.c)

@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : main.c
  * Creation Date : 30-10-2012
- * Last Modified : Thu 29 Nov 2012 03:31:18 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:58:51 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -15,17 +15,6 @@
 #include <string.h>
 
 #include "common.h"
-
-/* Turns a 2D matrix to upper triangular */
-void upper_triangularize(int N, double **Ap2D)
-{
-    int i,j;
-    for (i=1; i < N; i++) {
-        for (j=0; j < i; j++) {
-            Ap2D[i][j] = 0;
-        }
-    }
-}
 
 /*      performs the calculations for a given set of rows.
  *      Each thread is assigned a continuous quantity of rows

@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 03:13:50 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:59:07 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -46,6 +46,7 @@ double timer(void);
 void usage(int argc, char **argv);
 void *  get_propagation(int argc, char **argv);
 
+void upper_triangularize(int N, double **Ap2D);
 
 #ifdef USE_MPI /* USE_MPI */
 #include <mpi.h>

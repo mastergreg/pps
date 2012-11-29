@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 05:56:30 PM EET
+ * Last Modified : Thu 29 Nov 2012 05:58:48 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -76,6 +76,17 @@ static double *parse_matrix_2d(FILE *fp, int N, int M, double *A, int max_rank, 
     }
 }
 
+/* Turns a 2D matrix to upper triangular */
+void upper_triangularize(int N, double **Ap2D)
+
+{
+    int i,j;
+    for (i=1; i < N; i++) {
+        for (j=0; j < i; j++) {
+            Ap2D[i][j] = 0;
+        }
+    }
+}
 void fprint_matrix_2d(FILE *fp, int N, int M, double *A)
 {
     int i,j;
