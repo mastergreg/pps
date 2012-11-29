@@ -44,7 +44,7 @@ void fprint_matrix_2d(FILE *fp, int N, int M, double *A);
 void print_matrix_2d(int N, int M, double *A);
 double timer(void);
 void usage(int argc, char **argv);
-void *  get_propagation(char **argv);
+void *  get_propagation(int argc, char **argv);
 
 
 #ifdef USE_MPI /* USE_MPI */

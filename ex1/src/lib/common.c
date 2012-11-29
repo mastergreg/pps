@@ -118,10 +118,17 @@ double timer(void)
 
 void usage(int argc, char **argv)
 {
+#ifdef USE_MPI /* USE_MPI */
     if(argc != 4) {
-        printf("Usage: %s <matrix file> <output file> <propagation mode>\n", argv[0]);
+        printf("Usage: %s <matrix file> <output file> [propagation mode: default=0 (ptp)]\n", argv[0]);
         exit(EXIT_FAILURE);
     }
+#else  
+    if(argc != 3) {
+        printf("Usage: %s <matrix file> <output file>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+#endif 
 }
 
 Matrix *get_matrix(char *filename, int max_rank, OPMODE operation)
@@ -174,13 +181,14 @@ double **appoint_2D(double *A, int N, int M)
 
 /* get operation mode from the third argument.
  * 1 for continuous, 0 for ptp */
-void * get_propagation(char **argv)
+void * get_propagation(int argc, char **argv)
 {
-    if (argv[3] == 0) {
-        return &propagate_with_flooding;
-    } else {
-        return &MPI_Bcast;
-    }
+    if (argc > 3) {
+        if (atoi(argv[3]) == 1) {
+            return &MPI_Bcast;
+        }
+    } 
+    return &propagate_with_flooding;
 }
 
 void propagate_with_send(void *buffer, int count, MPI_Datatype datatype, \

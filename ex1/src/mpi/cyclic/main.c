@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     void (*propagate) (void*, int, MPI_Datatype, int, MPI_Comm);
 
     usage(argc, argv);
-    propagate = get_propagation(argv);
+    propagate = get_propagation(argc, argv);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
