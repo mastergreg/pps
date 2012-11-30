@@ -134,7 +134,6 @@ int main(int argc, char **argv)
     MPI_Gather(Ap, workload * N, MPI_DOUBLE, \
             A, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-
     ret = MPI_Finalize();
     if(ret == 0) {
         debug("%d FINALIZED!!! with code: %d\n", rank, ret);

@@ -52,8 +52,6 @@ int main(int argc, char **argv)
     int bcaster;
     int workload;
     int ret = 0;
-    int *counts;
-    int *displs;
     double *A = NULL;
     double **A2D = NULL;
     double *Ap = NULL;
@@ -86,25 +84,13 @@ int main(int argc, char **argv)
     /* Allocations */
     Ak = malloc(N * sizeof(double));
     Ap = malloc(workload * N * sizeof(double));
-    counts = malloc(max_rank * sizeof(int));
-    displs = malloc(max_rank * sizeof(int));
-
-    /* Initializations */
-    get_counts(max_rank, N, counts);
-    get_displs(counts, max_rank, displs);
-    Ap2D = appoint_2D(Ap, workload, N);
-
-    /* Scatter the table to each thread's Ap */
-    //MPI_Barrier(MPI_COMM_WORLD);
-    //MPI_Type_vector(1, N, N, MPI_DOUBLE, &row_type);
-    //MPI_Type_commit(&row_type);
-    //MPI_Scatterv(A, counts, displs, row_type, \
-    //    Ap, workload, row_type, 0, MPI_COMM_WORLD);
-    //MPI_Type_free(&row_type);
 
     MPI_Scatter(A, workload * N, MPI_DOUBLE, \
             Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    Ap2D = appoint_2D(Ap, workload, N);
+
     /* Start Timing */
+    MPI_Barrier(MPI_COMM_WORLD);
     if(rank == 0) {
         sec = timer();
     }
