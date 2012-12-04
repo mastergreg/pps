@@ -1,0 +1,49 @@
+Not generating mat_100.in, file exists.
+Not generating mat_1000.in, file exists.
+Not generating mat_5000.in, file exists.
+============ SERIAL EXECUTION ==============
+Running testfile : mat_100.in
+Calc Time: 0.001910
+Running testfile : mat_1000.in
+Calc Time: 1.173516
+Running testfile : mat_5000.in
+Calc Time: 142.364775
+============ MPI EXECUTION ==============
+../mpi/continuous
+Point-To-Point runs
+Running testfile: mat_100.in
+Calc Time: 0.024064
+Running testfile: mat_1000.in
+Calc Time: 0.623472
+Running testfile: mat_5000.in
+Calc Time: 82.262105
+Collective runs
+Running testfile: mat_100.in
+Calc Time: 0.004695
+Running testfile: mat_1000.in
+Calc Time: 0.848415
+Running testfile: mat_5000.in
+Calc Time: 90.695130
+../mpi/cyclic
+Point-To-Point runs
+Running testfile: mat_100.in
+Calc Time: 0.001733
+Running testfile: mat_1000.in
+Calc Time: 0.474172
+Running testfile: mat_5000.in
+Calc Time: 58.586139
+Collective runs
+Running testfile: mat_100.in
+Calc Time: 0.001762
+Running testfile: mat_1000.in
+Calc Time: 0.646349
+Running testfile: mat_5000.in
+Calc Time: 68.879426
+============ OPENMP EXECUTION ==============
+../openmp
+mat_100.in
+Calc Time: 0.002698
+mat_1000.in
+Calc Time: 0.519161
+mat_5000.in
+Calc Time: 44.691711
