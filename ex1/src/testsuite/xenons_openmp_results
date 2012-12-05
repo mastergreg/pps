@@ -1,0 +1,43 @@
+make -B -C ../generator
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/generator'
+gcc -c  -Dgenerate_DEBUG=0 -Dgenerate -O2 -Werror -Wall generate.c -o generate.o
+gcc generate.o -o generate.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/generator'
+make -B -C ../serial
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/serial'
+gcc -c   -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+gcc -c   -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+gcc  common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/serial'
+make -B -C ../mpi/continuous
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous'
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+mpicc  common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous'
+make -B -C ../mpi/cyclic
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic'
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+mpicc  common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic'
+make -B -C ../openmp
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/openmp'
+gcc -c -fopenmp  -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+gcc -c -fopenmp  -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+gcc -fopenmp common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/openmp'
+Not generating mat_1000.in, file exists.
+Not generating mat_2000.in, file exists.
+Not generating mat_3000.in, file exists.
+Not generating mat_4000.in, file exists.
+============ OPENMP EXECUTION ==============
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/openmp
+mat_1000.in
+Calc Time: 2.259852
+mat_2000.in
+Calc Time: 18.063098
+mat_3000.in
+Calc Time: 60.725284
+mat_4000.in
+Calc Time: 143.854312

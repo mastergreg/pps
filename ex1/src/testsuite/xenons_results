@@ -1,0 +1,167 @@
+make -B -C ../generator
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/generator'
+gcc -c  -Dgenerate_DEBUG=0 -Dgenerate -O2 -Werror -Wall generate.c -o generate.o
+gcc generate.o -o generate.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/generator'
+make -B -C ../serial
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/serial'
+gcc -c   -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+gcc -c   -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+gcc  common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/serial'
+make -B -C ../mpi/continuous
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous'
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+mpicc  common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous'
+make -B -C ../mpi/cyclic
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic'
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+mpicc -c -DUSE_MPI -Dmain_DEBUG=0 -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+mpicc  common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic'
+make -B -C ../openmp
+make[1]: Entering directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/openmp'
+gcc -c -fopenmp  -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize common.c -o common.o
+gcc -c -fopenmp  -Dmain_DEBUG=0 -Werror -Wall -march=native -O3 -fexpensive-optimizations -funroll-loops -fmove-loop-invariants -fprefetch-loop-arrays -ftree-loop-optimize -ftree-vect-loop-version -ftree-vectorize main.c -o main.o
+gcc -fopenmp common.o main.o -o main.exec
+make[1]: Leaving directory `/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/openmp'
+Not generating mat_1000.in, file exists.
+Not generating mat_2000.in, file exists.
+Not generating mat_3000.in, file exists.
+Generating mat_4000.in
+============ SERIAL EXECUTION ==============
+Running testfile : mat_1000.in
+Calc Time: 1.935857
+Running testfile : mat_2000.in
+Calc Time: 15.322268
+Running testfile : mat_3000.in
+Calc Time: 51.039215
+Running testfile : mat_4000.in
+Calc Time: 120.974508
+============ MPI EXECUTION ==============
+Running testfile : mat_1000.in
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous
+Point-To-Point runs
+Processes:  2
+Calc Time: 1.531345
+Processes:  4
+Calc Time: 0.837535
+Processes:  8
+Calc Time: 0.583005
+Collective runs
+Processes:  2
+Calc Time: 1.456063
+Processes:  4
+Calc Time: 0.857500
+Processes:  8
+Calc Time: 0.608486
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic
+Point-To-Point runs
+Processes:  2
+Calc Time: 1.169238
+Processes:  4
+Calc Time: 0.767627
+Processes:  8
+Calc Time: 0.575163
+Collective runs
+Processes:  2
+Calc Time: 1.148426
+Processes:  4
+Calc Time: 0.688573
+Processes:  8
+Calc Time: 0.517628
+Running testfile : mat_2000.in
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous
+Point-To-Point runs
+Processes:  2
+Calc Time: 11.291171
+Processes:  4
+Calc Time: 6.220734
+Processes:  8
+Calc Time: 5.771883
+Collective runs
+Processes:  2
+Calc Time: 11.155223
+Processes:  4
+Calc Time: 6.326616
+Processes:  8
+Calc Time: 6.003299
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic
+Point-To-Point runs
+Processes:  2
+Calc Time: 8.480909
+Processes:  4
+Calc Time: 4.939194
+Processes:  8
+Calc Time: 5.011421
+Collective runs
+Processes:  2
+Calc Time: 8.353010
+Processes:  4
+Calc Time: 4.583680
+Processes:  8
+Calc Time: 4.822110
+Running testfile : mat_3000.in
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous
+Point-To-Point runs
+Processes:  2
+Calc Time: 36.987590
+Processes:  4
+Calc Time: 20.090067
+Processes:  8
+Calc Time: 19.054515
+Collective runs
+Processes:  2
+Calc Time: 36.731301
+Processes:  4
+Calc Time: 20.387610
+Processes:  8
+Calc Time: 19.601740
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic
+Point-To-Point runs
+Processes:  2
+Calc Time: 27.331243
+Processes:  4
+Calc Time: 15.029579
+Processes:  8
+Calc Time: 16.304860
+Collective runs
+Processes:  2
+Calc Time: 27.117563
+Processes:  4
+Calc Time: 14.392816
+Processes:  8
+Calc Time: 15.997477
+Running testfile : mat_4000.in
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/continuous
+Point-To-Point runs
+Processes:  2
+Calc Time: 86.957117
+Processes:  4
+Calc Time: 46.944841
+Processes:  8
+Calc Time: 44.488372
+Collective runs
+Processes:  2
+Calc Time: 86.439548
+Processes:  4
+Calc Time: 47.444025
+Processes:  8
+Calc Time: 45.379337
+/home/parallel/parlab08/Repos/mastergreg/pps/ex1/src/mpi/cyclic
+Point-To-Point runs
+Processes:  2
+Calc Time: 63.798359
+Processes:  4
+Calc Time: 33.969395
+Processes:  8
+Calc Time: 37.650350
+Collective runs
+Processes:  2
+Calc Time: 63.330787
+Processes:  4
+Calc Time: 33.081461
+Processes:  8
+Calc Time: 37.196836
