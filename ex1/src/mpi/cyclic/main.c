@@ -91,7 +91,7 @@ int main(int argc, char **argv)
     Ap2D = appoint_2D(Ap, workload, N);
 
     /* Init Communication Timer */
-    time_struct_init(ts);
+    time_struct_init(&ts);
 
     /* Start Total Timer */
     MPI_Barrier(MPI_COMM_WORLD);
@@ -111,9 +111,9 @@ int main(int argc, char **argv)
         }
 
         /* Everyone receives the k-th row */
-        time_struct_set_timestamp(ts);
+        time_struct_set_timestamp(&ts);
         (*propagate) (&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
-        time_struct_add_timestamp(ts);
+        time_struct_add_timestamp(&ts);
 
         /* And off you go to work. */
         process_rows(k, rank, N, workload, max_rank, Ap2D, Ak);
