@@ -60,6 +60,7 @@ int main(int argc, char **argv)
     double sec = 0;
     FILE *fp = NULL;
     void (*propagate) (void*, int, MPI_Datatype, int, MPI_Comm);
+    time_struct ts;
 
     usage(argc, argv);
     propagate = get_propagation(argc, argv);
@@ -89,7 +90,10 @@ int main(int argc, char **argv)
             Ap, workload * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     Ap2D = appoint_2D(Ap, workload, N);
 
-    /* Start Timing */
+    /* Init Communication Timer */
+    time_struct_init(ts);
+
+    /* Start Total Timer */
     MPI_Barrier(MPI_COMM_WORLD);
     if(rank == 0) {
         sec = timer();
@@ -107,18 +111,22 @@ int main(int argc, char **argv)
         }
 
         /* Everyone receives the k-th row */
+        time_struct_set_timestamp(ts);
         (*propagate) (&Ak[k], N-k, MPI_DOUBLE, bcaster, MPI_COMM_WORLD);
+        time_struct_add_timestamp(ts);
 
         /* And off you go to work. */
         process_rows(k, rank, N, workload, max_rank, Ap2D, Ak);
     }
 
-    /* Broadcast the last row to root (TODO: we can change it to send, right?)*/
     MPI_Barrier(MPI_COMM_WORLD);
     if (rank == 0) {
         sec = timer();
         printf("Calc Time: %lf\n", sec);
     }
+
+    printf("Rank %d: Communication time: %ld.%06ld\n", \
+                rank, ts->current_duration)
 
     /* Gather the table from each thread's Ap */
     gather_to_root_cyclic(Ap2D, max_rank, rank, 0, A2D, N, N);
