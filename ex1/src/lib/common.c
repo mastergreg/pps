@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Wed 12 Dec 2012 08:37:16 PM EET
+ * Last Modified : Wed 12 Dec 2012 08:51:50 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -138,8 +138,8 @@ void time_struct_add_timestamp(time_struct *ts)
     struct timeval tv;
     gettimeofday(&tv, NULL);
 
-    ts->current_duration.tv_sec += tv.tv_sec;
-    ts->current_duration.tv_usec += tv.tv_usec;
+    ts->current_duration.tv_sec += tv.tv_sec - ts->latest_timestamp.tv_sec;
+    ts->current_duration.tv_usec += tv.tv_usec - ts->latest_timestamp.tv_usec;
 
     ts->latest_timestamp.tv_sec = tv.tv_sec;
     ts->latest_timestamp.tv_usec = tv.tv_usec;
