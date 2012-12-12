@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.h
  * Creation Date : 06-11-2012
- * Last Modified : Wed 12 Dec 2012 08:25:26 PM EET
+ * Last Modified : Wed 12 Dec 2012 08:37:45 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -38,10 +38,10 @@ struct time_struct {
 
 typedef struct time_struct time_struct;
 
-
-void time_struct_init(time_struct ts);
-void time_struct_set_timestamp(time_struct ts);
-void time_struct_add_timestamp(time_struct ts);
+void time_struct_init(time_struct *ts);
+void time_struct_set_timestamp(time_struct *ts);
+void time_struct_add_timestamp(time_struct *ts);
+double get_seconds(time_struct *ts);
 
 struct Matrix {
     int N;
