@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
  * File Name : common.c
  * Creation Date : 06-11-2012
- * Last Modified : Thu 29 Nov 2012 05:58:48 PM EET
+ * Last Modified : Wed 12 Dec 2012 08:37:16 PM EET
  * Created By : Greg Liras <gregliras@gmail.com>
  * Created By : Alex Maurogiannis <nalfemp@gmail.com>
  _._._._._._._._._._._._._._._._._._._._._.*/
@@ -112,6 +112,45 @@ void print_matrix_2d(int N, int M, double *A)
 {
     fprint_matrix_2d(stdout, N, M, A);
 }
+
+
+/* Initialize ts to zero */
+void time_struct_init(time_struct *ts)
+{
+    ts->latest_timestamp.tv_sec = 0;
+    ts->latest_timestamp.tv_usec = 0;
+    ts->current_duration.tv_sec = 0;
+    ts->current_duration.tv_usec = 0;
+}
+
+/* Set ts timestamp to current time */
+void time_struct_set_timestamp(time_struct *ts)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    ts->latest_timestamp.tv_sec = tv.tv_sec;
+    ts->latest_timestamp.tv_usec = tv.tv_usec;
+}
+
+/* Set ts timestamp to current time and add the diff to current_duration */
+void time_struct_add_timestamp(time_struct *ts)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+
+    ts->current_duration.tv_sec += tv.tv_sec;
+    ts->current_duration.tv_usec += tv.tv_usec;
+
+    ts->latest_timestamp.tv_sec = tv.tv_sec;
+    ts->latest_timestamp.tv_usec = tv.tv_usec;
+}
+
+double get_seconds(time_struct *ts)
+{
+    return ts->current_duration.tv_sec + (((double) ts->current_duration.tv_usec)/1e6);
+}
+
+
 
 double timer(void)
 {
