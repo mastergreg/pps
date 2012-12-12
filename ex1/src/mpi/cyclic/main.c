@@ -125,8 +125,7 @@ int main(int argc, char **argv)
         printf("Calc Time: %lf\n", sec);
     }
 
-    printf("Rank %d: Communication time: %ld.%06ld\n", \
-                rank, ts->current_duration)
+    printf("Rank: %d Comm Time: %lf\n", rank, get_seconds(&ts));
 
     /* Gather the table from each thread's Ap */
     gather_to_root_cyclic(Ap2D, max_rank, rank, 0, A2D, N, N);
