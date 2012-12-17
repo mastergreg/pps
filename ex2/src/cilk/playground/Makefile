@@ -44,4 +44,4 @@ tags:
 	ctags -R *
 check:	$(EXECFILES)
 	@echo Running checks
-	$(foreach exec,$(EXECFILES),./$(exec) --nproc=$(NPROCS);)
+	$(foreach exec,$(EXECFILES),./$(exec) --nproc $(NPROCS);)
