@@ -1,6 +1,5 @@
 TARGET = main
 CC = cilkc
-CCFLAGS += -DUSE_MPI
 
 ifndef DEBUG
        DEBUG = n
