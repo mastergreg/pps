@@ -1,0 +1,80 @@
+/* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+* File Name : 03-tree.cilk
+* Creation Date : 17-12-2012
+* Last Modified : Mon 17 Dec 2012 11:27:40 PM EET
+* Created By : Greg Liras <gregliras@gmail.com>
+_._._._._._._._._._._._._._._._._._._._._.*/
+
+#include <stdlib.h>
+#include <stdio.h>
+
+struct b_tree {
+    int value;
+    struct b_tree *l_child;
+    struct b_tree *r_child;
+};
+
+typedef struct b_tree b_tree;
+
+int findme;
+
+cilk b_tree *generate_tree(int count)
+{
+    b_tree *node = malloc(sizeof(b_tree));
+    node->value = random();
+
+    if(count > 0) {
+        node->l_child = spawn generate_tree(count - 1);
+        node->r_child = spawn generate_tree(count - 1);
+    }
+    else {
+        findme = node->value;
+        node->l_child = NULL;
+        node->r_child = NULL;
+    }
+
+    sync;
+    return node;
+
+}
+
+
+cilk b_tree *search_tree(b_tree *node, int value)
+{
+    b_tree *n1 = NULL;
+    b_tree *n2 = NULL;
+    if(node == NULL) {
+        return node;
+    }
+    else if(node->value == value) {
+        abort;
+        return node;
+    }
+    else {
+        n1 = spawn search_tree(node->l_child, value);
+        n2 = spawn search_tree(node->r_child, value);
+        if(n1 != NULL) {
+            abort;
+            return n1;
+        }
+        else if(n2 != NULL) {
+            abort;
+            return n2;
+        }
+    }
+    return NULL;
+}
+
+
+cilk int main(void)
+{
+    b_tree *node;
+    b_tree *found;
+    printf("%d\n", findme);
+    node = spawn generate_tree(10);
+    printf("%d\n", findme);
+    found = spawn search_tree(node, findme);
+    printf("%d\n", found->value);
+    
+    return 0;
+}
