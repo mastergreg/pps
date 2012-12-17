@@ -1,4 +1,3 @@
-TARGET = main
 CC = cilkc
 
 ifndef DEBUG
@@ -19,22 +18,30 @@ endif
 
 
 
+NPROCS = 4
 CCFILES += $(wildcard *.cilk)
 OBJ +=  $(patsubst %.cilk,%.o,$(CCFILES))
+EXECFILES +=  $(patsubst %.cilk,%.exec,$(CCFILES))
 DEPENDS += $(wildcard *.h) 
 
-all: $(TARGET).exec
+all: $(EXECFILES)
 
-$(TARGET).exec: $(OBJ) $(DEPENDS)
-	$(CC) $(LDFLAGS) $(OBJ) -o $(TARGET).exec
+debug:
+	make -B DEBUG=y
 
-%.o:	%.cilk
+%.exec: %.o
+	$(CC) $(LDFLAGS) $< -o $@
+
+%.o:	%.cilk $(DEPENDS)
 	$(CC) -c $(CCFLAGS) $< -o $@
 
-.PHONY:	clean all indent tags
+.PHONY:	clean all indent tags check
 clean:
-	rm -f $(OBJ) $(TARGET).exec
+	rm -f $(OBJ) $(EXECFILES)
 indent:
 	astyle --style=linux $(CCFILES)
 tags:
 	ctags -R *
+check:	$(EXECFILES)
+	@echo Running checks
+	$(foreach exec,$(EXECFILES),./$(exec) --nproc=$(NPROCS);)
