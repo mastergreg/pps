@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : 03-tree.cilk
 * Creation Date : 17-12-2012
-* Last Modified : Tue 18 Dec 2012 12:51:53 AM EET
+* Last Modified : Tue 18 Dec 2012 12:57:51 AM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -32,10 +32,8 @@ cilk b_tree *generate_tree(int count)
         node->l_child = NULL;
         node->r_child = NULL;
     }
-
     sync;
     return node;
-
 }
 
 
@@ -78,7 +76,7 @@ cilk int main(void)
     b_tree *node;
     b_tree *found;
     printf("%d\n", findme);
-    node = spawn generate_tree(10);
+    node = spawn generate_tree(20);
     sync;
     if(NULL != node) {
         printf("allocated\n");
@@ -95,6 +93,7 @@ cilk int main(void)
     else {
         printf("not found\n");
     }
+
     spawn free_tree(node);
     sync;
     
