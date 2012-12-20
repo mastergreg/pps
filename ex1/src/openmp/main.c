@@ -1,7 +1,7 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 * File Name : main.c
 * Creation Date : 30-10-2012
-* Last Modified : Thu 20 Dec 2012 12:43:17 PM EET
+* Last Modified : Thu 20 Dec 2012 01:27:37 PM EET
 * Created By : Greg Liras <gregliras@gmail.com>
 * Created By : Alex Maurogiannis <nalfemp@gmail.com>
 _._._._._._._._._._._._._._._._._._._._._.*/
@@ -18,7 +18,8 @@ int main(int argc, char **argv)
     int i,j,k;
     int N;
     double *A;
-    double *A2D;
+    double **A2D;
+    int flag = 1;
 
     double l;
     double sec;
@@ -47,6 +48,11 @@ int main(int argc, char **argv)
     {
 #pragma omp parallel private(Ak)
         {
+            if(flag)
+            {
+                printf("%d %d\n", omp_get_num_threads(), omp_get_max_threads());
+                flag=0;
+            }
             Ak = A2D[k];
 #pragma omp for schedule(static, chunk) private(l,j, Ai)
             for (i = k + 1; i < N; i++)
