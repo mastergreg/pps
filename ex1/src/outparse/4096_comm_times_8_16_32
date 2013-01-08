@@ -1,0 +1,16 @@
+File size: 4096 NThreads: 8 Run type: ptp-cont Comm Time =  16.497695
+File size: 4096 NThreads: 8 Run type: ptp-cyc Comm Time =  4.473496
+File size: 4096 NThreads: 8 Run type: coll-cont Comm Time =  16.914952
+File size: 4096 NThreads: 8 Run type: coll-cyc Comm Time =  2.933928
+File size: 4096 NThreads: 16 Run type: ptp-cont Comm Time =  12.852901
+File size: 4096 NThreads: 16 Run type: ptp-cyc Comm Time =  6.22362
+File size: 4096 NThreads: 16 Run type: coll-cont Comm Time =  12.769213
+File size: 4096 NThreads: 16 Run type: coll-cyc Comm Time =  4.676765
+File size: 4096 NThreads: 32 Run type: ptp-cont Comm Time =  8.431388
+File size: 4096 NThreads: 32 Run type: ptp-cyc Comm Time =  6.471785
+File size: 4096 NThreads: 32 Run type: coll-cont Comm Time =  7.153898
+File size: 4096 NThreads: 32 Run type: coll-cyc Comm Time =  3.54719
+File size: 4096 NThreads: 64 Run type: ptp-cont Comm Time =  9.887971
+File size: 4096 NThreads: 64 Run type: ptp-cyc Comm Time =  8.550918
+File size: 4096 NThreads: 64 Run type: coll-cont Comm Time =  6.475926
+File size: 4096 NThreads: 64 Run type: coll-cyc Comm Time =  3.9203

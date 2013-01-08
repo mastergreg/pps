@@ -1,0 +1,4 @@
+main.c: In function 'main':
+main.c:64: warning: unused variable 'fp'
+main.c: In function 'main':
+main.c:61: warning: unused variable 'fp'

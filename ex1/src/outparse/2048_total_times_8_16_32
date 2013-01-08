@@ -1,0 +1,16 @@
+File size: 2048 NThreads: 8 Run type: ptp-cont Total Time =  2.372375
+File size: 2048 NThreads: 8 Run type: ptp-cyc Total Time =  2.259135
+File size: 2048 NThreads: 8 Run type: coll-cont Total Time =  1.879758
+File size: 2048 NThreads: 8 Run type: coll-cyc Total Time =  1.647578
+File size: 2048 NThreads: 16 Run type: ptp-cont Total Time =  2.257902
+File size: 2048 NThreads: 16 Run type: ptp-cyc Total Time =  2.629312
+File size: 2048 NThreads: 16 Run type: coll-cont Total Time =  1.910427
+File size: 2048 NThreads: 16 Run type: coll-cyc Total Time =  1.761683
+File size: 2048 NThreads: 32 Run type: ptp-cont Total Time =  2.234239
+File size: 2048 NThreads: 32 Run type: ptp-cyc Total Time =  2.43625
+File size: 2048 NThreads: 32 Run type: coll-cont Total Time =  1.284914
+File size: 2048 NThreads: 32 Run type: coll-cyc Total Time =  1.423361
+File size: 2048 NThreads: 64 Run type: ptp-cont Total Time =  2.752321
+File size: 2048 NThreads: 64 Run type: ptp-cyc Total Time =  2.909631
+File size: 2048 NThreads: 64 Run type: coll-cont Total Time =  1.0938
+File size: 2048 NThreads: 64 Run type: coll-cyc Total Time =  1.43127
