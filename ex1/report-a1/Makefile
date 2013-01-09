@@ -1,10 +1,18 @@
 TARGET = parlab08-a1-report
 CC = xelatex
-CCFLAGS = -shell-escape
+CCFLAGS = -shell-escape -synctex=1
 
-all: $(TARGET).pdf
+
+all: $(TARGET).pdf aux
+
+
+aux:
+	find . -iname "*.aux" -not -name $(TARGET).aux -delete
+
+
 
 %.pdf:	%.tex title/* files/*
+	$(CC) $(CCFLAGS) $<
 	$(CC) $(CCFLAGS) $<
 
 

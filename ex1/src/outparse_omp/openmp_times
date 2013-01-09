@@ -1,0 +1,30 @@
+===============
+File size: 512 Run type: serial Time =  0.07974
+File size: 512 NThreads: 1 Time =  0.118654
+File size: 512 NThreads: 2 Time =  0.061597
+File size: 512 NThreads: 3 Time =  0.043235
+File size: 512 NThreads: 4 Time =  0.034227
+File size: 512 NThreads: 5 Time =  0.028735
+File size: 512 NThreads: 6 Time =  0.025756
+File size: 512 NThreads: 7 Time =  0.023246
+File size: 512 NThreads: 8 Time =  0.022062
+===============
+File size: 1024 Run type: serial Time =  1.076101
+File size: 1024 NThreads: 1 Time =  1.220384
+File size: 1024 NThreads: 2 Time =  0.499228
+File size: 1024 NThreads: 3 Time =  0.323379
+File size: 1024 NThreads: 4 Time =  0.245878
+File size: 1024 NThreads: 5 Time =  0.201458
+File size: 1024 NThreads: 6 Time =  0.173042
+File size: 1024 NThreads: 7 Time =  0.153357
+File size: 1024 NThreads: 8 Time =  0.138912
+===============
+File size: 2048 Run type: serial Time =  11.068341
+File size: 2048 NThreads: 1 Time =  11.743729
+File size: 2048 NThreads: 2 Time =  9.013915
+File size: 2048 NThreads: 3 Time =  7.908741
+File size: 2048 NThreads: 4 Time =  6.26091
+File size: 2048 NThreads: 5 Time =  6.124913
+File size: 2048 NThreads: 6 Time =  6.005111
+File size: 2048 NThreads: 7 Time =  6.161241
+File size: 2048 NThreads: 8 Time =  6.153399

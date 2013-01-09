@@ -1,133 +1,113 @@
 \include{preamble}
+
 \begin{document}
 
-\definecolor{bootred}{RGB}{248,148,6}
-\definecolor{bootgreen}{RGB}{81,163,81}
-\definecolor{bootblue}{RGB}{73, 178, 205}
-
-\renewcommand{\theenumi}{\roman{enumi}}
 \include{title/title}
 
-\def\thesubsection {Ζητούμενο \arabic{subsection}}
-\section*{Πηγαίος κώδικας}
 
-%{{{ Library
-
-\subsection*{Κοινή βιβλιοθήκη}
-
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-lib-common.h}
-
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-lib-common.c}
-
-%}}} Library
 
 \setcounter{section}{1}
-%{{{ Serial
-
-\subsection{Σειριακό Πρόγραμμα}
-
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-serial-main.c}
-
-%}}} Serial
-
-%{{{ Theory
-
-\subsection{Παραλληλισμός Αλγορίθμου}
-
-Ο παραλληλισμός του αλγορίθμου εντοπίζεται στο γεγονός ότι υπάρχει ανεξαρτησία
-του υπολογισμού κατά γραμμές για δεδομένο $k$. Καθ όλη την εκτέλεση του
-προγράμματος κρατάμε σταθερό τον τρόπο διαμοιρασμού των γραμμών του πίνακα,
-μοιράζοντας σε κάθε επανάληψη την $k^{th}$ γραμμή. 
-
-\vspace{1.1em}
-\begin{minipage}[t]{0.5\textwidth}
-    \centering
-        \begin{tabular}{| c | c | c | c | c | c | c |}
-            \multicolumn{7}{c}{\dots} \\
-            \hline
-            \rowcolor{bootblue} & & & & & & \\
-            \hline
-            \rowcolor{bootgreen} & & & & & & \\
-            \hline
-            \rowcolor{bootred} & & & & & & \\
-            \hline
-            \rowcolor{bootblue} & & & & & & \\
-            \hline
-            \rowcolor{bootgreen} & & & & & & \\
-            \hline
-            \rowcolor{bootred} & & & & & & \\
-            \hline
-            \rowcolor{bootblue} & & & & & & \\
-            \hline
-            \multicolumn{7}{c}{\dots} \\
-        \end{tabular}
-
-        \textit{Circular}
-\end{minipage}
-\begin{minipage}[t]{0.5\textwidth}
-    \centering
-        \begin{tabular}{| c | c | c | c | c | c | c |}
-            \hline
-            \rowcolor{bootblue} & & & & & & \\
-            \hline
-            \rowcolor{bootblue} & & & & & & \\
-            \hline
-            \rowcolor{bootblue} & & & & & & \\
-            \hline
-            \rowcolor{bootgreen} & & & & & & \\
-            \hline
-            \rowcolor{bootgreen} & & & & & & \\
-            \hline
-            \rowcolor{bootgreen} & & & & & & \\
-            \hline
-            \rowcolor{bootred} & & & & & & \\
-            \hline
-            \rowcolor{bootred} & & & & & & \\
-            \hline
-        \end{tabular}
-
-        \textit{Continuous}
-\end{minipage}
-%}}} Theory
 
 %{{{ OpenMP
 
-\subsection{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
+\section{Μοντέλο κοινού χώρου διευθύνσεων (\textbf{OpenMP})}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{files/src-outparse_omp-512_speedup.png}
+    \caption{512 speedup}
+    \label{fig:omp_512_speed}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{files/src-outparse_omp-1024_speedup.png}
+    \caption{1024 speedup}
+    \label{fig:omp_1024_speed}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{files/src-outparse_omp-2048_speedup.png}
+    \caption{2048 speedup}
+    \label{fig:omp_2048_speed}
+\end{figure}
+
+
 
 %}}} OpenMP
-Η υλοποίηση μοντέλου κοινού χώρου διευθύνσεων βασίζεται στην δομή pragma omp for, με χρήση private μεταβλητών divisor και A2 για κάθε thread ώστε να αποφεύγονται όσο γίνεται οι προσβάσεις στην κοινή μνήμη. Επιπλέον, έχουν πραγματοποιηθεί βελτιστοποιήσεις μέσω flags του gcc, όπως φαίνεται στο Makefile.
-
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-openmp-main.c}
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{make}{files/src-openmp-Makefile}
 
 \pagebreak
 
 %{{{ MPI
-\subsection{Μοντέλο ανταλλαγής μηνυμάτων (\textbf{MPI})}
+\section{Μοντέλο ανταλλαγής μηνυμάτων (\textbf{MPI})}
 
-\subsubsection{Point to Point}
+\subsection{Speedups}
 
-Η υλοποίηση \textbf{point-to-point} με χρήση flooding για λογαριθμικό
-propagation και κυκλική κατανομή των γραμμών (\textit{Circular}).
 
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-mpi-ptp-hybrid-main.c}
+Στα ακόλουθα σχήματα παραθέτουμε τα speedups που παρατηρήσαμε στις εκτελέσεις
+για τα διάφορα μεγέθη πίνακα για κάθε έκδοση κώδικα.
 
-Η υλοποίηση \textbf{point-to-point} με χρήση flooding για λογαριθμικό
-propagation και συνεχή κατανομή των γραμμών (\textit{Continuous}).
+Στο σχήμα \ref{fig:4096_speed} παρατηρούμε μέγιστο speedup καθώς σε αυτή την
+εκτέλεση το μέγεθος του πίνακα που μοιράζουμε γίνεται μικρότερο από το cache
+size.
 
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-mpi-ptp-continuous-single-main.c}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{files/src-outparse-2048_speedups.png}
+    \caption{2048 speedups}
+    \label{fig:2048_speed}
+\end{figure}
 
-\subsubsection{Collective}
-Η \textbf{collective} υλοποίηση για κυκλική κατανομή των γραμμών
-(\textit{Circular}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{files/src-outparse-4096_speedups.png}
+    \caption{4096 speedups}
+    \label{fig:4096_speed}
+\end{figure}
 
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-mpi-collective-hybrid-main.c}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{files/src-outparse-6144_speedups.png}
+    \caption{6144 speedups}
+    \label{fig:6144_speed}
+\end{figure}
 
-Η \textbf{collective} υλοποίηση για συνεχή κατανομή των γραμμών
-(\textit{Continuous}).
 
-\inputminted[linenos,fontsize=\scriptsize,frame=leftline]{c}{files/src-mpi-collective-continuous-single-main.c}
+
+
+\subsection{Χρόνοι εκτέλεσης}
+
+Στα ακόλουθα σχήματα παραθέτουμε τα speedups που παρατηρήσαμε στις εκτελέσεις
+για τα διάφορα μεγέθη πίνακα για κάθε έκδοση κώδικα.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{files/src-outparse-2048_times.png}
+    \caption{2048 times}
+    \label{fig:2048_time}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{files/src-outparse-4096_times.png}
+    \caption{4096 times}
+    \label{fig:4096_time}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{files/src-outparse-6144_times.png}
+    \caption{6144 times}
+    \label{fig:6144_time}
+\end{figure}
 
 %}}} MPI
 
 \end{document}
+
+
+
+
+

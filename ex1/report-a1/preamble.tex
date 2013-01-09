@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article} \usepackage{anysize}
+\documentclass[a4paper,11pt]{article} \usepackage{anysize}
 \marginsize{2cm}{2cm}{1cm}{1cm}
 %\textwidth 6.0in \textheight = 664pt
 \usepackage{xltxtra}
@@ -13,4 +13,14 @@
 \usepackage{listings}
 \usepackage{enumitem} \usepackage{framed} \usepackage{relsize}
 \usepackage{float} 
+
+\definecolor{bootred}{RGB}{248,148,6}
+\definecolor{bootgreen}{RGB}{81,163,81}
+\definecolor{bootblue}{RGB}{73, 178, 205}
+
+
+\renewcommand{\theenumi}{\roman{enumi}}
+
+\def\thesubsection {Ζητούμενο \arabic{subsection}}
+
 \setmainfont[Mapping=TeX-text]{CMU Concrete}

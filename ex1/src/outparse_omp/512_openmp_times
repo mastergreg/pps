@@ -1,0 +1,8 @@
+File size: 512 NThreads: 1 Time =  0.118654
+File size: 512 NThreads: 2 Time =  0.061597
+File size: 512 NThreads: 3 Time =  0.043235
+File size: 512 NThreads: 4 Time =  0.034227
+File size: 512 NThreads: 5 Time =  0.028735
+File size: 512 NThreads: 6 Time =  0.025756
+File size: 512 NThreads: 7 Time =  0.023246
+File size: 512 NThreads: 8 Time =  0.022062
