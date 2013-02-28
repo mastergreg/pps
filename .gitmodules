@@ -1,0 +1,3 @@
+[submodule "pps-ex2"]
+	path = pps-ex2
+	url = git://github.com/mastergreg/pps-ex2.git
