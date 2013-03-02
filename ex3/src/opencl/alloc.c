@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  alloc.c -- 2D array allocation.
  *

@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  error.c -- Error handling routines
  *

@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 #ifndef TIMER_H
 #define TIMER_H
 

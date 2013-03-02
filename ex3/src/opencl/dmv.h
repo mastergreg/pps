@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  dmv.h -- Declarations and definitions related to the DMV
  *           multiplication kernels.

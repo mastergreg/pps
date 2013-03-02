@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  dmv_main.cu -- DMV front-end program.
  *

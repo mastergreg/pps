@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  gpu_util.cu -- GPU utility functions
  *

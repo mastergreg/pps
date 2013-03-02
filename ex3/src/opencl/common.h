@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  common.h -- Basic definitions and declarations.
  *

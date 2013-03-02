@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 /*
  *  dmv_gpu.cu -- Template for DMV GPU kernels
  *
