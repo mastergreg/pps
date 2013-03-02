@@ -13,13 +13,15 @@ __kernel void naive(__global const value_t *a, \
                     __global const value_t *x, __global value_t *y, uint n)
 {
     uint i;
-    uint tid = get_global_id(0);
+    const uint tid = get_global_id(0);
     
-    const __global value_t *row = &a[tid*n];
-    __private value_t product = 0;
-    for (i = 0; i < n; ++i)
-        product += row[i] * x[i];
-    y[tid] = product;
+    if (tid < n) {
+        const __global value_t *row = &a[tid*n];
+        __private value_t product = 0;
+        for (i = 0; i < n; ++i)
+            product += row[i] * x[i];
+        y[tid] = product;
+    }
 }
 
 /*

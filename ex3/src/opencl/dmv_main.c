@@ -1,6 +1,6 @@
 // vim: set syntax=opencl:
 /*
- *  dmv_main.cu -- DMV front-end program.
+ *  dmv_main.cl -- DMV front-end program.
  *
  *  Copyright (C) 2010-2012, Computing Systems Laboratory (CSLab)
  *  Copyright (C) 2010-2012, Vasileios Karakasis
@@ -181,36 +181,36 @@ int main(int argc, char **argv)
 	char *source_str;
 	size_t source_size;
 	
-    //XXX Initialization Begin
+    /* Initialization Begin */
     // Platform
 	errv = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
     if (errv != CL_SUCCESS) {
-        printf("Error getting platform id: \n");
+        printf("Error getting platform id\n");
         exit(errv);
     }
-    printf("Success getting platform id: \n");
+    printf("Success getting platform id\n");
     // Device
-    errv = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device, &ret_num_devices);
+    errv = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device, &ret_num_devices);
     if (errv != CL_SUCCESS) {
-        printf("Error getting device ids: \n");
+        printf("Error getting device ids\n");
         exit(errv);
     }
-    printf("Success getting device ids: \n");
+    printf("Success getting device ids\n");
     // Context
     context = clCreateContext(0, 1, &device, NULL, NULL, &errv);
     if (errv != CL_SUCCESS) {
-        printf("Error creating context: \n");
+        printf("Error creating context\n");
         exit(errv);
     }
-    printf("Success creating context: \n");
+    printf("Success creating context\n");
     // Command-queue
     queue = clCreateCommandQueue(context, device, 0, &errv);
     if (errv != CL_SUCCESS) {
-        printf("Error creating command queue: \n");
+        printf("Error creating command queue \n");
         exit(errv);
     }
-    printf("Success creating command queue: \n");
-    //XXX Initialization Complete
+    printf("Success creating command queue\n");
+    /* Initialization Complete */
 
     size_t shmem_size = 0;  // FILLME: set up the shared memory size
 
@@ -223,25 +223,24 @@ int main(int argc, char **argv)
     //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
     cl_mem gpu_A = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_USE_HOST_PTR, n * n * sizeof(value_t), A, &errv);
+            CL_MEM_ALLOC_HOST_PTR, n * n * sizeof(value_t), A, &errv);
     if (!gpu_A)
         error(0, "gpu_alloc failed: %s", errv);
     
     cl_mem gpu_x = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_USE_HOST_PTR, n * sizeof(value_t), x, &errv);
+            CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), x, &errv);
     if (!gpu_x)
         error(0, "gpu_alloc failed: %s", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
     cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_WRITE_ONLY | \
-            CL_MEM_USE_HOST_PTR, n * sizeof(value_t), y, &errv);
+            CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
         error(0, "gpu_alloc failed: %s", errv);
 
     if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
 
-    printf("Success creating Buffers \n");
     printf("GPU kernel version: %s\n", gpu_kernels[kern].name);
 
 	/* Load the source code containing the kernels*/
@@ -254,7 +253,7 @@ int main(int argc, char **argv)
 	source_size = fread(source_str, 1, MAX_SOURCE_SIZE, fp);
 	fclose(fp);
 	 
-	/* Create Kernel Program from the source */
+	/* Create Program from the source */
 	program = clCreateProgramWithSource(context, 1, (const char **)&source_str,
                             (const size_t *)&source_size, &errv);
     if (!program)
@@ -266,6 +265,7 @@ int main(int argc, char **argv)
         printf("Error building kernel: %d\n", errv);
     }
 
+    /* Generate Build Log */
     char * build_log;
     size_t log_size;
     errv = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, \
@@ -273,28 +273,42 @@ int main(int argc, char **argv)
     build_log = (char *) malloc((log_size+1) * sizeof(char));
     errv |= clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG,
                             log_size, build_log, NULL);
+    if (errv != CL_SUCCESS) {
+        printf("Error generating program build log\n");
+        exit(errv);
+    }
     build_log[log_size]= '\0';
     printf("\n%s\n", build_log);
     free(build_log);
+
 	/* Create OpenCL Kernel */
 	kernel = clCreateKernel(program, gpu_kernels[kern].name, &errv);
 
+    /* Set the Kernel Arguments */
     errv = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gpu_A);
     errv |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
     errv |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
     errv |= clSetKernelArg(kernel, 3, sizeof(uint), &n);
     if (errv != CL_SUCCESS) {
-        printf("Error setting kernel arguments: \n");
+        printf("Error setting kernel arguments\n");
         exit(errv);
     }
 
+    /* Calculate grid and block sizes */
     const size_t local_ws = min(block_size, CL_DEVICE_MAX_WORK_ITEM_SIZES);
-    size_t global_ws = local_ws / n;
-    if (local_ws % n != 0) {
+    size_t global_ws = n / local_ws;
+    if (n % local_ws != 0) {
         global_ws++;
     }
+
+
     global_ws *= local_ws;
+    printf("N: %u\n",n);
+    printf("Global work-items: %lu\n", global_ws);
+    printf("Local work-items: %lu\n", local_ws);
+    printf("\n");
     
+    /* Start Timing and Enqueue the kernel */
     timer_clear(&timer);
     timer_start(&timer);
     for (size_t i = 0; i < NR_ITER; ++i) {
@@ -304,12 +318,13 @@ int main(int argc, char **argv)
     timer_stop(&timer);
 
     if (errv != CL_SUCCESS) {
-        printf("Error enqueuing kernel errv: %d\n", errv);
+        printf("Error enqueuing kernel %d\n", errv);
         exit(errv);
     }
    
+    /* Read the Result */
 	errv = clEnqueueReadBuffer(queue, gpu_y, CL_TRUE, 0, \
-        n * sizeof(value_t), y, 0, NULL, NULL);
+                n * sizeof(value_t), y, 0, NULL, NULL);
     if (errv != CL_SUCCESS) {
         printf("Error enqueuing read buffer\n");
         exit(errv);
@@ -326,7 +341,8 @@ int main(int argc, char **argv)
 
     report_results(&timer, orig_n);
     printf(">>>> End of record <<<<\n");
-    /* Free cl constructs */
+
+    /* Cleanup */
 	errv = clFinish(queue);
 	errv = clReleaseKernel(kernel);
 	errv = clReleaseProgram(program);
