@@ -3,19 +3,18 @@
  *  kernels.cl : OpenCL kernels for DMV multiplication
  */ 
 
+typedef float   value_t; 
+
 /*
  *  Naive kernel
  */ 
-
-typedef float   value_t;
-
 __kernel void naive(__global const value_t *a, \
                     __global const value_t *x, __global value_t *y, uint n)
 {
     uint i;
     const uint tid = get_global_id(0);
     
-    if (tid < n) {
+    if (tid <= n) {
         const __global value_t *row = &a[tid*n];
         __private value_t product = 0;
         for (i = 0; i < n; ++i)

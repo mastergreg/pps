@@ -188,28 +188,28 @@ int main(int argc, char **argv)
         printf("Error getting platform id\n");
         exit(errv);
     }
-    printf("Success getting platform id\n");
     // Device
-    errv = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, &device, &ret_num_devices);
+    errv = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_GPU, 1, 
+                                        &device, &ret_num_devices);
     if (errv != CL_SUCCESS) {
         printf("Error getting device ids\n");
         exit(errv);
     }
-    printf("Success getting device ids\n");
+    //printf("Success getting device ids\n");
     // Context
     context = clCreateContext(0, 1, &device, NULL, NULL, &errv);
     if (errv != CL_SUCCESS) {
         printf("Error creating context\n");
         exit(errv);
     }
-    printf("Success creating context\n");
+    //printf("Success creating context\n");
     // Command-queue
     queue = clCreateCommandQueue(context, device, 0, &errv);
     if (errv != CL_SUCCESS) {
         printf("Error creating command queue \n");
         exit(errv);
     }
-    printf("Success creating command queue\n");
+    //printf("Success creating command queue\n");
     /* Initialization Complete */
 
     size_t shmem_size = 0;  // FILLME: set up the shared memory size
@@ -222,19 +222,19 @@ int main(int argc, char **argv)
     /* GPU allocations */
     //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
-    cl_mem gpu_A = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_ALLOC_HOST_PTR, n * n * sizeof(value_t), A, &errv);
+    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | \
+                    CL_MEM_ALLOC_HOST_PTR, n * n * sizeof(value_t), A, &errv);
     if (!gpu_A)
         error(0, "gpu_alloc failed: %s", errv);
     
-    cl_mem gpu_x = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), x, &errv);
+    cl_mem gpu_x = clCreateBuffer(context, CL_MEM_READ_ONLY | \
+                        CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), x, &errv);
     if (!gpu_x)
         error(0, "gpu_alloc failed: %s", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
-    cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_WRITE_ONLY | \
-            CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), y, &errv);
+    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY | \
+                        CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
         error(0, "gpu_alloc failed: %s", errv);
 
@@ -262,47 +262,51 @@ int main(int argc, char **argv)
 	/* Build Kernel Program */
 	errv = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
     if (errv != CL_SUCCESS) {
-        printf("Error building kernel: %d\n", errv);
+        printf("Error building kernel: %d\n\n", errv);
+
+        /* Generate Build Log on Failure*/
+        char * build_log;
+        size_t log_size;
+        errv = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, \
+                                0, NULL, &log_size);
+        build_log = (char *) malloc((log_size+1) * sizeof(char));
+        errv |= clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG,
+                                log_size, build_log, NULL);
+        if (errv != CL_SUCCESS) {
+            printf("Error generating program build log\n");
+            exit(errv);
+        }
+        build_log[log_size]= '\0';
+        printf("%s\n\n", build_log);
+        free(build_log);
     }
 
-    /* Generate Build Log */
-    char * build_log;
-    size_t log_size;
-    errv = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, \
-                            0, NULL, &log_size);
-    build_log = (char *) malloc((log_size+1) * sizeof(char));
-    errv |= clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG,
-                            log_size, build_log, NULL);
-    if (errv != CL_SUCCESS) {
-        printf("Error generating program build log\n");
-        exit(errv);
-    }
-    build_log[log_size]= '\0';
-    printf("\n%s\n", build_log);
-    free(build_log);
 
 	/* Create OpenCL Kernel */
 	kernel = clCreateKernel(program, gpu_kernels[kern].name, &errv);
-
+    if (errv != CL_SUCCESS) {
+        printf("Error creating Kernel \n");
+        exit(errv);
+    }
     /* Set the Kernel Arguments */
     errv = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gpu_A);
     errv |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
     errv |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
     errv |= clSetKernelArg(kernel, 3, sizeof(uint), &n);
     if (errv != CL_SUCCESS) {
-        printf("Error setting kernel arguments\n");
+        printf("Error setting Kernel arguments\n");
         exit(errv);
     }
 
     /* Calculate grid and block sizes */
     const size_t local_ws = min(block_size, CL_DEVICE_MAX_WORK_ITEM_SIZES);
-    size_t global_ws = n / local_ws;
-    if (n % local_ws != 0) {
+    size_t global_ws = n < local_ws ? 1 : n / local_ws;  // is at least 1 block
+    if ((n % local_ws != 0) && (n > local_ws)) {
         global_ws++;
     }
+    global_ws *= local_ws; 
 
-
-    global_ws *= local_ws;
+    printf("\n");
     printf("N: %u\n",n);
     printf("Global work-items: %lu\n", global_ws);
     printf("Local work-items: %lu\n", local_ws);
@@ -315,10 +319,13 @@ int main(int argc, char **argv)
         errv |= clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_ws, \
                 &local_ws, 0, NULL, NULL);
     }
+
+    /* Wait for all queue items to finish and stop timing */
+    errv = clFinish(queue);
     timer_stop(&timer);
 
     if (errv != CL_SUCCESS) {
-        printf("Error enqueuing kernel %d\n", errv);
+        printf("Error during kernel queuing and execution: %d\n", errv);
         exit(errv);
     }
    
