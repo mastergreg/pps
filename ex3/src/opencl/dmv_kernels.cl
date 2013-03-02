@@ -6,18 +6,23 @@
 /*
  *  Naive kernel
  */ 
-__kernel void dmv_gpu_naive(__global const value_t *a,
+__kernel void naive(__global const value_t *a,
                     __global const value_t *x, __global value_t *y, size_t n)
 {
-    /*
-     * FILLME: fill the code for the naive kernel.
-     */ 
+    uint i;
+    uint tid = get_global_id(0);
+    
+    const __global value_t row = M[tid*n];
+    value_t product = 0;
+    for (i = 0; i < n; ++i)
+        product += row[i] * x[i];
+    y[tid] = product;
 }
 
 /*
  *  Coalesced memory acceses
  */
-__kernel void dmv_gpu_coalesced(__global const value_t *a,
+__kernel void coalesced(__global const value_t *a,
                     __global const value_t *x, __global value_t *y, size_t n)
 {
     /*
@@ -28,7 +33,7 @@ __kernel void dmv_gpu_coalesced(__global const value_t *a,
 /*
  *  Use of shared memory
  */
-__kernel void dmv_gpu_shmem(__global const value_t *a,
+__kernel void shmem(__global const value_t *a,
                     __global  const value_t *x,__global value_t *y, size_t n)
 {
     /*
