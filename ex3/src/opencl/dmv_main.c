@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <cuda.h>
+#include <CL/opencl.h>
 #include "alloc.h"
 #include "dmv.h"
 #include "error.h"
@@ -198,20 +198,20 @@ int main(int argc, char **argv)
         error(0, "the requested kernel does not exist");
 
     printf("GPU kernel version: %s\n", gpu_kernels[kernel].name);
-
-    /* Execute and time the kernel */
     timer_clear(&timer);
     timer_start(&timer);
-    for (size_t i = 0; i < NR_ITER; ++i) {
-        gpu_kernels[kernel].fn<<<gpu_grid,gpu_block,shmem_size>>>
-            (gpu_A, gpu_x, gpu_y, n);
-#ifdef _DEBUG_
-        cudaError_t err;
-        if ( (err = cudaGetLastError()) != cudaSuccess)
-            error(0, "gpu kernel failed to launch: %s", gpu_get_errmsg(err));
-#endif
-        cudaThreadSynchronize();
-    }
+// this has to change drastically 
+//     /* Execute and time the kernel */
+//     for (size_t i = 0; i < NR_ITER; ++i) {
+//         gpu_kernels[kernel].fn<<<gpu_grid,gpu_block,shmem_size>>>
+//             (gpu_A, gpu_x, gpu_y, n);
+// #ifdef _DEBUG_
+//         cl_int err;
+//         if ( (err = cudaGetLastError()) != CL_SUCCESS)
+//             error(0, "gpu kernel failed to launch: %s", gpu_get_errmsg(err));
+// #endif
+//         cudaThreadSynchronize();
+//     }
     timer_stop(&timer);
 
     /* Copy result back to host and check */
