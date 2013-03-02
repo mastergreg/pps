@@ -1,3 +1,4 @@
+// vim: set syntax=opencl:
 #include <stdio.h>
 #include <stdlib.h>
  
