@@ -82,7 +82,7 @@ int main(int argc, char **argv)
     int kern = (env_gpu_kernel) ? atoi(env_gpu_kernel) : GPU_NAIVE;
     int block_size = (env_gpu_block_size) ? atoi(env_gpu_block_size) : 256;
     size_t orig_n = n;  // original matrix size
-    int grid_size = 1;  // FILLME: compute the grid size
+    //int grid_size = 1;  // FILLME: compute the grid size
 
     /*
      *  FILLME: you can optionally adjust appropriately (increase
@@ -161,7 +161,6 @@ int main(int argc, char **argv)
      *          matrix here.
      */ 
     cl_int errv = 0;
-    cl_platform_id platform;
     cl_context context;
     cl_command_queue queue;
     cl_device_id device=NULL;
@@ -229,7 +228,7 @@ int main(int argc, char **argv)
         error(0, "gpu_alloc failed: %s", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
-    cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
+    cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_WRITE_ONLY | \
             CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
         error(0, "gpu_alloc failed: %s", errv);
@@ -262,8 +261,31 @@ int main(int argc, char **argv)
 	/* Create OpenCL Kernel */
 	kernel = clCreateKernel(program, gpu_kernels[kern].name, &errv);
 
+    errv = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gpu_A);
+    errv = clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
+    errv = clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
+    errv = clSetKernelArg(kernel, 3, sizeof(size_t), &n);
+
+    const size_t local_ws = block_size;
+    size_t global_ws = local_ws / n;
+    if (local_ws % n != 0) {
+        global_ws++;
+    }
+    global_ws *= local_ws;
+    
     timer_clear(&timer);
     timer_start(&timer);
+    for (size_t i = 0; i < NR_ITER; ++i) {
+        errv = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_ws, \
+                &local_ws, 0, NULL, NULL);
+    }
+   
+    timer_stop(&timer);
+	errv = clEnqueueReadBuffer(queue, gpu_y, CL_TRUE, 0, \
+        n * sizeof(value_t), y, 0, NULL, NULL);
+
+    errv = clFlush(queue);
+
 // this has to change drastically 
 //     /* Execute and time the kernel */
 //     for (size_t i = 0; i < NR_ITER; ++i) {
@@ -276,7 +298,6 @@ int main(int argc, char **argv)
 // #endif
 //         cudaThreadSynchronize();
 //     }
-    timer_stop(&timer);
 
     /* Copy result back to host and check */
     //if (copy_from_gpu(y, gpu_y, n*sizeof(*y)) < 0)
@@ -289,7 +310,6 @@ int main(int argc, char **argv)
     /* Free cl constructs */
     report_results(&timer, orig_n);
     printf(">>>> End of record <<<<\n");
-    errv = clFlush(queue);
 	errv = clFinish(queue);
 	errv = clReleaseKernel(kernel);
 	errv = clReleaseProgram(program);
