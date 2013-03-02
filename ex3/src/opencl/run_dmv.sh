@@ -18,7 +18,7 @@
 #PBS -o dmv_gpu.out
 #PBS -e dmv_gpu.err
 #PBS -l walltime=06:00:00
-#PBS -l nodes=1:ppn=24:cuda -l
+#PBS -l nodes=1:ppn=24:cuda 
 
 gpu_kernels="0 1 2"
 problem_sizes="1 2 4 7 8 14 16" # in Kibi's (x1024)

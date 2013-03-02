@@ -26,6 +26,8 @@
 #   define NR_ITER 100
 #endif
 
+#define MAX_SOURCE_SIZE (0x100000)
+
 static void check_result(const value_t *test, const value_t *orig, size_t n)
 {
     printf("Checking ... ");
@@ -166,7 +168,15 @@ int main(int argc, char **argv)
     cl_platform_id platform_id = NULL;
 	cl_uint ret_num_devices;
 	cl_uint ret_num_platforms;
+	cl_program program = NULL;
+	cl_kernel kernel = NULL;
 
+
+    FILE *fp;
+	char fileName[] = "./dmv_kernels.cl";
+	char *source_str;
+	size_t source_size;
+	
     //XXX Initialization Begin
     // Platform
 	errv = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
@@ -227,7 +237,31 @@ int main(int argc, char **argv)
     if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
 
+    printf("Success creating Buffers \n");
     printf("GPU kernel version: %s\n", gpu_kernels[kern].name);
+
+	/* Load the source code containing the kernels*/
+    fp = fopen(fileName, "r");
+        if (!fp) {
+        fprintf(stderr, "Failed to load kernel.\n");
+        exit(1);
+	}
+	source_str = (char*)malloc(MAX_SOURCE_SIZE);
+	source_size = fread(source_str, 1, MAX_SOURCE_SIZE, fp);
+	fclose(fp);
+	 
+	/* Create Kernel Program from the source */
+	program = clCreateProgramWithSource(context, 1, (const char **)&source_str,
+                            (const size_t *)&source_size, &errv);
+    if (!program)
+        error(0, "could not read program: %s", errv);
+
+	/* Build Kernel Program */
+	errv = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
+
+	/* Create OpenCL Kernel */
+	kernel = clCreateKernel(program, gpu_kernels[kern].name, &errv);
+
     timer_clear(&timer);
     timer_start(&timer);
 // this has to change drastically 
@@ -251,10 +285,21 @@ int main(int argc, char **argv)
 #ifndef _NOCHECK_
     check_result(y, y_serial, orig_n);
 #endif
+
+    /* Free cl constructs */
     report_results(&timer, orig_n);
     printf(">>>> End of record <<<<\n");
+    errv = clFlush(queue);
+	errv = clFinish(queue);
+	errv = clReleaseKernel(kernel);
+	errv = clReleaseProgram(program);
+	errv = clReleaseMemObject(gpu_A);
+    errv = clReleaseMemObject(gpu_x);
+	errv = clReleaseMemObject(gpu_y);
+	errv = clReleaseCommandQueue(queue);
+	errv = clReleaseContext(context);
+	 
 #endif  // GPU_KERNEL 
-
     /* Free resources on host */
     free_2d((void **) A);
     free(x);
