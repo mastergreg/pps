@@ -70,17 +70,17 @@ enum {
 static gpu_kernel_t gpu_kernels[] = {
     {
         .name = "naive",
-        .fn = MAKE_KERNEL_NAME(_naive),
+        .fn = NULL;
     },
 
     {
         .name = "coalesced",
-        .fn = MAKE_KERNEL_NAME(_coalesced),
+        .fn = NULL;
     },
 
     {
         .name = "shmem",
-        .fn = MAKE_KERNEL_NAME(_shmem),
+        .fn = NULL;
     },
 };
 
