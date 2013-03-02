@@ -69,18 +69,18 @@ enum {
 
 static gpu_kernel_t gpu_kernels[] = {
     {
-        .name = "naive",
-        .fn = NULL
+        "naive",
+        NULL
     },
 
     {
-        .name = "coalesced",
-        .fn = NULL
+        "coalesced",
+        NULL
     },
 
     {
-        .name = "shmem",
-        .fn = NULL
+        "shmem",
+        NULL
     },
 };
 

@@ -38,7 +38,7 @@ else
 	MAKE_GPU_CXXFLAGS += -O3
 endif
 
-CPPFLAGS ?= $(MAKE_CPPFLAGS)
+CPPFLAGS ?= $(MAKE_CPPFLAGS) -I/usr/local/cuda-5.0/include
 CXXFLAGS ?= $(MAKE_CXXFLAGS)
 LDFLAGS ?= -lOpenCL -lm -fopenmp 
 GPU_CPPFLAGS ?= $(MAKE_GPU_CPPFLAGS)
