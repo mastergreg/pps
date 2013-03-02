@@ -6,7 +6,6 @@ GPU ?= 1
 SERIAL ?= 1
 OPENMP ?= 1
 CXX ?= g++
-GPU_CXX ?= g++
 RM = /bin/rm
 
 MAKE_CPPFLAGS = -D__FLOAT_VALUES -DEPS=1e-2
@@ -55,9 +54,6 @@ all: $(PROGRAMS)
 
 dmv_main: $(dmv_OBJECTS)
 	$(CXX) -o $@ $(dmv_OBJECTS) $(LDFLAGS)
-
-dmv_main.o: dmv_main.c
-	$(GPU_COMPILE) -o $@ $<
 
 %.o: %.c
 	$(CPU_COMPILE) -o $@ $<

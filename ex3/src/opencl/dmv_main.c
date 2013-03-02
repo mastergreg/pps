@@ -12,7 +12,6 @@
 #include "alloc.h"
 #include "dmv.h"
 #include "error.h"
-#include "gpu_util.h"
 #include "timer.h"
 
 #ifndef VALUES_MAX
@@ -159,7 +158,7 @@ int main(int argc, char **argv)
      *          the kernel. Make any transformations to the input
      *          matrix here.
      */ 
-    cl_int error = 0;
+    cl_int errv = 0;
     cl_platform_id platform;
     cl_context context;
     cl_command_queue queue;
@@ -170,58 +169,56 @@ int main(int argc, char **argv)
 
     //XXX Initialization Begin
     // Platform
-	error = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
-    if (error != CL_SUCCESS) {
-        cout << "Error getting platform id: " << errorMessage(error) << endl;
-        exit(error);
+	errv = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
+    if (errv != CL_SUCCESS) {
+        printf("Error getting platform id: \n");
+        exit(errv);
     }
     // Device
-    error = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, ret_num_devices);
-    if (err != CL_SUCCESS) {
-        cout << "Error getting device ids: " << errorMessage(error) << endl;
-        exit(error);
+    errv = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, &ret_num_devices);
+    if (errv != CL_SUCCESS) {
+        printf("Error getting device ids: \n");
+        exit(errv);
     }
     // Context
-    context = clCreateContext(0, 1, &device, NULL, NULL, &error);
-    if (error != CL_SUCCESS) {
-        cout << "Error creating context: " << errorMessage(error) << endl;
-        exit(error);
+    context = clCreateContext(0, 1, &device, NULL, NULL, &errv);
+    if (errv != CL_SUCCESS) {
+        printf("Error creating context: \n");
+        exit(errv);
     }
     // Command-queue
-    queue = clCreateCommandQueue(context, device, 0, &error);
-    if (error != CL_SUCCESS) {
-        cout << "Error creating command queue: " << errorMessage(error) << endl;
-        exit(error);
+    queue = clCreateCommandQueue(context, device, 0, &errv);
+    if (errv != CL_SUCCESS) {
+        printf("Error creating command queue: \n");
+        exit(errv);
     }
     //XXX Initialization Complete
 
-    dim3 gpu_block(1, 1);   // FILLME: set up the block dimensions
-    dim3 gpu_grid(1, 1);    // FILLME: set up the grid dimensions
     size_t shmem_size = 0;  // FILLME: set up the shared memory size
 
     printf(">>>> Begin of record <<<<\n");
-    printf("Block size: %dx%d\n", gpu_block.x, gpu_block.y);
-    printf("Grid size : %dx%d\n", gpu_grid.x, gpu_grid.y);
+    //printf("Block size: %dx%d\n", gpu_block.x, gpu_block.y);
+    //printf("Grid size : %dx%d\n", gpu_grid.x, gpu_grid.y);
     printf("Shared memory size: %ld bytes\n", shmem_size);
 
     /* GPU allocations */
     //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
     cl_mem gpu_A = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_COPY_HOST_PTR, n * n * sizeof(value_t), A, &error);
+            CL_MEM_COPY_HOST_PTR, n * n * sizeof(value_t), A, &errv);
     if (!gpu_A)
-        error(0, "gpu_alloc failed: %s", error);
+        error(0, "gpu_alloc failed: %s", errv);
     
     cl_mem gpu_x = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), x, &error);
+            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), x, &errv);
     if (!gpu_x)
-        error(0, "gpu_alloc failed: %s", gpu_get_last_errmsg());
+        error(0, "gpu_alloc failed: %s", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
     cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), y, &error);
+            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
-        error(0, "gpu_alloc failed: %s", gpu_get_last_errmsg());
+        error(0, "gpu_alloc failed: %s", errv);
 
     if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
@@ -244,8 +241,8 @@ int main(int argc, char **argv)
     timer_stop(&timer);
 
     /* Copy result back to host and check */
-    if (copy_from_gpu(y, gpu_y, n*sizeof(*y)) < 0)
-        error(0, "copy_from_gpu failed: %s", gpu_get_last_errmsg());
+    //if (copy_from_gpu(y, gpu_y, n*sizeof(*y)) < 0)
+    //    error(0, "copy_from_gpu failed: %s", gpu_get_last_errmsg());
 
 #ifndef _NOCHECK_
     check_result(y, y_serial, orig_n);
@@ -262,9 +259,9 @@ int main(int argc, char **argv)
 
 #ifdef GPU_KERNEL
     /* Free resources on GPU */
-    gpu_free(gpu_A);
-    gpu_free(gpu_x);
-    gpu_free(gpu_y);
+    //gpu_free(gpu_A);
+    //gpu_free(gpu_x);
+    //gpu_free(gpu_y);
 #endif  // GPU_KERNEL 
 
     return EXIT_SUCCESS;
