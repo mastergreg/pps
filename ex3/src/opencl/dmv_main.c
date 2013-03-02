@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     /* Read block size and kernel to launch from the environment */
     const char *env_gpu_kernel = getenv("GPU_KERNEL");
     const char *env_gpu_block_size = getenv("GPU_BLOCK_SIZE");
-    int kernel = (env_gpu_kernel) ? atoi(env_gpu_kernel) : GPU_NAIVE;
+    int kern = (env_gpu_kernel) ? atoi(env_gpu_kernel) : GPU_NAIVE;
     int block_size = (env_gpu_block_size) ? atoi(env_gpu_block_size) : 256;
     size_t orig_n = n;  // original matrix size
     int grid_size = 1;  // FILLME: compute the grid size
@@ -194,10 +194,10 @@ int main(int argc, char **argv)
     if (copy_to_gpu(y, gpu_y, n*sizeof(*gpu_y)) < 0)
         error(0, "copy_to_gpu failed: %s", gpu_get_last_errmsg());
 
-    if (kernel >= GPU_KERNEL_END)
+    if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
 
-    printf("GPU kernel version: %s\n", gpu_kernels[kernel].name);
+    printf("GPU kernel version: %s\n", gpu_kernels[kern].name);
     timer_clear(&timer);
     timer_start(&timer);
 // this has to change drastically 
