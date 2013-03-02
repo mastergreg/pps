@@ -47,12 +47,12 @@ GPU_CXXFLAGS ?= $(MAKE_GPU_CXXFLAGS)
 CPU_COMPILE = $(CXX) $(CPPFLAGS) $(CXXFLAGS)
 GPU_COMPILE = $(GPU_CXX) $(CPPFLAGS) $(GPU_CPPFLAGS) $(GPU_CXXFLAGS)
 
-PROGRAMS = dmv_main
+PROGRAMS = dmv_main.exec
 dmv_OBJECTS = alloc.o dmv.o dmv_main.o error.o timer.o
 
 all: $(PROGRAMS)
 
-dmv_main: $(dmv_OBJECTS)
+dmv_main.exec: $(dmv_OBJECTS)
 	$(CXX) -o $@ $(dmv_OBJECTS) $(LDFLAGS)
 
 %.o: %.c
