@@ -1,4 +1,3 @@
-// vim: set syntax=opencl:
 /*
  *  dmv.c -- Dense matrix and vector operations for the CPU.
  *

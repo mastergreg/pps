@@ -1,4 +1,3 @@
-// vim: set syntax=opencl:
 /*
  *  timer.c -- Timer routines.
  *
