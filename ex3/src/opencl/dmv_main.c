@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <cuda.h>
+#include <CL/opencl.h>
 #include "alloc.h"
 #include "dmv.h"
 #include "error.h"
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     /* Read block size and kernel to launch from the environment */
     const char *env_gpu_kernel = getenv("GPU_KERNEL");
     const char *env_gpu_block_size = getenv("GPU_BLOCK_SIZE");
-    int kernel = (env_gpu_kernel) ? atoi(env_gpu_kernel) : GPU_NAIVE;
+    int kern = (env_gpu_kernel) ? atoi(env_gpu_kernel) : GPU_NAIVE;
     int block_size = (env_gpu_block_size) ? atoi(env_gpu_block_size) : 256;
     size_t orig_n = n;  // original matrix size
     int grid_size = 1;  // FILLME: compute the grid size
@@ -159,6 +159,41 @@ int main(int argc, char **argv)
      *          the kernel. Make any transformations to the input
      *          matrix here.
      */ 
+    cl_int error = 0;
+    cl_platform_id platform;
+    cl_context context;
+    cl_command_queue queue;
+    cl_device_id device;
+    cl_platform_id platform_id = NULL;
+	cl_uint ret_num_devices;
+	cl_uint ret_num_platforms;
+
+    //XXX Initialization Begin
+    // Platform
+	error = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
+    if (error != CL_SUCCESS) {
+        cout << "Error getting platform id: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    // Device
+    error = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, ret_num_devices);
+    if (err != CL_SUCCESS) {
+        cout << "Error getting device ids: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    // Context
+    context = clCreateContext(0, 1, &device, NULL, NULL, &error);
+    if (error != CL_SUCCESS) {
+        cout << "Error creating context: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    // Command-queue
+    queue = clCreateCommandQueue(context, device, 0, &error);
+    if (error != CL_SUCCESS) {
+        cout << "Error creating command queue: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    //XXX Initialization Complete
 
     dim3 gpu_block(1, 1);   // FILLME: set up the block dimensions
     dim3 gpu_grid(1, 1);    // FILLME: set up the grid dimensions
@@ -194,24 +229,24 @@ int main(int argc, char **argv)
     if (copy_to_gpu(y, gpu_y, n*sizeof(*gpu_y)) < 0)
         error(0, "copy_to_gpu failed: %s", gpu_get_last_errmsg());
 
-    if (kernel >= GPU_KERNEL_END)
+    if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
 
-    printf("GPU kernel version: %s\n", gpu_kernels[kernel].name);
-
-    /* Execute and time the kernel */
+    printf("GPU kernel version: %s\n", gpu_kernels[kern].name);
     timer_clear(&timer);
     timer_start(&timer);
-    for (size_t i = 0; i < NR_ITER; ++i) {
-        gpu_kernels[kernel].fn<<<gpu_grid,gpu_block,shmem_size>>>
-            (gpu_A, gpu_x, gpu_y, n);
-#ifdef _DEBUG_
-        cudaError_t err;
-        if ( (err = cudaGetLastError()) != cudaSuccess)
-            error(0, "gpu kernel failed to launch: %s", gpu_get_errmsg(err));
-#endif
-        cudaThreadSynchronize();
-    }
+// this has to change drastically 
+//     /* Execute and time the kernel */
+//     for (size_t i = 0; i < NR_ITER; ++i) {
+//         gpu_kernels[kernel].fn<<<gpu_grid,gpu_block,shmem_size>>>
+//             (gpu_A, gpu_x, gpu_y, n);
+// #ifdef _DEBUG_
+//         cl_int err;
+//         if ( (err = cudaGetLastError()) != CL_SUCCESS)
+//             error(0, "gpu kernel failed to launch: %s", gpu_get_errmsg(err));
+// #endif
+//         cudaThreadSynchronize();
+//     }
     timer_stop(&timer);
 
     /* Copy result back to host and check */
