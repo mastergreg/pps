@@ -10,7 +10,7 @@
 typedef float   value_t;
 
 __kernel void naive(__global const value_t *a, \
-                    __global const value_t *x, __global value_t *y, size_t n)
+                    __global const value_t *x, __global value_t *y, uint n)
 {
     uint i;
     uint tid = get_global_id(0);
@@ -26,7 +26,7 @@ __kernel void naive(__global const value_t *a, \
  *  Coalesced memory acceses
  */
 __kernel void coalesced(__global const value_t *a, \
-                    __global const value_t *x, __global value_t *y, size_t n)
+                    __global const value_t *x, __global value_t *y, uint n)
 {
     /*
      * FILLME: fill the code for the coalesced kernel.
@@ -37,7 +37,7 @@ __kernel void coalesced(__global const value_t *a, \
  *  Use of shared memory
  */
 __kernel void shmem(__global const value_t *a, \
-                    __global  const value_t *x,__global value_t *y, size_t n)
+                    __global  const value_t *x,__global value_t *y, uint n)
 {
     /*
      * FILLME: fill the code for the shared memory kernel.
