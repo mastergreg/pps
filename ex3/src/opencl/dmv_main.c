@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    size_t n = atoi(argv[1]);
+    uint n = (uint) atoi(argv[1]);
     if (!n)
         error(0, "invalid argument: %s", argv[1]);
 
@@ -277,7 +277,7 @@ int main(int argc, char **argv)
     errv = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gpu_A);
     errv |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
     errv |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
-    errv |= clSetKernelArg(kernel, 3, sizeof(size_t), &n);
+    errv |= clSetKernelArg(kernel, 3, sizeof(uint), &n);
     if (errv != CL_SUCCESS) {
         printf("Error setting kernel arguments: \n");
         exit(errv);
@@ -293,38 +293,27 @@ int main(int argc, char **argv)
     timer_clear(&timer);
     timer_start(&timer);
     for (size_t i = 0; i < NR_ITER; ++i) {
-        errv = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_ws, \
+        errv |= clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_ws, \
                 &local_ws, 0, NULL, NULL);
     }
-   
     timer_stop(&timer);
+
+    if (errv != CL_SUCCESS) {
+        printf("Error enqueuing kernel\n");
+        exit(errv);
+    }
+   
 	errv = clEnqueueReadBuffer(queue, gpu_y, CL_TRUE, 0, \
         n * sizeof(value_t), y, 0, NULL, NULL);
     if (errv != CL_SUCCESS) {
-        printf("Error enqueuing read buffer \n");
+        printf("Error enqueuing read buffer\n");
         exit(errv);
     }
     errv = clFlush(queue);
     if (errv != CL_SUCCESS) {
-        printf("Error flushing queue \n");
+        printf("Error flushing queue\n");
         exit(errv);
     }
-// this has to change drastically 
-//     /* Execute and time the kernel */
-//     for (size_t i = 0; i < NR_ITER; ++i) {
-//         gpu_kernels[kernel].fn<<<gpu_grid,gpu_block,shmem_size>>>
-//             (gpu_A, gpu_x, gpu_y, n);
-// #ifdef _DEBUG_
-//         cl_int err;
-//         if ( (err = cudaGetLastError()) != CL_SUCCESS)
-//             error(0, "gpu kernel failed to launch: %s", gpu_get_errmsg(err));
-// #endif
-//         cudaThreadSynchronize();
-//     }
-
-    /* Copy result back to host and check */
-    //if (copy_from_gpu(y, gpu_y, n*sizeof(*y)) < 0)
-    //    error(0, "copy_from_gpu failed: %s", gpu_get_last_errmsg());
 
 #ifndef _NOCHECK_
     check_result(y, y_serial, orig_n);
