@@ -28,6 +28,11 @@
 
 #define MAX_SOURCE_SIZE (0x100000)
 
+static inline size_t min(size_t a, size_t b)
+{
+    return a < b ? a : b;
+}
+
 static void check_result(const value_t *test, const value_t *orig, size_t n)
 {
     printf("Checking ... ");
@@ -91,7 +96,7 @@ int main(int argc, char **argv)
      */ 
 
     printf("Matrix size: %zd\n", orig_n);
-    printf("Adjusted matrix size: %zd\n", n);
+    printf("Adjusted matrix size: %u\n", n);
 
     /*
      * Allocate the structures.
@@ -283,7 +288,7 @@ int main(int argc, char **argv)
         exit(errv);
     }
 
-    const size_t local_ws = block_size;
+    const size_t local_ws = min(block_size, CL_DEVICE_MAX_WORK_ITEM_SIZES);
     size_t global_ws = local_ws / n;
     if (local_ws % n != 0) {
         global_ws++;
@@ -299,7 +304,7 @@ int main(int argc, char **argv)
     timer_stop(&timer);
 
     if (errv != CL_SUCCESS) {
-        printf("Error enqueuing kernel\n");
+        printf("Error enqueuing kernel errv: %d\n", errv);
         exit(errv);
     }
    
