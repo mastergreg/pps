@@ -162,7 +162,7 @@ int main(int argc, char **argv)
     cl_platform_id platform;
     cl_context context;
     cl_command_queue queue;
-    cl_device_id device;
+    cl_device_id device=NULL;
     cl_platform_id platform_id = NULL;
 	cl_uint ret_num_devices;
 	cl_uint ret_num_platforms;
@@ -174,24 +174,28 @@ int main(int argc, char **argv)
         printf("Error getting platform id: \n");
         exit(errv);
     }
+    printf("Success getting platform id: \n");
     // Device
-    errv = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, &ret_num_devices);
+    errv = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device, &ret_num_devices);
     if (errv != CL_SUCCESS) {
         printf("Error getting device ids: \n");
         exit(errv);
     }
+    printf("Success getting device ids: \n");
     // Context
     context = clCreateContext(0, 1, &device, NULL, NULL, &errv);
     if (errv != CL_SUCCESS) {
         printf("Error creating context: \n");
         exit(errv);
     }
+    printf("Success creating context: \n");
     // Command-queue
     queue = clCreateCommandQueue(context, device, 0, &errv);
     if (errv != CL_SUCCESS) {
         printf("Error creating command queue: \n");
         exit(errv);
     }
+    printf("Success creating command queue: \n");
     //XXX Initialization Complete
 
     size_t shmem_size = 0;  // FILLME: set up the shared memory size
