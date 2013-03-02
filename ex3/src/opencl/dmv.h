@@ -1,4 +1,3 @@
-// vim: set syntax=opencl:
 /*
  *  dmv.h -- Declarations and definitions related to the DMV
  *           multiplication kernels.
@@ -12,7 +11,7 @@
 #include <stddef.h>
 #include "common.h"
 
-#if defined(__FLOAT_VALUES) || defined(__CUDACC__)
+#if defined(__FLOAT_VALUES) 
 #   define MAKE_VALUE_CONSTANT(v)   v ## f
 #   define VALUE_FORMAT "f"
 #   define FABS    fabsf
@@ -40,14 +39,13 @@ void dmv_omp(const value_t *const *a, const value_t *x, value_t *y, size_t n);
 
 __END_C_DECLS
 
-#ifdef __CUDACC__
 #   define __MAKE_KERNEL_NAME(name)   dmv_gpu ## name
 #   define MAKE_KERNEL_NAME(name) __MAKE_KERNEL_NAME(name)
 
 #   define DECLARE_GPU_KERNEL(name) \
-    __global__ void MAKE_KERNEL_NAME(name)(const value_t *a,        \
-                                           const value_t *x,        \
-                                           value_t *y, size_t n)
+    __kernel void MAKE_KERNEL_NAME(name)(const __global value_t *a,        \
+                                         const __global value_t *x,        \
+                                         __global value_t *y, size_t n)
 #   define SHMEM_PER_BLOCK  8*1024
 
 typedef void (*dmv_kernel_t)(const value_t *a, const value_t *x, value_t *y,
@@ -65,9 +63,9 @@ enum {
     GPU_KERNEL_END
 };
 
-DECLARE_GPU_KERNEL(_naive);
-DECLARE_GPU_KERNEL(_coalesced);
-DECLARE_GPU_KERNEL(_shmem);
+//DECLARE_GPU_KERNEL(_naive);
+//DECLARE_GPU_KERNEL(_coalesced);
+//DECLARE_GPU_KERNEL(_shmem);
 
 static gpu_kernel_t gpu_kernels[] = {
     {
@@ -86,5 +84,4 @@ static gpu_kernel_t gpu_kernels[] = {
     },
 };
 
-#endif  /* __CUDACC__ */
 #endif  /* __DMV_H */
