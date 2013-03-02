@@ -159,6 +159,41 @@ int main(int argc, char **argv)
      *          the kernel. Make any transformations to the input
      *          matrix here.
      */ 
+    cl_int error = 0;
+    cl_platform_id platform;
+    cl_context context;
+    cl_command_queue queue;
+    cl_device_id device;
+    cl_platform_id platform_id = NULL;
+	cl_uint ret_num_devices;
+	cl_uint ret_num_platforms;
+
+    //XXX Initialization Begin
+    // Platform
+	error = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
+    if (error != CL_SUCCESS) {
+        cout << "Error getting platform id: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    // Device
+    error = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, ret_num_devices);
+    if (err != CL_SUCCESS) {
+        cout << "Error getting device ids: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    // Context
+    context = clCreateContext(0, 1, &device, NULL, NULL, &error);
+    if (error != CL_SUCCESS) {
+        cout << "Error creating context: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    // Command-queue
+    queue = clCreateCommandQueue(context, device, 0, &error);
+    if (error != CL_SUCCESS) {
+        cout << "Error creating command queue: " << errorMessage(error) << endl;
+        exit(error);
+    }
+    //XXX Initialization Complete
 
     dim3 gpu_block(1, 1);   // FILLME: set up the block dimensions
     dim3 gpu_grid(1, 1);    // FILLME: set up the grid dimensions
