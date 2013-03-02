@@ -1,33 +1,18 @@
-.PHONY: all clean query
+.PHONY: all clean 
 .DEFAULT: all
 
-EMU ?= 0
 DEBUG ?= 1
-REGINFO ?= 1
 GPU ?= 1
 SERIAL ?= 1
 OPENMP ?= 1
 CXX ?= g++
-GPU_CXX ?= nvcc
-CUDA_PREFIX = /usr/local/cuda
+GPU_CXX ?= g++
 RM = /bin/rm
-
-ifeq ($(EMU), 1)
-    # emulation mode in clones
-	nvcc_backend = /usr/bin/g++-4.4
-	nvcc_emu = -deviceemu
-	nvcc_arch = 
-else
-    # Fermi GPUs in termis
-	nvcc_backend = /usr/bin/g++-4.4
-	nvcc_emu = 
-	nvcc_arch = -arch sm_20
-endif
 
 MAKE_CPPFLAGS = -D__FLOAT_VALUES -DEPS=1e-2
 MAKE_CXXFLAGS = -c -Wall -fopenmp
-MAKE_GPU_CPPFLAGS = -I/usr/local/cuda
-MAKE_GPU_CXXFLAGS = -c -ccbin $(nvcc_backend) $(nvcc_emu) $(nvcc_arch)
+MAKE_GPU_CPPFLAGS = 
+MAKE_GPU_CXXFLAGS = 
 
 ifeq ($(SERIAL), 1)
 	MAKE_CPPFLAGS += -DSERIAL_KERNEL
@@ -54,13 +39,9 @@ else
 	MAKE_GPU_CXXFLAGS += -O3
 endif
 
-ifeq ($(REGINFO), 1)
-	MAKE_GPU_CXXFLAGS += --ptxas-options=-v
-endif
-
 CPPFLAGS ?= $(MAKE_CPPFLAGS)
 CXXFLAGS ?= $(MAKE_CXXFLAGS)
-LDFLAGS ?= -L/usr/local/cuda/lib64 -lcudart -lm -fopenmp 
+LDFLAGS ?= -lOpenCL -lm -fopenmp 
 GPU_CPPFLAGS ?= $(MAKE_GPU_CPPFLAGS)
 GPU_CXXFLAGS ?= $(MAKE_GPU_CXXFLAGS)
 
@@ -68,34 +49,24 @@ CPU_COMPILE = $(CXX) $(CPPFLAGS) $(CXXFLAGS)
 GPU_COMPILE = $(GPU_CXX) $(CPPFLAGS) $(GPU_CPPFLAGS) $(GPU_CXXFLAGS)
 
 PROGRAMS = dmv_main
-dmv_OBJECTS = alloc.o dmv.o dmv_gpu.o dmv_main.o error.o gpu_util.o  timer.o
+dmv_OBJECTS = alloc.o dmv.o dmv_main.o error.o timer.o
 
 all: $(PROGRAMS)
 
 dmv_main: $(dmv_OBJECTS)
 	$(CXX) -o $@ $(dmv_OBJECTS) $(LDFLAGS)
 
-gpu_util.o: gpu_util.cu
-	$(GPU_COMPILE) -o $@ $<
-
-dmv_gpu.o: dmv_gpu.cu
-	$(GPU_COMPILE) -o $@ $<
-
-dmv_main.o: dmv_main.cu
+dmv_main.o: dmv_main.c
 	$(GPU_COMPILE) -o $@ $<
 
 %.o: %.c
 	$(CPU_COMPILE) -o $@ $<
 
 %.o: %.h
-dmv_gpu.o: dmv.h
-dmv_main.o: alloc.h dmv.h error.h gpu_util.h timer.h
+dmv_main.o: alloc.h dmv.h error.h timer.h
 
 clean:
 	$(RM) -f $(PROGRAMS) $(dmv_OBJECTS)
-
-query:
-	@echo '\n' | $(CUDA_PREFIX)/samples/C/bin/linux/release/deviceQuery
 
 help:
 	@echo 'Mini help for using this Makefile:'; \
