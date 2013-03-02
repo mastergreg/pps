@@ -205,29 +205,23 @@ int main(int argc, char **argv)
     printf("Shared memory size: %ld bytes\n", shmem_size);
 
     /* GPU allocations */
-    value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
+    //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
+
+    cl_mem gpu_A = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
+            CL_MEM_COPY_HOST_PTR, n * n * sizeof(value_t), A, &error);
     if (!gpu_A)
-        error(0, "gpu_alloc failed: %s", gpu_get_last_errmsg());
+        error(0, "gpu_alloc failed: %s", error);
     
-    value_t *gpu_x = (value_t *) gpu_alloc(n*sizeof(*gpu_x));
+    cl_mem gpu_x = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
+            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), x, &error);
     if (!gpu_x)
         error(0, "gpu_alloc failed: %s", gpu_get_last_errmsg());
 
-    value_t *gpu_y = (value_t *) gpu_alloc(n*sizeof(*gpu_y));
+    vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
+    cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
+            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), y, &error);
     if (!gpu_y)
         error(0, "gpu_alloc failed: %s", gpu_get_last_errmsg());
-    
-    /* Copy data to GPU */
-    if (copy_to_gpu(A[0], gpu_A, n*n*sizeof(*gpu_A)) < 0)
-        error(0, "copy_to_gpu failed: %s", gpu_get_last_errmsg());
-
-    if (copy_to_gpu(x, gpu_x, n*sizeof(*gpu_x)) < 0)
-        error(0, "copy_to_gpu failed: %s", gpu_get_last_errmsg());
-
-    /* Reset y and copy it to GPU */
-    vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
-    if (copy_to_gpu(y, gpu_y, n*sizeof(*gpu_y)) < 0)
-        error(0, "copy_to_gpu failed: %s", gpu_get_last_errmsg());
 
     if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
