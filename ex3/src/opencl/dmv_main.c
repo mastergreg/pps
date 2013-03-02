@@ -218,18 +218,18 @@ int main(int argc, char **argv)
     //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
     cl_mem gpu_A = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_COPY_HOST_PTR, n * n * sizeof(value_t), A, &errv);
+            CL_MEM_USE_HOST_PTR, n * n * sizeof(value_t), A, &errv);
     if (!gpu_A)
         error(0, "gpu_alloc failed: %s", errv);
     
     cl_mem gpu_x = clCreateBuffer(context,  CL_MEM_READ_ONLY | \
-            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), x, &errv);
+            CL_MEM_USE_HOST_PTR, n * sizeof(value_t), x, &errv);
     if (!gpu_x)
         error(0, "gpu_alloc failed: %s", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
     cl_mem gpu_y = clCreateBuffer(context,  CL_MEM_WRITE_ONLY | \
-            CL_MEM_COPY_HOST_PTR, n * sizeof(value_t), y, &errv);
+            CL_MEM_USE_HOST_PTR, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
         error(0, "gpu_alloc failed: %s", errv);
 
@@ -253,18 +253,35 @@ int main(int argc, char **argv)
 	program = clCreateProgramWithSource(context, 1, (const char **)&source_str,
                             (const size_t *)&source_size, &errv);
     if (!program)
-        error(0, "could not read program: %s", errv);
+        error(0, "Could not read program: %s", errv);
 
 	/* Build Kernel Program */
 	errv = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
+    if (errv != CL_SUCCESS) {
+        printf("Error building kernel: %d\n", errv);
+    }
 
+    char * build_log;
+    size_t log_size;
+    errv = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, \
+                            0, NULL, &log_size);
+    build_log = (char *) malloc((log_size+1) * sizeof(char));
+    errv |= clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG,
+                            log_size, build_log, NULL);
+    build_log[log_size]= '\0';
+    printf("\n%s\n", build_log);
+    free(build_log);
 	/* Create OpenCL Kernel */
 	kernel = clCreateKernel(program, gpu_kernels[kern].name, &errv);
 
     errv = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gpu_A);
-    errv = clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
-    errv = clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
-    errv = clSetKernelArg(kernel, 3, sizeof(size_t), &n);
+    errv |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
+    errv |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
+    errv |= clSetKernelArg(kernel, 3, sizeof(size_t), &n);
+    if (errv != CL_SUCCESS) {
+        printf("Error setting kernel arguments: \n");
+        exit(errv);
+    }
 
     const size_t local_ws = block_size;
     size_t global_ws = local_ws / n;
@@ -283,9 +300,15 @@ int main(int argc, char **argv)
     timer_stop(&timer);
 	errv = clEnqueueReadBuffer(queue, gpu_y, CL_TRUE, 0, \
         n * sizeof(value_t), y, 0, NULL, NULL);
-
+    if (errv != CL_SUCCESS) {
+        printf("Error enqueuing read buffer \n");
+        exit(errv);
+    }
     errv = clFlush(queue);
-
+    if (errv != CL_SUCCESS) {
+        printf("Error flushing queue \n");
+        exit(errv);
+    }
 // this has to change drastically 
 //     /* Execute and time the kernel */
 //     for (size_t i = 0; i < NR_ITER; ++i) {
@@ -307,9 +330,9 @@ int main(int argc, char **argv)
     check_result(y, y_serial, orig_n);
 #endif
 
-    /* Free cl constructs */
     report_results(&timer, orig_n);
     printf(">>>> End of record <<<<\n");
+    /* Free cl constructs */
 	errv = clFinish(queue);
 	errv = clReleaseKernel(kernel);
 	errv = clReleaseProgram(program);
