@@ -40,16 +40,30 @@ __kernel void coalesced(__global const value_t *a, \
         }
         pProd[get_local_id(0)] = product;
 
-        for(uint mystep = get_local_size(0) << 2; mystep > 0; mystep <<= 2) {
+
+        /* Logarithmic Parallel Reduction */
+        for(uint mystep = get_local_size(0) >> 1; mystep > 0; mystep >>= 1) {
             barrier(CLK_LOCAL_MEM_FENCE);
 
-            if(get_global_id(0) < mystep) {
+            if(get_local_id(0) < mystep) {
                 pProd[get_local_id(0)] += pProd[get_local_id(0) + mystep];
             }
         }
         if(get_local_id(0) == 0) {
             y[i] = pProd[0];
         }
+
+
+        /* Serial Reduction
+        if (get_local_id(0) == 0) {
+            value_t final_prod = 0;
+            for (uint t = 0; t < get_local_size(0); ++t){
+                final_prod += pProd[t];
+            }
+            y[i] = final_prod;
+        }
+        */
+
         barrier(CLK_LOCAL_MEM_FENCE);
     }
 }

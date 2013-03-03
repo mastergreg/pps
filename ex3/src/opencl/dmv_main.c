@@ -232,7 +232,6 @@ int main(int argc, char **argv)
     printf("\n");
 
     /* GPU allocations */
-
     cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(value_t), *A, &errv);
     if (!gpu_A)
         error(0, "A: gpu_alloc failed: %d", errv);
