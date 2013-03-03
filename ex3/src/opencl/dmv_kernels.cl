@@ -29,9 +29,6 @@ __kernel void naive(__global const value_t *a, \
 __kernel void coalesced(__global const value_t *a, \
                     __global const value_t *x, __global value_t *y, uint n)
 {
-    /*
-     * FILLME: fill the code for the coalesced kernel.
-     */ 
 }
 
 /*

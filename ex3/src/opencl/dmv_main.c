@@ -370,12 +370,5 @@ int main(int argc, char **argv)
     free(y);
     free(y_serial);
 
-#ifdef GPU_KERNEL
-    /* Free resources on GPU */
-    //gpu_free(gpu_A);
-    //gpu_free(gpu_x);
-    //gpu_free(gpu_y);
-#endif  // GPU_KERNEL 
-
     return EXIT_SUCCESS;
 }
