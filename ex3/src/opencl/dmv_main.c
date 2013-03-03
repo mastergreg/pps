@@ -222,19 +222,16 @@ int main(int argc, char **argv)
     /* GPU allocations */
     //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
-    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | \
-                    CL_MEM_ALLOC_HOST_PTR, n * n * sizeof(value_t), A, &errv);
+    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(value_t), A, &errv);
     if (!gpu_A)
         error(0, "gpu_alloc failed: %s", errv);
     
-    cl_mem gpu_x = clCreateBuffer(context, CL_MEM_READ_ONLY | \
-                        CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), x, &errv);
+    cl_mem gpu_x = clCreateBuffer(context, CL_MEM_READ_ONLY, n * sizeof(value_t), x, &errv);
     if (!gpu_x)
         error(0, "gpu_alloc failed: %s", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
-    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY | \
-                        CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), y, &errv);
+    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
         error(0, "gpu_alloc failed: %s", errv);
 
@@ -311,9 +308,17 @@ int main(int argc, char **argv)
     printf("Global work-items: %lu\n", global_ws);
     printf("Local work-items: %lu\n", local_ws);
     printf("\n");
-    
+
+
+    errv = clEnqueueWriteBuffer(queue, gpu_A, CL_FALSE, 0, sizeof(value_t) * n * n, A, 0, NULL, NULL);
+    errv |= clEnqueueWriteBuffer(queue, gpu_x, CL_FALSE, 0, sizeof(value_t) * n, x, 0, NULL, NULL);
+    if (errv != CL_SUCCESS) {
+        printf("Error enqueuing write buffers: %d\n", errv);
+        exit(errv);
+    }
     /* Start Timing and Enqueue the kernel */
     timer_clear(&timer);
+    errv = clFinish(queue);
     timer_start(&timer);
     for (size_t i = 0; i < NR_ITER; ++i) {
         errv |= clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_ws, \
