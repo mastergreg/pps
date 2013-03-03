@@ -215,12 +215,23 @@ int main(int argc, char **argv)
     size_t shmem_size = 0;  // FILLME: set up the shared memory size
 
     printf(">>>> Begin of record <<<<\n");
-    //printf("Block size: %dx%d\n", gpu_block.x, gpu_block.y);
-    //printf("Grid size : %dx%d\n", gpu_grid.x, gpu_grid.y);
     printf("Shared memory size: %ld bytes\n", shmem_size);
 
+    /* Calculate grid and block sizes */
+    const size_t local_ws = min(block_size, CL_DEVICE_MAX_WORK_ITEM_SIZES);
+    size_t global_ws = n < local_ws ? 1 : n / local_ws;  // is at least 1 block
+    if ((n % local_ws != 0) && (n > local_ws)) {
+        global_ws++;
+    }
+    global_ws *= local_ws; 
+
+    printf("\n");
+    printf("N: %u\n",n);
+    printf("Global work-items: %lu\n", global_ws);
+    printf("Local work-items: %lu\n", local_ws);
+    printf("\n");
+
     /* GPU allocations */
-    //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
     cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(value_t), *A, &errv);
     if (!gpu_A)
@@ -290,24 +301,16 @@ int main(int argc, char **argv)
     errv |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
     errv |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &gpu_y);
     errv |= clSetKernelArg(kernel, 3, sizeof(uint), &n);
+
+    if (kern == 1) {
+        cl_mem pProd = clCreateBuffer(context, CL_MEM_WRITE_ONLY, \
+                                local_ws * sizeof(value_t), NULL, &errv);
+        errv |= clSetKernelArg(kernel, 4, sizeof(cl_mem), &pProd);
+    }
     if (errv != CL_SUCCESS) {
-        printf("Error setting Kernel arguments\n");
+        printf("Error setting Kernel arguments %d\n", errv);
         exit(errv);
     }
-
-    /* Calculate grid and block sizes */
-    const size_t local_ws = min(block_size, CL_DEVICE_MAX_WORK_ITEM_SIZES);
-    size_t global_ws = n < local_ws ? 1 : n / local_ws;  // is at least 1 block
-    if ((n % local_ws != 0) && (n > local_ws)) {
-        global_ws++;
-    }
-    global_ws *= local_ws; 
-
-    printf("\n");
-    printf("N: %u\n",n);
-    printf("Global work-items: %lu\n", global_ws);
-    printf("Local work-items: %lu\n", local_ws);
-    printf("\n");
 
     errv = clEnqueueWriteBuffer(queue, gpu_A, CL_TRUE, 0, sizeof(value_t) * n * n, (void *) *A, 0, NULL, NULL);
     errv |= clEnqueueWriteBuffer(queue, gpu_x, CL_TRUE, 0, sizeof(value_t) * n, (void *)x, 0, NULL, NULL);

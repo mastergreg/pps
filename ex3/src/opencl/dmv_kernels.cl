@@ -27,10 +27,9 @@ __kernel void naive(__global const value_t *a, \
  *  Coalesced memory acceses
  */
 __kernel void coalesced(__global const value_t *a, \
-                    __global const value_t *x, __global value_t *y, uint n)
+                    __global const value_t *x, __global value_t *y, uint n, 
+                    __local value_t *pProd)
 {
-    __local value_t pProd[get_local_size(0)];
-
     __private value_t product = 0;
 
     for(uint i = get_group_id(0); i < n; i += get_num_groups(0)) {
