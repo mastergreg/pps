@@ -309,9 +309,8 @@ int main(int argc, char **argv)
     printf("Local work-items: %lu\n", local_ws);
     printf("\n");
 
-
-    errv = clEnqueueWriteBuffer(queue, gpu_A, CL_FALSE, 0, sizeof(value_t) * n * n, A, 0, NULL, NULL);
-    errv |= clEnqueueWriteBuffer(queue, gpu_x, CL_FALSE, 0, sizeof(value_t) * n, x, 0, NULL, NULL);
+    errv = clEnqueueWriteBuffer(queue, gpu_A, CL_TRUE, 0, sizeof(value_t) * n * n, (void *) *A, 0, NULL, NULL);
+    errv |= clEnqueueWriteBuffer(queue, gpu_x, CL_TRUE, 0, sizeof(value_t) * n, (void *)x, 0, NULL, NULL);
     if (errv != CL_SUCCESS) {
         printf("Error enqueuing write buffers: %d\n", errv);
         exit(errv);
