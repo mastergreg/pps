@@ -13,6 +13,7 @@ void warning(int errnum, const char *fmt, ...);
 void error(int errnum, const char *fmt, ...);
 void fatal(int errnum, const char *fmt, ...);
 
+int cl_error(int code);
 __END_C_DECLS
 
 #endif  /* __ERROR_H */
