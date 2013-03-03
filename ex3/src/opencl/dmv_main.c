@@ -306,7 +306,7 @@ int main(int argc, char **argv)
     }
     if (kern == 2) {
         errv |= clSetKernelArg(kernel, 4, local_ws * sizeof(value_t), NULL);
-        errv |= clSetKernelArg(kernel, 5, sizeof(value_t), NULL);
+        errv |= clSetKernelArg(kernel, 5, 32*sizeof(value_t), NULL);
     }
     if (errv != CL_SUCCESS) {
         printf("Error setting Kernel arguments %d\n", errv);

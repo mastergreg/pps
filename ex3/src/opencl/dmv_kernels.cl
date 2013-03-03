@@ -75,7 +75,7 @@ __kernel void shmem(__global const value_t *a, \
                     __local value_t *pProd, __local value_t * x_loc)
 {
 
-    uint W = 64;
+    uint W = 32;
 
     for(uint i = get_group_id(0); i < n; i += get_num_groups(0)) {
         pProd[get_local_id(0)] = 0;
