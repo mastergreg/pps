@@ -222,18 +222,18 @@ int main(int argc, char **argv)
     /* GPU allocations */
     //value_t *gpu_A = (value_t *) gpu_alloc(n*n*sizeof(*gpu_A));
 
-    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(value_t), A, &errv);
+    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(value_t), *A, &errv);
     if (!gpu_A)
-        error(0, "gpu_alloc failed: %s", errv);
+        error(0, "A: gpu_alloc failed: %d", errv);
     
     cl_mem gpu_x = clCreateBuffer(context, CL_MEM_READ_ONLY, n * sizeof(value_t), x, &errv);
     if (!gpu_x)
-        error(0, "gpu_alloc failed: %s", errv);
+        error(0, "x: gpu_alloc failed: %d", errv);
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
     cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY, n * sizeof(value_t), y, &errv);
     if (!gpu_y)
-        error(0, "gpu_alloc failed: %s", errv);
+        error(0, "y: gpu_alloc failed: %d", errv);
 
     if (kern >= GPU_KERNEL_END)
         error(0, "the requested kernel does not exist");
