@@ -50,8 +50,7 @@ __kernel void coalesced(__global const value_t *a, \
             }
         }
         if(get_local_id(0) == 0) {
-            y[i] = pProd[0];
-        }
+            y[i] = pProd[0]; }
 
 
         /* Serial Reduction
@@ -72,9 +71,29 @@ __kernel void coalesced(__global const value_t *a, \
  *  Use of shared memory
  */
 __kernel void shmem(__global const value_t *a, \
-                    __global  const value_t *x,__global value_t *y, uint n)
+                    __global  const value_t *x,__global value_t *y, uint n,
+                    __local value_t *pProd, __local value_t * x_loc)
 {
-    /*
-     * FILLME: fill the code for the shared memory kernel.
-     */ 
+
+    uint W = 1;
+
+    for(uint i = get_group_id(0); i < n; i += get_num_groups(0)) {
+        pProd[get_local_id(0)] = 0;
+
+        for (uint k = 0; k < n; k += W) {
+            if (get_local_id(0) < W){
+                x_loc[get_local_id(0)] = x[k + get_local_id(0)];
+            }
+            barrier(CLK_LOCAL_MEM_FENCE);
+            for (uint j = 0; j < W; j++) {
+                pProd[get_local_id(0)] += a[get_global_id(0) * n + k + j] * \
+                                                    x_loc[j];
+            }
+        }
+
+
+        y[get_global_id(0)] = pProd[get_local_id(0)];
+        barrier(CLK_LOCAL_MEM_FENCE);
+    }
 }
+
