@@ -33,6 +33,17 @@ static inline size_t min(size_t a, size_t b)
     return a < b ? a : b;
 }
 
+static void transpose(value_t ** A, uint n) {
+    uint i,j;
+    value_t temp;
+    for (i=0; i<n; i++)
+        for (j=i+1; j<n; j++) {
+            temp = A[i][j];
+            A[i][j] = A[j][i];
+            A[j][i] = temp;
+        }
+}
+
 static void check_result(const value_t *test, const value_t *orig, size_t n)
 {
     printf("Checking ... ");
@@ -231,7 +242,11 @@ int main(int argc, char **argv)
     printf("Local work-items: %lu\n", local_ws);
     printf("\n");
 
+
     /* GPU allocations */
+    if (kern == 2) {
+        transpose(A, n);
+    }
     cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(value_t), *A, &errv);
     if (!gpu_A)
         error(0, "A: gpu_alloc failed: %d", errv);
