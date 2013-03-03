@@ -3,6 +3,11 @@
  *  kernels.cl : OpenCL kernels for DMV multiplication
  */ 
 
+/* TODO TODO TODO : 
+    Local size inference and stuff
+    check for gpu limits 
+*/
+
 typedef float   value_t; 
 
 /*
