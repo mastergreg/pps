@@ -303,9 +303,7 @@ int main(int argc, char **argv)
     errv |= clSetKernelArg(kernel, 3, sizeof(uint), &n);
 
     if (kern == 1) {
-        cl_mem pProd = clCreateBuffer(context, CL_MEM_WRITE_ONLY, \
-                                local_ws * sizeof(value_t), NULL, &errv);
-        errv |= clSetKernelArg(kernel, 4, sizeof(cl_mem), &pProd);
+        errv |= clSetKernelArg(kernel, 4, local_ws * sizeof(value_t), NULL);
     }
     if (errv != CL_SUCCESS) {
         printf("Error setting Kernel arguments %d\n", errv);
