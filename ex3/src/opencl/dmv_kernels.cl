@@ -3,11 +3,6 @@
  *  kernels.cl : OpenCL kernels for DMV multiplication
  */ 
 
-/* TODO TODO TODO : 
-    Local size inference and stuff
-    check for gpu limits 
-*/
-
 typedef float   value_t; 
 
 /*
@@ -74,19 +69,18 @@ __kernel void coalesced(__global const value_t *a, \
 
 __kernel void shmem(__global const value_t *a, \
                     __global  const value_t *x,__global value_t *y, uint n,
-                    __local value_t *pProd, __local value_t * x_loc)
+                    uint w, __local value_t *pProd, __local value_t * x_loc)
 {
     if (get_global_id(0) < n) {
         /* in case the last group is less than W */
         uint left = n % get_local_size(0);
-        uint W = 32 < left ? 32 : left;
+        uint W = w < left ? w : left;
 
         pProd[get_local_id(0)] = 0;
 
         for (uint k = 0; k < n; k += W) {
                 /* Prefetch W elements of x in local memory */
                 if (get_local_id(0) < W){
-                    /* TODO : dont prefetch more elements than x has */
                     x_loc[get_local_id(0)] = x[k + get_local_id(0)];
                 }
                 barrier(CLK_LOCAL_MEM_FENCE);

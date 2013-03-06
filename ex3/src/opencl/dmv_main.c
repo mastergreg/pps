@@ -33,6 +33,11 @@ static inline size_t min(size_t a, size_t b)
     return a < b ? a : b;
 }
 
+static inline size_t max(size_t a, size_t b)
+{
+    return a > b ? a : b;
+}
+
 static void transpose(value_t ** A, uint n) {
     uint i,j;
     value_t temp;
@@ -251,7 +256,7 @@ int main(int argc, char **argv)
     if (kern == 2) {
         transpose(A, n);
     }
-    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, n * n * sizeof(value_t), *A, &errv);
+    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR , n * n * sizeof(value_t), *A, &errv);
     if (!gpu_A) {
         cl_error(errv);
         error(0, "A: gpu_alloc failed: %d", errv);
@@ -264,7 +269,7 @@ int main(int argc, char **argv)
     }
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
-    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), y, &errv);
+    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY, n * sizeof(value_t), y, &errv);
     if (!gpu_y) {
         cl_error(errv);
         error(0, "y: gpu_alloc failed: %d", errv);
@@ -334,8 +339,26 @@ int main(int argc, char **argv)
         errv |= clSetKernelArg(kernel, 4, local_ws * sizeof(value_t), NULL);
     }
     if (kern == 2) {
-        errv |= clSetKernelArg(kernel, 4, local_ws * sizeof(value_t), NULL);
-        errv |= clSetKernelArg(kernel, 5, 32*sizeof(value_t), NULL);
+        /* Shared Memory kernel 
+         * calculate how much prefetching the GPU can handle */
+        cl_ulong mem_size;
+        cl_uint w;
+
+        // Get available local memory
+        clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE,
+                                sizeof(mem_size), &mem_size, NULL);
+        printf("Total local memory elements : %lu\n", mem_size/sizeof(value_t));
+
+        /* TODO: fine-tune w. Too large is slower. Currently providing max W */
+        // Subtract products and x buffers
+        mem_size -= 2 * local_ws * sizeof(value_t);
+
+        w = max(8, (mem_size / sizeof(value_t)));
+        printf("Will prefetch X in steps of %u\n", w);
+
+        errv |= clSetKernelArg(kernel, 4, sizeof(cl_uint), &w);
+        errv |= clSetKernelArg(kernel, 5, local_ws * sizeof(value_t), NULL);
+        errv |= clSetKernelArg(kernel, 6, w*sizeof(value_t), NULL);
     }
     if (errv != CL_SUCCESS) {
         printf("Error setting Kernel arguments %d\n", errv);
