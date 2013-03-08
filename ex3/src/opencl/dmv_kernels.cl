@@ -72,23 +72,35 @@ __kernel void shmem(__global const value_t *a, \
                     uint w, __local value_t *pProd, __local value_t * x_loc)
 {
     if (get_global_id(0) < n) {
-        /* in case the last group is less than W */
-        uint left = n % get_local_size(0);
-        uint W = w < left ? w : left;
+        /* W represents the number of elements to be prefetched from x */
+        uint W;
+
+        /* When the distribution isn't evenly divisible in blocks, 
+         * W needs to be reduced for the last block */
+        if ((n % get_local_size(0) != 0) && 
+                 ((get_global_id(0) / get_local_size(0)) 
+                          == (n / get_local_size(0)))) {
+            uint leftover = n % get_local_size(0);
+            W = w < leftover ? w : leftover;
+        } else {
+            W = w;
+        }
 
         pProd[get_local_id(0)] = 0;
 
+        /* Each thread processes elements from one row in chunks of W */
         for (uint k = 0; k < n; k += W) {
-                /* Prefetch W elements of x in local memory */
+                /* Prefetch W elements of x in local memory each iteration*/
                 if (get_local_id(0) < W){
                     x_loc[get_local_id(0)] = x[k + get_local_id(0)];
                 }
                 barrier(CLK_LOCAL_MEM_FENCE);
-                for (uint j = 0; (j < W) && (k+j < n) ; j++) {
+
+                /* Calculate the product for W (or less) elements */
+                for (uint j = 0; (j < W) && (k+j < n); j++) {
                     pProd[get_local_id(0)] += 
                             a[get_global_id(0) + (k + j) * n] * x_loc[j];
                 }
-
                 barrier(CLK_LOCAL_MEM_FENCE);
         }
         y[get_global_id(0)] = pProd[get_local_id(0)];

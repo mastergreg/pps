@@ -103,22 +103,12 @@ int main(int argc, char **argv)
     int kern = (env_gpu_kernel) ? atoi(env_gpu_kernel) : GPU_NAIVE;
     int block_size = (env_gpu_block_size) ? atoi(env_gpu_block_size) : 256;
     size_t orig_n = n;  // original matrix size
-    //int grid_size = 1;  // FILLME: compute the grid size
-
-    /*
-     *  FILLME: you can optionally adjust appropriately (increase
-     *          only) the matrix size here if that helps you with your
-     *          kernel code, e.g., to avoid divergent warps.
-     */ 
 
     printf("Matrix size: %zd\n", orig_n);
     printf("Adjusted matrix size: %u\n", n);
 
     /*
      * Allocate the structures.
-     * 
-     * Initialization to zero is crucial if you adjusted the matrix
-     * size.
      */
     value_t **A = (value_t **) calloc_2d(n, n, sizeof(**A));
     if (!A)
@@ -176,11 +166,6 @@ int main(int argc, char **argv)
 #endif  // OPENMP_KERNEL
 
 #ifdef GPU_KERNEL
-    /*
-     *  FILLME: Set up the blocks, grid and shared memory depending on
-     *          the kernel. Make any transformations to the input
-     *          matrix here.
-     */ 
     cl_int errv = 0;
     cl_context context;
     cl_command_queue queue;
@@ -213,7 +198,6 @@ int main(int argc, char **argv)
         cl_error(errv);
         exit(errv);
     }
-    //printf("Success getting device ids\n");
     // Context
     context = clCreateContext(0, 1, &device, NULL, NULL, &errv);
     if (errv != CL_SUCCESS) {
@@ -221,7 +205,6 @@ int main(int argc, char **argv)
         cl_error(errv);
         exit(errv);
     }
-    //printf("Success creating context\n");
     // Command-queue
     queue = clCreateCommandQueue(context, device, 0, &errv);
     if (errv != CL_SUCCESS) {
@@ -229,13 +212,17 @@ int main(int argc, char **argv)
         cl_error(errv);
         exit(errv);
     }
-    //printf("Success creating command queue\n");
     /* Initialization Complete */
 
-    size_t shmem_size = 0;  // FILLME: set up the shared memory size
 
     printf(">>>> Begin of record <<<<\n");
-    printf("Shared memory size: %ld bytes\n", shmem_size);
+
+    /* Calculate available Shared Memory */
+    cl_ulong shmem_size;
+    clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE,
+                                sizeof(shmem_size), &shmem_size, NULL);
+    printf("Shared memory size: %ld bytes or %lu elements \n", shmem_size,
+                                shmem_size/sizeof(value_t));
 
     /* Calculate grid and block sizes */
     const size_t local_ws = min(block_size, CL_DEVICE_MAX_WORK_ITEM_SIZES);
@@ -251,25 +238,28 @@ int main(int argc, char **argv)
     printf("Local work-items: %lu\n", local_ws);
     printf("\n");
 
-
     /* GPU allocations */
     if (kern == 2) {
         transpose(A, n);
+        printf("transposed A\n");
     }
-    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR , n * n * sizeof(value_t), *A, &errv);
+    cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | \
+                    CL_MEM_USE_HOST_PTR , n * n * sizeof(value_t), *A, &errv);
     if (!gpu_A) {
         cl_error(errv);
         error(0, "A: gpu_alloc failed: %d", errv);
     }
 
-    cl_mem gpu_x = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), x, &errv);
+    cl_mem gpu_x = clCreateBuffer(context, CL_MEM_READ_ONLY | \
+                    CL_MEM_ALLOC_HOST_PTR, n * sizeof(value_t), x, &errv);
     if (!gpu_x) {
         cl_error(errv);
         error(0, "x: gpu_alloc failed: %d", errv);
     }
 
     vec_init(y, n, MAKE_VALUE_CONSTANT(0.0));
-    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY, n * sizeof(value_t), y, &errv);
+    cl_mem gpu_y = clCreateBuffer(context, CL_MEM_WRITE_ONLY, \
+                    n * sizeof(value_t), y, &errv);
     if (!gpu_y) {
         cl_error(errv);
         error(0, "y: gpu_alloc failed: %d", errv);
@@ -293,8 +283,8 @@ int main(int argc, char **argv)
     fclose(fp);
 
     /* Create Program from the source */
-    program = clCreateProgramWithSource(context, 1, (const char **)&source_str,
-            (const size_t *)&source_size, &errv);
+    program = clCreateProgramWithSource(context, 1, \
+            (const char **)&source_str, (const size_t *)&source_size, &errv);
     if (!program)
         error(0, "Could not read program: %s", errv);
 
@@ -309,7 +299,7 @@ int main(int argc, char **argv)
         errv = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, \
                 0, NULL, &log_size);
         build_log = (char *) malloc((log_size+1) * sizeof(char));
-        errv |= clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG,
+        errv |= clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, \
                 log_size, build_log, NULL);
         if (errv != CL_SUCCESS) {
             printf("Error generating program build log\n");
@@ -329,6 +319,7 @@ int main(int argc, char **argv)
         cl_error(errv);
         exit(errv);
     }
+
     /* Set the Kernel Arguments */
     errv = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gpu_A);
     errv |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gpu_x);
@@ -336,25 +327,20 @@ int main(int argc, char **argv)
     errv |= clSetKernelArg(kernel, 3, sizeof(uint), &n);
 
     if (kern == 1) {
+        /* Memory Coalesced Kernel */
         errv |= clSetKernelArg(kernel, 4, local_ws * sizeof(value_t), NULL);
     }
     if (kern == 2) {
-        /* Shared Memory kernel 
-         * calculate how much prefetching the GPU can handle */
-        cl_ulong mem_size;
+        /* Shared Memory Kernel */
+
+        // Subtract products and x buffers from available local memory
+        shmem_size -= 2 * local_ws * sizeof(value_t);
+
+        // Prefetch local_ws elements, or as many the local mem can fit
         cl_uint w;
+        w = min(local_ws, (shmem_size / sizeof(value_t)));
 
-        // Get available local memory
-        clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE,
-                                sizeof(mem_size), &mem_size, NULL);
-        printf("Total local memory elements : %lu\n", mem_size/sizeof(value_t));
-
-        /* TODO: fine-tune w. Too large is slower. Currently providing max W */
-        // Subtract products and x buffers
-        mem_size -= 2 * local_ws * sizeof(value_t);
-
-        w = max(8, (mem_size / sizeof(value_t)));
-        printf("Will prefetch X in steps of %u\n", w);
+        printf("Will prefetch x in chunks of %u\n", w);
 
         errv |= clSetKernelArg(kernel, 4, sizeof(cl_uint), &w);
         errv |= clSetKernelArg(kernel, 5, local_ws * sizeof(value_t), NULL);
@@ -366,13 +352,16 @@ int main(int argc, char **argv)
         exit(errv);
     }
 
-    errv = clEnqueueWriteBuffer(queue, gpu_A, CL_TRUE, 0, sizeof(value_t) * n * n, (void *) *A, 0, NULL, NULL);
-    errv |= clEnqueueWriteBuffer(queue, gpu_x, CL_TRUE, 0, sizeof(value_t) * n, (void *)x, 0, NULL, NULL);
+    errv = clEnqueueWriteBuffer(queue, gpu_A, CL_TRUE, 0, \
+                    sizeof(value_t) * n * n, (void *) *A, 0, NULL, NULL);
+    errv |= clEnqueueWriteBuffer(queue, gpu_x, CL_TRUE, 0, \
+                    sizeof(value_t) * n, (void *)x, 0, NULL, NULL);
     if (errv != CL_SUCCESS) {
         printf("Error enqueuing write buffers: %d\n", errv);
         cl_error(errv);
         exit(errv);
     }
+    
     /* Start Timing and Enqueue the kernel */
     timer_clear(&timer);
     errv = clFinish(queue);
@@ -394,7 +383,7 @@ int main(int argc, char **argv)
 
     /* Read the Result */
     errv = clEnqueueReadBuffer(queue, gpu_y, CL_TRUE, 0, \
-            n * sizeof(value_t), y, 0, NULL, NULL);
+                n * sizeof(value_t), y, 0, NULL, NULL);
     if (errv != CL_SUCCESS) {
         printf("Error enqueuing read buffer\n");
         cl_error(errv);
