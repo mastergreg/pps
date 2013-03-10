@@ -240,8 +240,8 @@ int main(int argc, char **argv)
 
     /* GPU allocations */
     if (kern == 2) {
+        // transpose A if using the shared mem kernel
         transpose(A, n);
-        printf("transposed A\n");
     }
     cl_mem gpu_A = clCreateBuffer(context, CL_MEM_READ_ONLY | \
                     CL_MEM_USE_HOST_PTR , n * n * sizeof(value_t), *A, &errv);
