@@ -1,0 +1,6056 @@
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o alloc.o alloc.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o dmv.o dmv.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o dmv_main.o dmv_main.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o error.o error.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o timer.o timer.c
+g++ -o dmv_main.exec alloc.o dmv.o dmv_main.o error.o timer.o -lOpenCL -lm -fopenmp 
+Benchmark started on Fri Mar  8 17:34:51 EET 2013 in termi3
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.557193 s
+Performance:  0.376378 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053394 s
+Performance:  3.927692 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1024
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 0.064779 s
+Performance:  3.237395 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553809 s
+Performance:  0.378678 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053431 s
+Performance:  3.924972 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1024
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 0.063858 s
+Performance:  3.284087 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.589669 s
+Performance:  0.355649 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053418 s
+Performance:  3.925928 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1056
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 0.063150 s
+Performance:  3.320906 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.603364 s
+Performance:  0.347577 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.059218 s
+Performance:  3.541410 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1024
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 0.062959 s
+Performance:  3.330980 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554999 s
+Performance:  0.377866 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053452 s
+Performance:  3.923430 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1040
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 0.063188 s
+Performance:  3.318909 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.555183 s
+Performance:  0.377741 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053450 s
+Performance:  3.923577 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1056
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 0.062610 s
+Performance:  3.349548 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.609102 s
+Performance:  0.344302 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053448 s
+Performance:  3.923724 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1120
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 0.062587 s
+Performance:  3.350779 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.602743 s
+Performance:  0.347935 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053423 s
+Performance:  3.925560 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1024
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 0.062385 s
+Performance:  3.361629 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.565341 s
+Performance:  0.370953 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053470 s
+Performance:  3.922110 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1152
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 0.062791 s
+Performance:  3.339893 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554439 s
+Performance:  0.378248 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053444 s
+Performance:  3.924018 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1120
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 0.062781 s
+Performance:  3.340425 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553786 s
+Performance:  0.378694 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058630 s
+Performance:  3.576926 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1056
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 0.062590 s
+Performance:  3.350618 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.585912 s
+Performance:  0.357930 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053401 s
+Performance:  3.927177 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1152
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 0.062375 s
+Performance:  3.362168 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.555261 s
+Performance:  0.377688 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.054923 s
+Performance:  3.818349 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1040
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 0.063551 s
+Performance:  3.299951 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554077 s
+Performance:  0.378495 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053418 s
+Performance:  3.925928 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1120
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 0.062436 s
+Performance:  3.358883 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554268 s
+Performance:  0.378364 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053509 s
+Performance:  3.919251 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1200
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 0.063192 s
+Performance:  3.318699 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554592 s
+Performance:  0.378143 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053415 s
+Performance:  3.926148 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1024
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 0.062440 s
+Performance:  3.358668 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553926 s
+Performance:  0.378598 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053514 s
+Performance:  3.918885 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1088
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 0.063689 s
+Performance:  3.292801 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553684 s
+Performance:  0.378763 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.057949 s
+Performance:  3.618962 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1152
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 0.062622 s
+Performance:  3.348906 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553801 s
+Performance:  0.378683 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058500 s
+Performance:  3.584875 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1216
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 0.063084 s
+Performance:  3.324380 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554538 s
+Performance:  0.378180 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.055262 s
+Performance:  3.794926 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1280
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 0.062898 s
+Performance:  3.334211 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553865 s
+Performance:  0.378640 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053647 s
+Performance:  3.909169 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1344
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 0.063594 s
+Performance:  3.297720 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553827 s
+Performance:  0.378666 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.057877 s
+Performance:  3.623464 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1056
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 0.062750 s
+Performance:  3.342075 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.555887 s
+Performance:  0.377262 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053402 s
+Performance:  3.927104 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1104
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 0.063333 s
+Performance:  3.311310 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553731 s
+Performance:  0.378731 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053389 s
+Performance:  3.928060 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1152
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 0.062516 s
+Performance:  3.354584 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.555251 s
+Performance:  0.377694 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053399 s
+Performance:  3.927324 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1200
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 0.063660 s
+Performance:  3.294301 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.598387 s
+Performance:  0.350468 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053464 s
+Performance:  3.922550 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1248
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 0.062812 s
+Performance:  3.338776 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.555900 s
+Performance:  0.377253 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058870 s
+Performance:  3.562344 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1296
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 0.063677 s
+Performance:  3.293421 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.596601 s
+Performance:  0.351517 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053404 s
+Performance:  3.926957 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1344
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 0.062921 s
+Performance:  3.332992 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554219 s
+Performance:  0.378398 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053383 s
+Performance:  3.928502 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1392
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 0.064124 s
+Performance:  3.270463 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.555449 s
+Performance:  0.377560 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053806 s
+Performance:  3.897617 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1440
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 0.063198 s
+Performance:  3.318383 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554256 s
+Performance:  0.378372 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.054690 s
+Performance:  3.834617 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1488
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 0.064111 s
+Performance:  3.271127 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.579187 s
+Performance:  0.362085 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.054677 s
+Performance:  3.835529 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 1024
+Global work-items: 1024
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 0.063023 s
+Performance:  3.327598 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233340 s
+Performance:  0.375608 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.220117 s
+Performance:  3.810977 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2048
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 0.258863 s
+Performance:  3.240559 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.314869 s
+Performance:  0.362379 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.214498 s
+Performance:  3.910809 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2048
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 0.126694 s
+Performance:  6.621156 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.274796 s
+Performance:  0.368763 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.214761 s
+Performance:  3.906020 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2064
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 0.126390 s
+Performance:  6.637082 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.236480 s
+Performance:  0.375081 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.221770 s
+Performance:  3.782571 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2048
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 0.125477 s
+Performance:  6.685375 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233640 s
+Performance:  0.375558 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211165 s
+Performance:  3.972537 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2080
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 0.126058 s
+Performance:  6.654562 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.234013 s
+Performance:  0.375495 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211130 s
+Performance:  3.973196 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2112
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 0.126754 s
+Performance:  6.618022 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233838 s
+Performance:  0.375524 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212879 s
+Performance:  3.940552 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2128
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 0.125898 s
+Performance:  6.663019 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.264647 s
+Performance:  0.370416 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.223513 s
+Performance:  3.753074 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2048
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 0.124906 s
+Performance:  6.715937 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233452 s
+Performance:  0.375589 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211028 s
+Performance:  3.975116 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2160
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 0.127403 s
+Performance:  6.584310 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233690 s
+Performance:  0.375549 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211044 s
+Performance:  3.974815 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2080
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 0.125135 s
+Performance:  6.703646 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.234744 s
+Performance:  0.375372 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211075 s
+Performance:  3.974231 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2112
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 0.126095 s
+Performance:  6.652610 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233916 s
+Performance:  0.375511 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212874 s
+Performance:  3.940645 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2112
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 0.125259 s
+Performance:  6.697010 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233668 s
+Performance:  0.375553 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.220109 s
+Performance:  3.811115 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2080
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 0.127124 s
+Performance:  6.598760 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.235092 s
+Performance:  0.375314 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.221481 s
+Performance:  3.787507 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2240
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 0.126204 s
+Performance:  6.646864 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.271495 s
+Performance:  0.369299 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211012 s
+Performance:  3.975418 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2160
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 0.125628 s
+Performance:  6.677339 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233454 s
+Performance:  0.375589 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.214250 s
+Performance:  3.915336 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2048
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 0.124619 s
+Performance:  6.731404 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233267 s
+Performance:  0.375620 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.217330 s
+Performance:  3.859848 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2176
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 0.126483 s
+Performance:  6.632202 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.272496 s
+Performance:  0.369136 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212763 s
+Performance:  3.942701 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2304
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 0.127468 s
+Performance:  6.580952 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.309489 s
+Performance:  0.363224 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.219095 s
+Performance:  3.828754 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2128
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 0.126223 s
+Performance:  6.645863 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233668 s
+Performance:  0.375553 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.210912 s
+Performance:  3.977302 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2240
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 0.124678 s
+Performance:  6.728218 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.234237 s
+Performance:  0.375457 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.214644 s
+Performance:  3.908149 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2352
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 0.128234 s
+Performance:  6.541641 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233722 s
+Performance:  0.375544 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212969 s
+Performance:  3.938887 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2112
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 0.124989 s
+Performance:  6.711477 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.310551 s
+Performance:  0.363057 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212984 s
+Performance:  3.938609 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2208
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 0.127080 s
+Performance:  6.601045 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233601 s
+Performance:  0.375564 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.210973 s
+Performance:  3.976152 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2304
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 0.125496 s
+Performance:  6.684363 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.267707 s
+Performance:  0.369916 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.214915 s
+Performance:  3.903221 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2400
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 0.127693 s
+Performance:  6.569356 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233416 s
+Performance:  0.375595 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.226475 s
+Performance:  3.703989 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2080
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 0.125648 s
+Performance:  6.676277 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233899 s
+Performance:  0.375514 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.224592 s
+Performance:  3.735043 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2160
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 0.127668 s
+Performance:  6.570643 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233596 s
+Performance:  0.375565 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211002 s
+Performance:  3.975606 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2240
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 0.126143 s
+Performance:  6.650078 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233488 s
+Performance:  0.375583 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.226407 s
+Performance:  3.705101 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2320
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 0.128301 s
+Performance:  6.538225 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233610 s
+Performance:  0.375563 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.218647 s
+Performance:  3.836599 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2400
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 0.126380 s
+Performance:  6.637607 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.234532 s
+Performance:  0.375408 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211035 s
+Performance:  3.974984 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2480
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 0.128333 s
+Performance:  6.536595 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.234522 s
+Performance:  0.375410 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211036 s
+Performance:  3.974965 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 2048
+Global work-items: 2048
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 0.126277 s
+Performance:  6.643021 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955504 s
+Performance:  0.374679 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842372 s
+Performance:  3.983327 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4096
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 0.777563 s
+Performance:  4.315333 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954132 s
+Performance:  0.374737 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842067 s
+Performance:  3.984770 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4096
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 0.505830 s
+Performance:  6.633539 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.169260 s
+Performance:  0.365945 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.861466 s
+Performance:  3.895038 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4128
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 0.254758 s
+Performance:  13.171100 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.003355 s
+Performance:  0.372688 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.848173 s
+Performance:  3.956083 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4096
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 0.251785 s
+Performance:  13.326621 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955468 s
+Performance:  0.374681 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.856244 s
+Performance:  3.918793 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4160
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 0.255555 s
+Performance:  13.130024 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.026346 s
+Performance:  0.371739 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.845097 s
+Performance:  3.970483 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4128
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 0.252149 s
+Performance:  13.307383 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954984 s
+Performance:  0.374701 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.854859 s
+Performance:  3.925142 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4144
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 0.257877 s
+Performance:  13.011797 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.960123 s
+Performance:  0.374486 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842240 s
+Performance:  3.983951 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4096
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 0.252662 s
+Performance:  13.280363 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.981676 s
+Performance:  0.373588 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.844879 s
+Performance:  3.971507 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4176
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 0.257099 s
+Performance:  13.051172 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955709 s
+Performance:  0.374671 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.849795 s
+Performance:  3.948533 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4160
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 0.254382 s
+Performance:  13.190569 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955408 s
+Performance:  0.374683 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.855923 s
+Performance:  3.920263 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4224
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 0.260541 s
+Performance:  12.878753 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.981752 s
+Performance:  0.373584 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.879036 s
+Performance:  3.817185 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4224
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 0.257051 s
+Performance:  13.053609 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955398 s
+Performance:  0.374684 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.858627 s
+Performance:  3.907917 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4160
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 0.257150 s
+Performance:  13.048583 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.007521 s
+Performance:  0.372516 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.844804 s
+Performance:  3.971860 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4256
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 0.253843 s
+Performance:  13.218577 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955311 s
+Performance:  0.374688 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.858899 s
+Performance:  3.906680 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4320
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 0.257630 s
+Performance:  13.024272 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.987970 s
+Performance:  0.373326 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.861316 s
+Performance:  3.895717 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4096
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 0.253889 s
+Performance:  13.216182 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955042 s
+Performance:  0.374699 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.855718 s
+Performance:  3.921202 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4352
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 0.259741 s
+Performance:  12.918420 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954521 s
+Performance:  0.374721 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.907302 s
+Performance:  3.698265 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4320
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 0.255945 s
+Performance:  13.110017 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955220 s
+Performance:  0.374691 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.849120 s
+Performance:  3.951671 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4256
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 0.259981 s
+Performance:  12.906494 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955221 s
+Performance:  0.374691 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842380 s
+Performance:  3.983289 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4160
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 0.257267 s
+Performance:  13.042649 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955143 s
+Performance:  0.374695 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842449 s
+Performance:  3.982963 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4368
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 0.261461 s
+Performance:  12.833437 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.983408 s
+Performance:  0.373516 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.848848 s
+Performance:  3.952938 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4224
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 0.258674 s
+Performance:  12.971706 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955059 s
+Performance:  0.374698 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.851517 s
+Performance:  3.940548 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4416
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 0.263708 s
+Performance:  12.724086 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955679 s
+Performance:  0.374672 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.845382 s
+Performance:  3.969144 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4224
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 0.260378 s
+Performance:  12.886815 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955127 s
+Performance:  0.374695 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842377 s
+Performance:  3.983303 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4400
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 0.256163 s
+Performance:  13.098860 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.007677 s
+Performance:  0.372509 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.848510 s
+Performance:  3.954512 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4160
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 0.252180 s
+Performance:  13.305747 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954681 s
+Performance:  0.374714 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842390 s
+Performance:  3.983242 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4320
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 0.255779 s
+Performance:  13.118525 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955202 s
+Performance:  0.374692 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842118 s
+Performance:  3.984529 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4480
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 0.252550 s
+Performance:  13.286253 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955044 s
+Performance:  0.374699 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.847612 s
+Performance:  3.958702 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4176
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 0.257246 s
+Performance:  13.043714 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955107 s
+Performance:  0.374696 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.853361 s
+Performance:  3.932033 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4320
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 0.253568 s
+Performance:  13.232913 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.026795 s
+Performance:  0.371720 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842334 s
+Performance:  3.983507 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4464
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 0.257199 s
+Performance:  13.046097 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955253 s
+Performance:  0.374690 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.844569 s
+Performance:  3.972965 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 4096
+Global work-items: 4096
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 0.252950 s
+Performance:  13.265243 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.509273 s
+Performance:  0.373548 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.608691 s
+Performance:  3.939158 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 1.834392 s
+Performance:  5.601881 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.542037 s
+Performance:  0.373104 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.589387 s
+Performance:  3.968524 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 0.894892 s
+Performance:  11.483000 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.531849 s
+Performance:  0.373242 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.577754 s
+Performance:  3.986433 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 0.888718 s
+Performance:  11.562773 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.507993 s
+Performance:  0.373566 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.590449 s
+Performance:  3.966897 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 0.459069 s
+Performance:  22.384532 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.508751 s
+Performance:  0.373555 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.937553 s
+Performance:  3.498165 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 0.475160 s
+Performance:  21.626494 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.508140 s
+Performance:  0.373564 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.577356 s
+Performance:  3.987049 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 0.460875 s
+Performance:  22.296815 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.579564 s
+Performance:  0.372596 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.581333 s
+Performance:  3.980906 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 0.471745 s
+Performance:  21.783050 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.506820 s
+Performance:  0.373582 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.810918 s
+Performance:  3.655761 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 0.464816 s
+Performance:  22.107769 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.568305 s
+Performance:  0.372749 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.603175 s
+Performance:  3.947504 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 0.476250 s
+Performance:  21.576997 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.509971 s
+Performance:  0.373539 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.587261 s
+Performance:  3.971785 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 0.465515 s
+Performance:  22.074573 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.514179 s
+Performance:  0.373482 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.583562 s
+Performance:  3.977472 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7216
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 0.479351 s
+Performance:  21.437412 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.582464 s
+Performance:  0.372557 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.581025 s
+Performance:  3.981381 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7296
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 0.472592 s
+Performance:  21.744009 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.511970 s
+Performance:  0.373512 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.602351 s
+Performance:  3.948754 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7280
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 0.472116 s
+Performance:  21.765932 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.570727 s
+Performance:  0.372716 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.580402 s
+Performance:  3.982343 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 0.463641 s
+Performance:  22.163797 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.512124 s
+Performance:  0.373510 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.602280 s
+Performance:  3.948862 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 0.478318 s
+Performance:  21.483709 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.587518 s
+Performance:  0.372489 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.614380 s
+Performance:  3.930586 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 0.469659 s
+Performance:  21.879800 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.533735 s
+Performance:  0.373217 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.581740 s
+Performance:  3.980279 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7344
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 0.479101 s
+Performance:  21.448598 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.513896 s
+Performance:  0.373486 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.595703 s
+Performance:  3.958868 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 0.477496 s
+Performance:  21.520693 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.530693 s
+Performance:  0.373258 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.582760 s
+Performance:  3.978707 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7296
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 0.470015 s
+Performance:  21.863227 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.685180 s
+Performance:  0.371175 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.577298 s
+Performance:  3.987139 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7360
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 0.459266 s
+Performance:  22.374930 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.550630 s
+Performance:  0.372988 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.579069 s
+Performance:  3.984401 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7392
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 0.470331 s
+Performance:  21.848538 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.508085 s
+Performance:  0.373565 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.715502 s
+Performance:  3.784216 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7392
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 0.461807 s
+Performance:  22.251817 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.510306 s
+Performance:  0.373534 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.596396 s
+Performance:  3.957811 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7360
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 0.474324 s
+Performance:  21.664611 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.509905 s
+Performance:  0.373540 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.601317 s
+Performance:  3.950324 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7296
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 0.465857 s
+Performance:  22.058367 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.803420 s
+Performance:  0.369596 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.626009 s
+Performance:  3.913180 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 0.480332 s
+Performance:  21.393629 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.508157 s
+Performance:  0.373564 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.577080 s
+Performance:  3.987476 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7488
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 0.470836 s
+Performance:  21.825104 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.599349 s
+Performance:  0.372329 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.583110 s
+Performance:  3.978168 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7344
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 0.484412 s
+Performance:  21.213440 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.504841 s
+Performance:  0.373609 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.587845 s
+Performance:  3.970889 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 0.475933 s
+Performance:  21.591369 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.576829 s
+Performance:  0.372633 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.577908 s
+Performance:  3.986195 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7424
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 0.485812 s
+Performance:  21.152307 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.539655 s
+Performance:  0.373136 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.616565 s
+Performance:  3.927303 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7200
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 0.482336 s
+Performance:  21.304744 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.538868 s
+Performance:  0.373147 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.579181 s
+Performance:  3.984228 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7440
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 0.492264 s
+Performance:  20.875069 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.689606 s
+Performance:  0.371116 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.578666 s
+Performance:  3.985024 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 7168
+Global work-items: 7168
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 0.486661 s
+Performance:  21.115406 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.997028 s
+Performance:  0.372858 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.383020 s
+Performance:  3.967394 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8192
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 2.613719 s
+Performance:  5.135125 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.956939 s
+Performance:  0.373274 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.393160 s
+Performance:  3.955538 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8192
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 1.526056 s
+Performance:  8.795072 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.536384 s
+Performance:  0.367354 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.372500 s
+Performance:  3.979770 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8208
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 1.022161 s
+Performance:  13.130782 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.012922 s
+Performance:  0.372693 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.384545 s
+Performance:  3.965606 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8192
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 1.014288 s
+Performance:  13.232704 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.085013 s
+Performance:  0.371949 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.396221 s
+Performance:  3.951973 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8240
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 0.558980 s
+Performance:  24.011186 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.959587 s
+Performance:  0.373246 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.376829 s
+Performance:  3.974668 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8256
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 0.548949 s
+Performance:  24.449945 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.983289 s
+Performance:  0.373000 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.394696 s
+Performance:  3.953748 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8288
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 0.558878 s
+Performance:  24.015568 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.974948 s
+Performance:  0.373087 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.386404 s
+Performance:  3.963429 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8192
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 0.537968 s
+Performance:  24.949017 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.961458 s
+Performance:  0.373227 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.373236 s
+Performance:  3.978901 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8208
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 0.560374 s
+Performance:  23.951455 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.927990 s
+Performance:  0.373574 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.373613 s
+Performance:  3.978457 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8320
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 0.549833 s
+Performance:  24.410635 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.975712 s
+Performance:  0.373079 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.399595 s
+Performance:  3.948051 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8272
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 0.557388 s
+Performance:  24.079766 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.002929 s
+Performance:  0.372797 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.373486 s
+Performance:  3.978606 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8256
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 0.545007 s
+Performance:  24.626790 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.977886 s
+Performance:  0.373056 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.385946 s
+Performance:  3.963965 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8320
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 0.560812 s
+Performance:  23.932749 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.926718 s
+Performance:  0.373588 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.386753 s
+Performance:  3.963021 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8288
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 0.552480 s
+Performance:  24.293681 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.097801 s
+Performance:  0.371817 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.404549 s
+Performance:  3.942306 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8400
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 0.556322 s
+Performance:  24.125907 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.039399 s
+Performance:  0.372419 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.384528 s
+Performance:  3.965626 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8192
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 0.542715 s
+Performance:  24.730794 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.138190 s
+Performance:  0.371401 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.387412 s
+Performance:  3.962250 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8432
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 0.563611 s
+Performance:  23.813894 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.215052 s
+Performance:  0.370613 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.390094 s
+Performance:  3.959115 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8352
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 0.553345 s
+Performance:  24.255704 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.928039 s
+Performance:  0.373574 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.578719 s
+Performance:  3.750441 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8208
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 0.566213 s
+Performance:  23.704459 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.999335 s
+Performance:  0.372834 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.431860 s
+Performance:  3.910932 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8320
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 0.561531 s
+Performance:  23.902105 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.962477 s
+Performance:  0.373216 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.383492 s
+Performance:  3.966840 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8400
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 0.558131 s
+Performance:  24.047711 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.286181 s
+Performance:  0.369887 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.430355 s
+Performance:  3.912648 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8448
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 0.534669 s
+Performance:  25.102957 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.929410 s
+Performance:  0.373560 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.407463 s
+Performance:  3.938934 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8464
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 0.552138 s
+Performance:  24.308729 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.000111 s
+Performance:  0.372826 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.432079 s
+Performance:  3.910683 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8448
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 0.539920 s
+Performance:  24.858818 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.936854 s
+Performance:  0.373482 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.374848 s
+Performance:  3.977001 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8400
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 0.553867 s
+Performance:  24.232844 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.930209 s
+Performance:  0.373551 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.385740 s
+Performance:  3.964207 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8320
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 0.543581 s
+Performance:  24.691394 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.929678 s
+Performance:  0.373557 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.387265 s
+Performance:  3.962422 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8208
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 0.559179 s
+Performance:  24.002641 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.025068 s
+Performance:  0.372568 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.371250 s
+Performance:  3.981245 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8512
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 0.550088 s
+Performance:  24.399319 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.929937 s
+Performance:  0.373554 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.412959 s
+Performance:  3.932591 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8352
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 0.566983 s
+Performance:  23.672267 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.929581 s
+Performance:  0.373558 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.398751 s
+Performance:  3.949031 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8640
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 0.556567 s
+Performance:  24.115287 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.964373 s
+Performance:  0.373196 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.383690 s
+Performance:  3.966608 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8432
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 0.576401 s
+Performance:  23.285478 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.973563 s
+Performance:  0.373101 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.408538 s
+Performance:  3.937692 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 8192
+Global work-items: 8192
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 0.563592 s
+Performance:  23.814697 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.247233 s
+Performance:  0.372836 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.361676 s
+Performance:  3.966943 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 7.414519 s
+Performance:  5.543742 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.373667 s
+Performance:  0.372409 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.494719 s
+Performance:  3.916654 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 3.631059 s
+Performance:  11.320163 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.085170 s
+Performance:  0.373385 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.651550 s
+Performance:  3.858986 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14352
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 2.718802 s
+Performance:  15.118489 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.105391 s
+Performance:  0.373317 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.737333 s
+Performance:  3.828155 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 1.850382 s
+Performance:  22.213888 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.312884 s
+Performance:  0.372614 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.332649 s
+Performance:  3.978087 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 1.907059 s
+Performance:  21.553701 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.036346 s
+Performance:  0.373551 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.387835 s
+Performance:  3.956953 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 1.869613 s
+Performance:  21.985394 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.192255 s
+Performance:  0.373022 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.369035 s
+Performance:  3.964128 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 1.943852 s
+Performance:  21.145735 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.141007 s
+Performance:  0.373196 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.329202 s
+Performance:  3.979415 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 1.112934 s
+Performance:  36.933169 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.134217 s
+Performance:  0.373219 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.731051 s
+Performance:  3.830396 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 1.217991 s
+Performance:  33.747523 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.122838 s
+Performance:  0.373258 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.802657 s
+Performance:  3.805006 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 1.153675 s
+Performance:  35.628907 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.127657 s
+Performance:  0.373241 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.345232 s
+Performance:  3.973249 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14432
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 1.264305 s
+Performance:  32.511284 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.205410 s
+Performance:  0.372978 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.322367 s
+Performance:  3.982050 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 1.154003 s
+Performance:  35.618780 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.172847 s
+Performance:  0.373088 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.356926 s
+Performance:  3.968762 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14352
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 1.259742 s
+Performance:  32.629046 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.149023 s
+Performance:  0.373169 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.381088 s
+Performance:  3.959525 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 1.139281 s
+Performance:  36.079053 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.161681 s
+Performance:  0.373126 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.351873 s
+Performance:  3.970700 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 1.237515 s
+Performance:  33.215096 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.020910 s
+Performance:  0.373603 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.331162 s
+Performance:  3.978660 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 1.199226 s
+Performance:  34.275590 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.203766 s
+Performance:  0.372983 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.523100 s
+Performance:  3.906090 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14416
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 1.170358 s
+Performance:  35.121031 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.066941 s
+Performance:  0.373447 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.603318 s
+Performance:  3.876539 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 1.137629 s
+Performance:  36.131445 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.145448 s
+Performance:  0.373181 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.632662 s
+Performance:  3.865841 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14592
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 1.221918 s
+Performance:  33.639065 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.099999 s
+Performance:  0.373335 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.340644 s
+Performance:  3.975012 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 1.188108 s
+Performance:  34.596332 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.096574 s
+Performance:  0.373347 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.351114 s
+Performance:  3.970991 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14448
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 1.268182 s
+Performance:  32.411893 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.115921 s
+Performance:  0.373281 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.439966 s
+Performance:  3.937195 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14432
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 1.238491 s
+Performance:  33.188920 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.062206 s
+Performance:  0.373463 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.345763 s
+Performance:  3.973045 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14352
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 1.157234 s
+Performance:  35.519332 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.187581 s
+Performance:  0.373038 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.492169 s
+Performance:  3.917606 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14592
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 1.127028 s
+Performance:  36.471303 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.148110 s
+Performance:  0.373172 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.465497 s
+Performance:  3.927590 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 1.186410 s
+Performance:  34.645847 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.072866 s
+Performance:  0.373427 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.318414 s
+Performance:  3.983575 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14560
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 1.167041 s
+Performance:  35.220853 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.292675 s
+Performance:  0.372683 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.394606 s
+Performance:  3.954376 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14688
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 1.234812 s
+Performance:  33.287803 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.066652 s
+Performance:  0.373448 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.376605 s
+Performance:  3.961236 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 1.204355 s
+Performance:  34.129621 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.028383 s
+Performance:  0.373578 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.448123 s
+Performance:  3.934121 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14384
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 1.279617 s
+Performance:  32.122252 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.167007 s
+Performance:  0.373108 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.343330 s
+Performance:  3.973979 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14400
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 1.278143 s
+Performance:  32.159296 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.139506 s
+Performance:  0.373201 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.347870 s
+Performance:  3.972236 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14384
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 1.320951 s
+Performance:  31.117111 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.093996 s
+Performance:  0.373355 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.339695 s
+Performance:  3.975376 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 14336
+Global work-items: 14336
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 1.317303 s
+Performance:  31.203284 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.657724 s
+Performance:  0.371132 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.504609 s
+Performance:  3.975464 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16384
+Local work-items: 16
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 16
+Checking ... PASSED
+Elapsed time: 10.573625 s
+Performance:  5.077454 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.904759 s
+Performance:  0.373074 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.637102 s
+Performance:  3.936840 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16384
+Local work-items: 32
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 32
+Checking ... PASSED
+Elapsed time: 5.168649 s
+Performance:  10.387065 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.664962 s
+Performance:  0.371113 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.516147 s
+Performance:  3.972071 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16416
+Local work-items: 48
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 48
+Checking ... PASSED
+Elapsed time: 4.092314 s
+Performance:  13.119006 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.870644 s
+Performance:  0.373162 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.625378 s
+Performance:  3.940228 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16384
+Local work-items: 64
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 64
+Checking ... PASSED
+Elapsed time: 3.083802 s
+Performance:  17.409383 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.852426 s
+Performance:  0.373209 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.495362 s
+Performance:  3.978188 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16400
+Local work-items: 80
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 80
+Checking ... PASSED
+Elapsed time: 2.226717 s
+Performance:  24.110424 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.211284 s
+Performance:  0.369717 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 17.334209 s
+Performance:  3.097176 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16416
+Local work-items: 96
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 96
+Checking ... PASSED
+Elapsed time: 2.144576 s
+Performance:  25.033895 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.879263 s
+Performance:  0.373140 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.559316 s
+Performance:  3.959425 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16464
+Local work-items: 112
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 112
+Checking ... PASSED
+Elapsed time: 2.272618 s
+Performance:  23.623456 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.801577 s
+Performance:  0.373341 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 14.005721 s
+Performance:  3.833226 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16384
+Local work-items: 128
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 128
+Checking ... PASSED
+Elapsed time: 2.218954 s
+Performance:  24.194774 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.800081 s
+Performance:  0.373345 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.493267 s
+Performance:  3.978806 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16416
+Local work-items: 144
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 144
+Checking ... PASSED
+Elapsed time: 2.367762 s
+Performance:  22.674192 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.261989 s
+Performance:  0.369588 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.529278 s
+Performance:  3.968216 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16480
+Local work-items: 160
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 160
+Checking ... PASSED
+Elapsed time: 1.416615 s
+Performance:  37.898152 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.126467 s
+Performance:  0.369933 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.604411 s
+Performance:  3.946300 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16544
+Local work-items: 176
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 176
+Checking ... PASSED
+Elapsed time: 1.523018 s
+Performance:  35.250464 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.179170 s
+Performance:  0.369799 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.709697 s
+Performance:  3.915994 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16512
+Local work-items: 192
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 192
+Checking ... PASSED
+Elapsed time: 1.466943 s
+Performance:  36.597940 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.558418 s
+Performance:  0.368835 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.534689 s
+Performance:  3.966629 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16432
+Local work-items: 208
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 208
+Checking ... PASSED
+Elapsed time: 1.505185 s
+Performance:  35.668101 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.777960 s
+Performance:  0.373403 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.503994 s
+Performance:  3.975645 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16576
+Local work-items: 224
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 224
+Checking ... PASSED
+Elapsed time: 1.459995 s
+Performance:  36.772106 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.768302 s
+Performance:  0.368304 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.520426 s
+Performance:  3.970814 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16560
+Local work-items: 240
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 240
+Checking ... PASSED
+Elapsed time: 1.519246 s
+Performance:  35.337984 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.967969 s
+Performance:  0.372910 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.799814 s
+Performance:  3.890421 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16384
+Local work-items: 256
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 256
+Checking ... PASSED
+Elapsed time: 1.416968 s
+Performance:  37.888711 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.041618 s
+Performance:  0.370150 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.625212 s
+Performance:  3.940276 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16592
+Local work-items: 272
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 272
+Checking ... PASSED
+Elapsed time: 1.579704 s
+Performance:  33.985539 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.771102 s
+Performance:  0.373421 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 14.402584 s
+Performance:  3.727601 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16416
+Local work-items: 288
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 288
+Checking ... PASSED
+Elapsed time: 4.264417 s
+Performance:  12.589550 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.469895 s
+Performance:  0.371614 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.515210 s
+Performance:  3.972346 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16416
+Local work-items: 304
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 304
+Checking ... PASSED
+Elapsed time: 1.443115 s
+Performance:  37.202227 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 143.912403 s
+Performance:  0.373054 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.538009 s
+Performance:  3.965656 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16640
+Local work-items: 320
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 320
+Checking ... PASSED
+Elapsed time: 1.404905 s
+Performance:  38.214037 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.263527 s
+Performance:  0.372146 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.543265 s
+Performance:  3.964117 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16464
+Local work-items: 336
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 336
+Checking ... PASSED
+Elapsed time: 1.511533 s
+Performance:  35.518306 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.271887 s
+Performance:  0.372124 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.556599 s
+Performance:  3.960218 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16544
+Local work-items: 352
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 352
+Checking ... PASSED
+Elapsed time: 1.472878 s
+Performance:  36.450467 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.588312 s
+Performance:  0.371310 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 13.660755 s
+Performance:  3.930024 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16560
+Local work-items: 368
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 368
+Checking ... PASSED
+Elapsed time: 1.563397 s
+Performance:  34.340024 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 147.137718 s
+Performance:  0.364876 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.648311 s
+Performance:  3.224777 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16512
+Local work-items: 384
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 384
+Checking ... PASSED
+Elapsed time: 1.592161 s
+Performance:  33.719637 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 147.043335 s
+Performance:  0.365111 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.709356 s
+Performance:  3.212996 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16400
+Local work-items: 400
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 400
+Checking ... PASSED
+Elapsed time: 1.415519 s
+Performance:  37.927496 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.943160 s
+Performance:  0.367863 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.785198 s
+Performance:  3.198478 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16640
+Local work-items: 416
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 416
+Checking ... PASSED
+Elapsed time: 3.655300 s
+Performance:  14.687465 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 146.693045 s
+Performance:  0.365983 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.886956 s
+Performance:  3.179205 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16416
+Local work-items: 432
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 432
+Checking ... PASSED
+Elapsed time: 3.319788 s
+Performance:  16.171843 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.960893 s
+Performance:  0.370356 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 17.060054 s
+Performance:  3.146947 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16576
+Local work-items: 448
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 448
+Checking ... PASSED
+Elapsed time: 1.881887 s
+Performance:  28.528329 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.883994 s
+Performance:  0.370552 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.765478 s
+Performance:  3.202240 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16704
+Local work-items: 464
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 464
+Checking ... PASSED
+Elapsed time: 1.513884 s
+Performance:  35.463147 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 144.877296 s
+Performance:  0.370569 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.900745 s
+Performance:  3.176611 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16800
+Local work-items: 480
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 480
+Checking ... PASSED
+Elapsed time: 9.513803 s
+Performance:  5.643074 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.140287 s
+Performance:  0.369898 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.835877 s
+Performance:  3.188850 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16864
+Local work-items: 496
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 496
+Checking ... PASSED
+Elapsed time: 6.205750 s
+Performance:  8.651185 Gflop/s
+>>>> End of record <<<<
+Matrix size: 16384
+Adjusted matrix size: 16384
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 145.673846 s
+Performance:  0.368543 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 16.871574 s
+Performance:  3.182103 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 49152 bytes or 12288 elements 
+
+N: 16384
+Global work-items: 16384
+Local work-items: 512
+
+transposed A
+GPU kernel version: shmem
+Will prefetch x in chunks of 512
+Checking ... PASSED
+Elapsed time: 4.353142 s
+Performance:  12.332952 Gflop/s
+>>>> End of record <<<<
+Benchmark ended on Fri Mar  8 21:34:02 EET 2013 in termi3

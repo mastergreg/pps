@@ -1,0 +1,4782 @@
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o alloc.o alloc.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o dmv.o dmv.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o dmv_main.o dmv_main.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o error.o error.c
+g++ -D__FLOAT_VALUES -DEPS=1e-2  -DSERIAL_KERNEL -DOPENMP_KERNEL -DGPU_KERNEL -D_DEBUG_ -I/usr/local/cuda-5.0/include -c -Wall -fopenmp -g -O0 -o timer.o timer.c
+g++ -o dmv_main.exec alloc.o dmv.o dmv_main.o error.o timer.o -lOpenCL -lm -fopenmp 
+Benchmark started on Sun Mar  3 17:16:07 EET 2013 in termi6
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554072 s
+Performance:  0.378498 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053431 s
+Performance:  3.924972 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1024
+Local work-items: 16
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.040593 s
+Performance:  5.166290 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.557662 s
+Performance:  0.376061 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053396 s
+Performance:  3.927545 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1024
+Local work-items: 32
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.068942 s
+Performance:  3.041908 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554344 s
+Performance:  0.378312 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.057914 s
+Performance:  3.621149 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1056
+Local work-items: 48
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.068926 s
+Performance:  3.042614 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553797 s
+Performance:  0.378686 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.057947 s
+Performance:  3.619086 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1024
+Local work-items: 64
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.067519 s
+Performance:  3.106018 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554134 s
+Performance:  0.378456 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053597 s
+Performance:  3.912816 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1040
+Local work-items: 80
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.061276 s
+Performance:  3.422469 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554574 s
+Performance:  0.378155 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.059420 s
+Performance:  3.529371 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1056
+Local work-items: 96
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.088160 s
+Performance:  2.378802 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.563422 s
+Performance:  0.372217 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053424 s
+Performance:  3.925487 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1120
+Local work-items: 112
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.082671 s
+Performance:  2.536744 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553709 s
+Performance:  0.378746 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.059113 s
+Performance:  3.547700 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1024
+Local work-items: 128
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.069947 s
+Performance:  2.998201 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.578104 s
+Performance:  0.362764 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053386 s
+Performance:  3.928281 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1152
+Local work-items: 144
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.070709 s
+Performance:  2.965891 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553850 s
+Performance:  0.378650 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053415 s
+Performance:  3.926148 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1120
+Local work-items: 160
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.070838 s
+Performance:  2.960490 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.567456 s
+Performance:  0.369571 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053790 s
+Performance:  3.898777 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1056
+Local work-items: 176
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.073284 s
+Performance:  2.861678 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.587282 s
+Performance:  0.357095 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053409 s
+Performance:  3.926589 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1152
+Local work-items: 192
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.073178 s
+Performance:  2.865823 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553978 s
+Performance:  0.378562 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.059149 s
+Performance:  3.545541 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1040
+Local work-items: 208
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.081025 s
+Performance:  2.588278 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553601 s
+Performance:  0.378820 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053526 s
+Performance:  3.918006 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1120
+Local work-items: 224
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.090545 s
+Performance:  2.316143 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.587717 s
+Performance:  0.356830 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058910 s
+Performance:  3.559925 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1200
+Local work-items: 240
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.094812 s
+Performance:  2.211906 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553778 s
+Performance:  0.378699 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.062206 s
+Performance:  3.371302 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1024
+Local work-items: 256
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.102146 s
+Performance:  2.053093 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.600220 s
+Performance:  0.349397 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053449 s
+Performance:  3.923651 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1088
+Local work-items: 272
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.110307 s
+Performance:  1.901196 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554973 s
+Performance:  0.377884 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.054999 s
+Performance:  3.813073 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1152
+Local work-items: 288
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.122118 s
+Performance:  1.717316 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553560 s
+Performance:  0.378848 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.057937 s
+Performance:  3.619711 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1216
+Local work-items: 304
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.126800 s
+Performance:  1.653905 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.556340 s
+Performance:  0.376955 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053370 s
+Performance:  3.929458 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1280
+Local work-items: 320
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.133446 s
+Performance:  1.571536 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.588215 s
+Performance:  0.356528 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058262 s
+Performance:  3.599519 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1344
+Local work-items: 336
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.143155 s
+Performance:  1.464952 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554086 s
+Performance:  0.378489 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.055427 s
+Performance:  3.783629 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1056
+Local work-items: 352
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.154140 s
+Performance:  1.360550 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553945 s
+Performance:  0.378585 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053581 s
+Performance:  3.913984 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1104
+Local work-items: 368
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.158048 s
+Performance:  1.326908 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553998 s
+Performance:  0.378549 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058851 s
+Performance:  3.563494 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1152
+Local work-items: 384
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.166271 s
+Performance:  1.261285 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554208 s
+Performance:  0.378405 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058816 s
+Performance:  3.565615 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1200
+Local work-items: 400
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.175010 s
+Performance:  1.198304 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553660 s
+Performance:  0.378780 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.054673 s
+Performance:  3.835809 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1248
+Local work-items: 416
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.188438 s
+Performance:  1.112914 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.607265 s
+Performance:  0.345344 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053458 s
+Performance:  3.922990 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1296
+Local work-items: 432
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.196994 s
+Performance:  1.064577 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553540 s
+Performance:  0.378862 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.054706 s
+Performance:  3.833495 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1344
+Local work-items: 448
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.207617 s
+Performance:  1.010106 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.553736 s
+Performance:  0.378728 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.055032 s
+Performance:  3.810786 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1392
+Local work-items: 464
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.216629 s
+Performance:  0.968085 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.559064 s
+Performance:  0.375118 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.058683 s
+Performance:  3.573696 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1440
+Local work-items: 480
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.228899 s
+Performance:  0.916191 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.554161 s
+Performance:  0.378437 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.053415 s
+Performance:  3.926148 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1488
+Local work-items: 496
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.238702 s
+Performance:  0.878565 Gflop/s
+>>>> End of record <<<<
+Matrix size: 1024
+Adjusted matrix size: 1024
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 0.576306 s
+Performance:  0.363896 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.061397 s
+Performance:  3.415724 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 1024
+Global work-items: 1024
+Local work-items: 512
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.251694 s
+Performance:  0.833215 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233195 s
+Performance:  0.375633 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.216972 s
+Performance:  3.866217 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2048
+Local work-items: 16
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.175703 s
+Performance:  4.774311 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.239856 s
+Performance:  0.374516 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211105 s
+Performance:  3.973666 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2048
+Local work-items: 32
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.141910 s
+Performance:  5.911217 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.247785 s
+Performance:  0.373194 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.210971 s
+Performance:  3.976190 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2064
+Local work-items: 48
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.160791 s
+Performance:  5.217088 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.257210 s
+Performance:  0.371636 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211247 s
+Performance:  3.970995 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2048
+Local work-items: 64
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.176153 s
+Performance:  4.762115 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.232822 s
+Performance:  0.375695 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.219538 s
+Performance:  3.821028 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2080
+Local work-items: 80
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.195901 s
+Performance:  4.282065 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233126 s
+Performance:  0.375644 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211242 s
+Performance:  3.971089 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2112
+Local work-items: 96
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.245049 s
+Performance:  3.423237 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233000 s
+Performance:  0.375665 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.258996 s
+Performance:  3.238895 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2128
+Local work-items: 112
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.211721 s
+Performance:  3.962105 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233185 s
+Performance:  0.375634 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212813 s
+Performance:  3.941774 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2048
+Local work-items: 128
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.231496 s
+Performance:  3.623651 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233486 s
+Performance:  0.375584 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211635 s
+Performance:  3.963715 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2160
+Local work-items: 144
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.251144 s
+Performance:  3.340159 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233190 s
+Performance:  0.375633 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212769 s
+Performance:  3.942589 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2080
+Local work-items: 160
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.284157 s
+Performance:  2.952103 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233697 s
+Performance:  0.375548 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212816 s
+Performance:  3.941719 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2112
+Local work-items: 176
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.311021 s
+Performance:  2.697119 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.253734 s
+Performance:  0.372209 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211105 s
+Performance:  3.973666 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2112
+Local work-items: 192
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.346343 s
+Performance:  2.422052 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233597 s
+Performance:  0.375565 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.220539 s
+Performance:  3.803685 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2080
+Local work-items: 208
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.374990 s
+Performance:  2.237022 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233649 s
+Performance:  0.375556 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.218156 s
+Performance:  3.845234 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2240
+Local work-items: 224
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.428146 s
+Performance:  1.959287 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233669 s
+Performance:  0.375553 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.213470 s
+Performance:  3.929643 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2160
+Local work-items: 240
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.337335 s
+Performance:  2.486729 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233805 s
+Performance:  0.375530 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.231497 s
+Performance:  3.623636 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2048
+Local work-items: 256
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.231290 s
+Performance:  3.626879 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.345737 s
+Performance:  0.357611 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.216019 s
+Performance:  3.883273 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2176
+Local work-items: 272
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.247171 s
+Performance:  3.393848 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233250 s
+Performance:  0.375623 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.218179 s
+Performance:  3.844828 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2304
+Local work-items: 288
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.264430 s
+Performance:  3.172336 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233661 s
+Performance:  0.375554 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.217607 s
+Performance:  3.854935 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2128
+Local work-items: 304
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.273124 s
+Performance:  3.071355 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233066 s
+Performance:  0.375654 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211059 s
+Performance:  3.974532 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2240
+Local work-items: 320
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.283786 s
+Performance:  2.955963 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.236440 s
+Performance:  0.375088 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211004 s
+Performance:  3.975568 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2352
+Local work-items: 336
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.298828 s
+Performance:  2.807169 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233885 s
+Performance:  0.375517 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.211455 s
+Performance:  3.967089 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2112
+Local work-items: 352
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.319626 s
+Performance:  2.624507 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.288755 s
+Performance:  0.366514 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212824 s
+Performance:  3.941570 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2208
+Local work-items: 368
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.334398 s
+Performance:  2.508570 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.235959 s
+Performance:  0.375168 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.210847 s
+Performance:  3.978529 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2304
+Local work-items: 384
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.355811 s
+Performance:  2.357602 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.259449 s
+Performance:  0.371268 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.228271 s
+Performance:  3.674846 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2400
+Local work-items: 400
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.375205 s
+Performance:  2.235740 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233540 s
+Performance:  0.375575 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.225824 s
+Performance:  3.714666 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2080
+Local work-items: 416
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.394793 s
+Performance:  2.124812 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233187 s
+Performance:  0.375634 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.219644 s
+Performance:  3.819184 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2160
+Local work-items: 432
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.407639 s
+Performance:  2.057852 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233862 s
+Performance:  0.375520 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.210911 s
+Performance:  3.977321 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2240
+Local work-items: 448
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.426826 s
+Performance:  1.965346 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.285227 s
+Performance:  0.367080 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.219743 s
+Performance:  3.817463 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2320
+Local work-items: 464
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.445963 s
+Performance:  1.881010 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233954 s
+Performance:  0.375505 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.215711 s
+Performance:  3.888818 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2400
+Local work-items: 480
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.465795 s
+Performance:  1.800923 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233523 s
+Performance:  0.375577 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.212947 s
+Performance:  3.939294 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2480
+Local work-items: 496
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.485465 s
+Performance:  1.727953 Gflop/s
+>>>> End of record <<<<
+Matrix size: 2048
+Adjusted matrix size: 2048
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 2.233429 s
+Performance:  0.375593 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.216358 s
+Performance:  3.877189 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 2048
+Global work-items: 2048
+Local work-items: 512
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.506447 s
+Performance:  1.656364 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.226825 s
+Performance:  0.363662 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.860576 s
+Performance:  3.899067 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4096
+Local work-items: 16
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.520986 s
+Performance:  6.440563 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.953192 s
+Performance:  0.374776 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.858198 s
+Performance:  3.909871 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4096
+Local work-items: 32
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.702142 s
+Performance:  4.778867 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.000076 s
+Performance:  0.372824 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.856188 s
+Performance:  3.919050 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4128
+Local work-items: 48
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.619036 s
+Performance:  5.420433 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.028453 s
+Performance:  0.371652 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.852356 s
+Performance:  3.936669 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4096
+Local work-items: 64
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.622961 s
+Performance:  5.386281 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.026255 s
+Performance:  0.371743 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.859332 s
+Performance:  3.904711 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4160
+Local work-items: 80
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.746726 s
+Performance:  4.493540 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.982079 s
+Performance:  0.373571 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.843271 s
+Performance:  3.979081 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4128
+Local work-items: 96
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.745507 s
+Performance:  4.500888 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.978871 s
+Performance:  0.373704 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.855540 s
+Performance:  3.922018 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4144
+Local work-items: 112
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.876468 s
+Performance:  3.828369 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.988704 s
+Performance:  0.373296 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.862785 s
+Performance:  3.889084 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4096
+Local work-items: 128
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.778688 s
+Performance:  4.309098 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.957650 s
+Performance:  0.374590 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.854814 s
+Performance:  3.925349 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4176
+Local work-items: 144
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.868032 s
+Performance:  3.865575 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.996473 s
+Performance:  0.372973 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842627 s
+Performance:  3.982122 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4160
+Local work-items: 160
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.982705 s
+Performance:  3.414497 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.960054 s
+Performance:  0.374489 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.845197 s
+Performance:  3.970013 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4224
+Local work-items: 176
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.105903 s
+Performance:  3.034121 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955655 s
+Performance:  0.374673 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.858264 s
+Performance:  3.909570 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4224
+Local work-items: 192
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.215825 s
+Performance:  2.759808 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.034653 s
+Performance:  0.371397 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.846751 s
+Performance:  3.962727 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4160
+Local work-items: 208
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.854377 s
+Performance:  3.927357 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.958188 s
+Performance:  0.374567 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.849979 s
+Performance:  3.947678 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4256
+Local work-items: 224
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.904443 s
+Performance:  3.709955 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955033 s
+Performance:  0.374699 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842771 s
+Performance:  3.981441 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4320
+Local work-items: 240
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.981867 s
+Performance:  3.417411 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954479 s
+Performance:  0.374722 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842711 s
+Performance:  3.981725 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4096
+Local work-items: 256
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.066624 s
+Performance:  3.145854 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.955821 s
+Performance:  0.374666 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.859500 s
+Performance:  3.903948 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4352
+Local work-items: 272
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.122542 s
+Performance:  2.989147 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954395 s
+Performance:  0.374726 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842790 s
+Performance:  3.981351 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4320
+Local work-items: 288
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.204035 s
+Performance:  2.786832 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954941 s
+Performance:  0.374703 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.857898 s
+Performance:  3.911238 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4256
+Local work-items: 304
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.269515 s
+Performance:  2.643091 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.972301 s
+Performance:  0.373978 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842891 s
+Performance:  3.980874 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4160
+Local work-items: 320
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.354503 s
+Performance:  2.477250 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.991720 s
+Performance:  0.373170 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.843059 s
+Performance:  3.980081 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4368
+Local work-items: 336
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.438422 s
+Performance:  2.332725 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.954587 s
+Performance:  0.374718 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.845087 s
+Performance:  3.970530 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4224
+Local work-items: 352
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.514880 s
+Performance:  2.214989 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.108191 s
+Performance:  0.368398 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.852604 s
+Performance:  3.935524 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4416
+Local work-items: 368
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.598444 s
+Performance:  2.099193 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.050927 s
+Performance:  0.370729 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.850554 s
+Performance:  3.945009 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4224
+Local work-items: 384
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.373862 s
+Performance:  2.442344 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.979814 s
+Performance:  0.373665 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.872440 s
+Performance:  3.846045 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4400
+Local work-items: 400
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.815945 s
+Performance:  4.112340 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.002928 s
+Performance:  0.372706 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.867659 s
+Performance:  3.867237 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4160
+Local work-items: 416
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.865646 s
+Performance:  3.876230 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.001816 s
+Performance:  0.372752 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842650 s
+Performance:  3.982013 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4320
+Local work-items: 432
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.895222 s
+Performance:  3.748169 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.077027 s
+Performance:  0.369663 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.845341 s
+Performance:  3.969337 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4480
+Local work-items: 448
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.949453 s
+Performance:  3.534080 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 8.970562 s
+Performance:  0.374050 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.842701 s
+Performance:  3.981772 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4176
+Local work-items: 464
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.966409 s
+Performance:  3.472074 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.108060 s
+Performance:  0.368404 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.853202 s
+Performance:  3.932765 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4320
+Local work-items: 480
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 0.985622 s
+Performance:  3.404392 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.191435 s
+Performance:  0.365062 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.845909 s
+Performance:  3.966672 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4464
+Local work-items: 496
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.008163 s
+Performance:  3.328274 Gflop/s
+>>>> End of record <<<<
+Matrix size: 4096
+Adjusted matrix size: 4096
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 9.001132 s
+Performance:  0.372780 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 0.844570 s
+Performance:  3.972960 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 4096
+Global work-items: 4096
+Local work-items: 512
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.051148 s
+Performance:  3.192170 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.590573 s
+Performance:  0.372448 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.649675 s
+Performance:  3.878228 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 16
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.260793 s
+Performance:  8.150461 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.505781 s
+Performance:  0.373596 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.589868 s
+Performance:  3.967787 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 32
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.692791 s
+Performance:  6.070475 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.679443 s
+Performance:  0.371252 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.614765 s
+Performance:  3.930007 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 48
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 1.924763 s
+Performance:  5.338862 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.525414 s
+Performance:  0.373329 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.587359 s
+Performance:  3.971635 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 64
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.316720 s
+Performance:  4.435601 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.607566 s
+Performance:  0.372218 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.666740 s
+Performance:  3.853411 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 80
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.293182 s
+Performance:  4.481129 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.671713 s
+Performance:  0.371356 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.594901 s
+Performance:  3.960091 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 96
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.538704 s
+Performance:  4.047752 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 28.014445 s
+Performance:  0.366812 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.664694 s
+Performance:  3.856370 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 112
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.336002 s
+Performance:  4.398988 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.742368 s
+Performance:  0.370410 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.589438 s
+Performance:  3.968446 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 128
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.691007 s
+Performance:  3.818661 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.831645 s
+Performance:  0.369222 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.606345 s
+Performance:  3.942703 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 144
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.424431 s
+Performance:  4.238539 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.640870 s
+Performance:  0.371770 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.604245 s
+Performance:  3.945883 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 160
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.664233 s
+Performance:  3.857037 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.580572 s
+Performance:  0.372583 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.578747 s
+Performance:  3.984898 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7216
+Local work-items: 176
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.906209 s
+Performance:  3.535893 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.575061 s
+Performance:  0.372657 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.578611 s
+Performance:  3.985109 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7296
+Local work-items: 192
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.222001 s
+Performance:  3.189336 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.572843 s
+Performance:  0.372687 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.605932 s
+Performance:  3.943328 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7280
+Local work-items: 208
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.599815 s
+Performance:  3.952606 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.590743 s
+Performance:  0.372445 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.603004 s
+Performance:  3.947764 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 224
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.786713 s
+Performance:  3.687515 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.798607 s
+Performance:  0.369660 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.582467 s
+Performance:  3.979158 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 240
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.966836 s
+Performance:  3.463638 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.745225 s
+Performance:  0.370372 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.585006 s
+Performance:  3.975250 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 256
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.195074 s
+Performance:  3.216215 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.561565 s
+Performance:  0.372840 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.603553 s
+Performance:  3.946931 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7344
+Local work-items: 272
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.406657 s
+Performance:  3.016460 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.642333 s
+Performance:  0.371750 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.590016 s
+Performance:  3.967560 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 288
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.529748 s
+Performance:  2.911269 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.576303 s
+Performance:  0.372640 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.601104 s
+Performance:  3.950647 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7296
+Local work-items: 304
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.531772 s
+Performance:  4.058835 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.802940 s
+Performance:  0.369603 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.585919 s
+Performance:  3.973846 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7360
+Local work-items: 320
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.629599 s
+Performance:  3.907837 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.506402 s
+Performance:  0.373587 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.603192 s
+Performance:  3.947479 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7392
+Local work-items: 336
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.742128 s
+Performance:  3.747471 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.797228 s
+Performance:  0.369679 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.581854 s
+Performance:  3.980103 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7392
+Local work-items: 352
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.919504 s
+Performance:  3.519791 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.642739 s
+Performance:  0.371745 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.581262 s
+Performance:  3.981016 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7360
+Local work-items: 368
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.051108 s
+Performance:  3.367972 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.618788 s
+Performance:  0.372067 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.613842 s
+Performance:  3.931395 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7296
+Local work-items: 384
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.212732 s
+Performance:  3.198538 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.610776 s
+Performance:  0.372175 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.590962 s
+Performance:  3.966112 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 400
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.347351 s
+Performance:  3.069904 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.669976 s
+Performance:  0.371379 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.604742 s
+Performance:  3.945130 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7488
+Local work-items: 416
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.553759 s
+Performance:  2.891599 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.645044 s
+Performance:  0.371714 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.579718 s
+Performance:  3.983398 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7344
+Local work-items: 432
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.680613 s
+Performance:  2.791938 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.572412 s
+Performance:  0.372693 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.595989 s
+Performance:  3.958432 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 448
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.898078 s
+Performance:  2.636182 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.645446 s
+Performance:  0.371708 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.597746 s
+Performance:  3.955754 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7424
+Local work-items: 464
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.979028 s
+Performance:  2.582552 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.749361 s
+Performance:  0.370316 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.579599 s
+Performance:  3.983582 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7200
+Local work-items: 480
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.174463 s
+Performance:  2.461645 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.561012 s
+Performance:  0.372847 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.591058 s
+Performance:  3.965965 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7440
+Local work-items: 496
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.279530 s
+Performance:  2.401209 Gflop/s
+>>>> End of record <<<<
+Matrix size: 7168
+Adjusted matrix size: 7168
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 27.785585 s
+Performance:  0.369834 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 2.606707 s
+Performance:  3.942156 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 7168
+Global work-items: 7168
+Local work-items: 512
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.473426 s
+Performance:  2.297131 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.992008 s
+Performance:  0.372910 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.377030 s
+Performance:  3.974431 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8192
+Local work-items: 16
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.069590 s
+Performance:  6.485233 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.106843 s
+Performance:  0.371724 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.381448 s
+Performance:  3.969238 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8192
+Local work-items: 32
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.396660 s
+Performance:  5.600199 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.062979 s
+Performance:  0.372176 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.384000 s
+Performance:  3.966245 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8208
+Local work-items: 48
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.363323 s
+Performance:  5.679195 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.986113 s
+Performance:  0.372971 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.690198 s
+Performance:  3.637142 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8192
+Local work-items: 64
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 2.976950 s
+Performance:  4.508565 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.061468 s
+Performance:  0.372192 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.377689 s
+Performance:  3.973656 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8240
+Local work-items: 80
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.118533 s
+Performance:  4.303874 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.060206 s
+Performance:  0.372205 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.420179 s
+Performance:  3.924290 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8256
+Local work-items: 96
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.539573 s
+Performance:  3.791919 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.986142 s
+Performance:  0.372971 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.398140 s
+Performance:  3.949741 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8288
+Local work-items: 112
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.305287 s
+Performance:  4.060698 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.131163 s
+Performance:  0.371474 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.394037 s
+Performance:  3.954516 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8192
+Local work-items: 128
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.350234 s
+Performance:  4.006220 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.999135 s
+Performance:  0.372836 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.473739 s
+Performance:  3.863783 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8208
+Local work-items: 144
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.519203 s
+Performance:  3.813867 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.352041 s
+Performance:  0.369216 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.390355 s
+Performance:  3.958810 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8320
+Local work-items: 160
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.072772 s
+Performance:  3.295488 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.190033 s
+Performance:  0.370869 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.386689 s
+Performance:  3.963096 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8272
+Local work-items: 176
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.428155 s
+Performance:  3.915159 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.435340 s
+Performance:  0.368372 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.382299 s
+Performance:  3.968240 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8256
+Local work-items: 192
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.763942 s
+Performance:  3.565882 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.089906 s
+Performance:  0.371898 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.395385 s
+Performance:  3.952946 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8320
+Local work-items: 208
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.077615 s
+Performance:  3.291574 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.044702 s
+Performance:  0.372365 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.421122 s
+Performance:  3.923208 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8288
+Local work-items: 224
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.410592 s
+Performance:  3.935321 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.205185 s
+Performance:  0.370714 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.409084 s
+Performance:  3.937061 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8400
+Local work-items: 240
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.557061 s
+Performance:  3.773276 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.088992 s
+Performance:  0.371908 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.395996 s
+Performance:  3.952235 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8192
+Local work-items: 256
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.726638 s
+Performance:  3.601577 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.101135 s
+Performance:  0.371783 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.386060 s
+Performance:  3.963832 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8432
+Local work-items: 272
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.966081 s
+Performance:  3.384140 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.109413 s
+Performance:  0.371697 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.396824 s
+Performance:  3.951271 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8352
+Local work-items: 288
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.298238 s
+Performance:  3.122622 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.153812 s
+Performance:  0.371241 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.501342 s
+Performance:  3.833322 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8208
+Local work-items: 304
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.463745 s
+Performance:  3.006841 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.081530 s
+Performance:  0.371985 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.420191 s
+Performance:  3.924276 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8320
+Local work-items: 320
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.175702 s
+Performance:  4.226396 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.094402 s
+Performance:  0.371852 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.401969 s
+Performance:  3.945295 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8400
+Local work-items: 336
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.272709 s
+Performance:  4.101120 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.103556 s
+Performance:  0.371758 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.408322 s
+Performance:  3.937942 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8448
+Local work-items: 352
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.438822 s
+Performance:  3.903015 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.033850 s
+Performance:  0.372477 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.425465 s
+Performance:  3.918234 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8464
+Local work-items: 368
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.493748 s
+Performance:  3.841655 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.069733 s
+Performance:  0.372106 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.417932 s
+Performance:  3.926869 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8448
+Local work-items: 384
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.669499 s
+Performance:  3.657658 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.143915 s
+Performance:  0.371343 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.377916 s
+Performance:  3.973389 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8400
+Local work-items: 400
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 3.806720 s
+Performance:  3.525810 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.025096 s
+Performance:  0.372567 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.420993 s
+Performance:  3.923356 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8320
+Local work-items: 416
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.005601 s
+Performance:  3.350751 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.147281 s
+Performance:  0.371308 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.406633 s
+Performance:  3.939894 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8208
+Local work-items: 432
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.171365 s
+Performance:  3.217597 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.923162 s
+Performance:  0.373624 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.400527 s
+Performance:  3.946968 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8512
+Local work-items: 448
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.406163 s
+Performance:  3.046136 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.236133 s
+Performance:  0.370397 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.496112 s
+Performance:  3.839057 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8352
+Local work-items: 464
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.585823 s
+Performance:  2.926797 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.055700 s
+Performance:  0.372251 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.401802 s
+Performance:  3.945489 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8640
+Local work-items: 480
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.834894 s
+Performance:  2.776022 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 36.065272 s
+Performance:  0.372152 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.374896 s
+Performance:  3.976944 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8432
+Local work-items: 496
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 5.008935 s
+Performance:  2.679566 Gflop/s
+>>>> End of record <<<<
+Matrix size: 8192
+Adjusted matrix size: 8192
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 35.993967 s
+Performance:  0.372890 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 3.396233 s
+Performance:  3.951959 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 8192
+Global work-items: 8192
+Local work-items: 512
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 5.271839 s
+Performance:  2.545938 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.664762 s
+Performance:  0.371430 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.349075 s
+Performance:  3.971773 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 16
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 4.835221 s
+Performance:  8.500993 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.742403 s
+Performance:  0.371169 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.371005 s
+Performance:  3.963375 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 32
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 6.920600 s
+Performance:  5.939395 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.500870 s
+Performance:  0.371981 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.369165 s
+Performance:  3.964078 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14352
+Local work-items: 48
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 7.263474 s
+Performance:  5.659025 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.431273 s
+Performance:  0.372215 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.394357 s
+Performance:  3.954471 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 64
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 9.401210 s
+Performance:  4.372222 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.310359 s
+Performance:  0.372623 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.449559 s
+Performance:  3.933580 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 80
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 10.025819 s
+Performance:  4.099833 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.515246 s
+Performance:  0.371932 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.365086 s
+Performance:  3.965638 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 96
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 12.516558 s
+Performance:  3.283984 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.898347 s
+Performance:  0.370647 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.342273 s
+Performance:  3.974385 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 112
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 13.145974 s
+Performance:  3.126750 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.944401 s
+Performance:  0.370493 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.349949 s
+Performance:  3.971438 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 128
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.293357 s
+Performance:  2.875754 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.993979 s
+Performance:  0.370328 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.499756 s
+Performance:  3.914775 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 144
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 15.296042 s
+Performance:  2.687243 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.912079 s
+Performance:  0.370601 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.334046 s
+Performance:  3.977549 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 160
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.997851 s
+Performance:  2.740671 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.799069 s
+Performance:  0.370979 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.476498 s
+Performance:  3.923466 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14432
+Local work-items: 176
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.029449 s
+Performance:  2.929850 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.865962 s
+Performance:  0.370756 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.365345 s
+Performance:  3.965539 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 192
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 15.231676 s
+Performance:  2.698599 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.850170 s
+Performance:  0.370808 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.322708 s
+Performance:  3.981918 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14352
+Local work-items: 208
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.046506 s
+Performance:  2.926292 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.905843 s
+Performance:  0.370622 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.369711 s
+Performance:  3.963869 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 224
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.733194 s
+Performance:  2.789903 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.856405 s
+Performance:  0.370788 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.499430 s
+Performance:  3.914896 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 240
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 15.503483 s
+Performance:  2.651287 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.524647 s
+Performance:  0.371901 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.341823 s
+Performance:  3.974558 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 256
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 16.020565 s
+Performance:  2.565713 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.827431 s
+Performance:  0.370885 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.363706 s
+Performance:  3.966166 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14416
+Local work-items: 272
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.114755 s
+Performance:  2.912143 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.768418 s
+Performance:  0.371082 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.371230 s
+Performance:  3.963289 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 288
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.929623 s
+Performance:  2.753196 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.570611 s
+Performance:  0.371746 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.650883 s
+Performance:  3.859227 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14592
+Local work-items: 304
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 15.481899 s
+Performance:  2.654983 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.467312 s
+Performance:  0.372094 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.331549 s
+Performance:  3.978511 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 320
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 16.462942 s
+Performance:  2.496770 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.245054 s
+Performance:  0.372844 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.725811 s
+Performance:  3.832268 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14448
+Local work-items: 336
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 16.357472 s
+Performance:  2.512869 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.436793 s
+Performance:  0.372196 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.520203 s
+Performance:  3.907166 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14432
+Local work-items: 352
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.615168 s
+Performance:  2.812433 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.336864 s
+Performance:  0.372534 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.422872 s
+Performance:  3.943652 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14352
+Local work-items: 368
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.396588 s
+Performance:  2.855133 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.306225 s
+Performance:  0.372637 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.364425 s
+Performance:  3.965891 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14592
+Local work-items: 384
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 14.732350 s
+Performance:  2.790063 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.383588 s
+Performance:  0.372376 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.357798 s
+Performance:  3.968428 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 400
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 15.108940 s
+Performance:  2.720520 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.960429 s
+Performance:  0.370440 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.509463 s
+Performance:  3.911159 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14560
+Local work-items: 416
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 16.079398 s
+Performance:  2.556326 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.440489 s
+Performance:  0.372184 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.338395 s
+Performance:  3.975876 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14688
+Local work-items: 432
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 16.652178 s
+Performance:  2.468397 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.369231 s
+Performance:  0.372424 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.368595 s
+Performance:  3.964296 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14336
+Local work-items: 448
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 17.484215 s
+Performance:  2.350931 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.448275 s
+Performance:  0.372158 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.324588 s
+Performance:  3.981193 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14384
+Local work-items: 464
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 18.233218 s
+Performance:  2.254357 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.415730 s
+Performance:  0.372267 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.343445 s
+Performance:  3.973935 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14400
+Local work-items: 480
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 19.396716 s
+Performance:  2.119131 Gflop/s
+>>>> End of record <<<<
+Matrix size: 14336
+Adjusted matrix size: 14336
+>>>> Begin of record <<<<
+Serial version:
+Elapsed time: 110.494130 s
+Performance:  0.372003 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+OpenMP version:
+Checking ... PASSED
+Elapsed time: 10.560222 s
+Performance:  3.892359 Gflop/s
+>>>> End of record <<<<
+>>>> Begin of record <<<<
+Shared memory size: 0 bytes
+
+N: 14336
+Global work-items: 14384
+Local work-items: 496
+
+GPU kernel version: naive
+Checking ... PASSED
+Elapsed time: 19.650868 s
+Performance:  2.091723 Gflop/s
+>>>> End of record <<<<
